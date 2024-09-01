@@ -1,0 +1,135 @@
+﻿using EduCourse.Entities;
+using EduCourse.Models;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
+using System.Threading.Tasks;
+
+namespace EduCourse.Controllers
+{
+    public class AuthController : Controller
+    {
+        private readonly UserManager<User> _userManager;
+        private readonly SignInManager<User> _signInManager;
+
+        public AuthController(UserManager<User> userManager, SignInManager<User> signInManager)
+        {
+            _userManager = userManager;
+            _signInManager = signInManager;
+        }
+
+        // GET: /Auth/Login
+        public IActionResult Login()
+        {
+            return View();
+        }
+
+        // POST: /Auth/Login
+        [HttpPost]
+        public async Task<IActionResult> Login(LoginViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, lockoutOnFailure: false);
+
+                if (result.Succeeded)
+                {
+                    // Lấy thông tin người dùng sau khi đăng nhập thành công
+                    var user = await _userManager.FindByEmailAsync(model.Email);
+
+                    // Kiểm tra và thêm các claim nếu cần
+                    var existingClaims = await _userManager.GetClaimsAsync(user);
+                    var claimsToAdd = new List<Claim>
+            {
+                new Claim(ClaimTypes.Name, user.FullName),
+                new Claim(ClaimTypes.NameIdentifier, user.Id.ToString())
+            };
+
+                    // So sánh và thêm các claim còn thiếu
+                    foreach (var claim in claimsToAdd)
+                    {
+                        if (!existingClaims.Any(c => c.Type == claim.Type && c.Value == claim.Value))
+                        {
+                            await _userManager.AddClaimAsync(user, claim);
+                        }
+                    }
+
+                    return RedirectToAction("Index", "Home");
+                }
+
+                ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+            }
+
+            return View(model);
+        }
+
+        // GET: /Auth/Register
+        public IActionResult Register()
+        {
+            return View();
+        }
+
+        // POST: /Auth/Register
+        [HttpPost]
+        public async Task<IActionResult> Register(User model, string password, bool rememberMe = true)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = new User
+                {
+                    UserName = model.Email,
+                    Email = model.Email,
+                    FullName = model.FullName,
+                    DateJoined = DateTime.Now
+                };
+
+                var result = await _userManager.CreateAsync(user, password);
+
+                if (result.Succeeded)
+                {
+                    // Thêm claims cho người dùng sau khi tạo thành công
+                    var claims = new List<Claim>
+            {
+                new Claim(ClaimTypes.Name, user.FullName),
+                new Claim(ClaimTypes.NameIdentifier, user.Id.ToString())
+            };
+
+                    var claimResult = await _userManager.AddClaimsAsync(user, claims);
+
+                    if (claimResult.Succeeded)
+                    {
+                        await _signInManager.SignInAsync(user, isPersistent: rememberMe);
+                        return RedirectToAction("Index", "Home");
+                    }
+                    else
+                    {
+                        // Xử lý lỗi khi thêm claims
+                        foreach (var error in claimResult.Errors)
+                        {
+                            ModelState.AddModelError(string.Empty, error.Description);
+                        }
+                    }
+                }
+                else
+                {
+                    foreach (var error in result.Errors)
+                    {
+                        ModelState.AddModelError(string.Empty, error.Description);
+                    }
+                }
+            }
+
+            return View(model);
+        }
+
+
+
+        // POST: /Auth/Logout
+        [HttpPost]
+        public async Task<IActionResult> Logout()
+        {
+            await _signInManager.SignOutAsync();
+            return RedirectToAction("Index", "Home");
+        }
+    }
+}

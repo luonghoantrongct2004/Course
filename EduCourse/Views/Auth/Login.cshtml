@@ -1,0 +1,129 @@
+﻿@model EduCourse.Models.LoginViewModel
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
+    <title>Dreams LMS</title>
+
+    <link rel="shortcut icon" type="image/x-icon" href="~/assets/img/favicon.svg">
+    <script src="~/assets/js/theme-script.js" type="text/javascript"></script>
+
+    <link rel="stylesheet" href="~/assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="~/assets/plugins/fontawesome/css/fontawesome.min.css">
+    <link rel="stylesheet" href="~/assets/plugins/fontawesome/css/all.min.css">
+    <link rel="stylesheet" href="~/assets/css/owl.carousel.min.css">
+    <link rel="stylesheet" href="~/assets/css/owl.theme.default.min.css">
+    <link rel="stylesheet" href="~/assets/plugins/feather/feather.css">
+    <link rel="stylesheet" href="~/assets/css/style.css">
+</head>
+<body>
+
+    <div class="main-wrapper log-wrap">
+        <div class="row">
+
+            <div class="col-md-6 login-bg">
+                <div class="owl-carousel login-slide owl-theme">
+                    <div class="welcome-login">
+                        <div class="login-banner">
+                            <img src="~/assets/img/login-img.png" class="img-fluid" alt="Logo">
+                        </div>
+                        <div class="mentor-course text-center">
+                            <h2>Chào mừng đến với <br> Khóa học DreamsLMS.</h2>
+                            <p>
+                                Chúng tôi cung cấp các khóa học chất lượng cao để giúp bạn phát triển kỹ năng và kiến thức.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="welcome-login">
+                        <div class="login-banner">
+                            <img src="~/assets/img/login-img.png" class="img-fluid" alt="Logo">
+                        </div>
+                        <div class="mentor-course text-center">
+                            <h2>Chào mừng đến với <br> Khóa học DreamsLMS.</h2>
+                            <p>
+                                Khám phá các chương trình học hấp dẫn và cải thiện khả năng của bạn với chúng tôi.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="welcome-login">
+                        <div class="login-banner">
+                            <img src="~/assets/img/login-img.png" class="img-fluid" alt="Logo">
+                        </div>
+                        <div class="mentor-course text-center">
+                            <h2>Chào mừng đến với <br> Khóa học DreamsLMS.</h2>
+                            <p>
+                                Đăng ký ngay để không bỏ lỡ các cơ hội học tập tuyệt vời!
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6 login-wrap-bg">
+
+                <div class="login-wrapper">
+                    <div class="loginbox">
+                        <div class="w-100">
+                            <div class="img-logo">
+                                <img src="~/assets/img/logo.svg" class="img-fluid" alt="Logo">
+                                <div class="back-home">
+                                    <a href="@Url.Action("Index", "Home")">Về trang chủ</a>
+                                    <p class="mb-0">Người dùng mới? <a href="@Url.Action("Register", "Auth")">Tạo tài khoản</a></p>
+                                </div>
+                            </div>
+                            <h1>Đăng nhập vào tài khoản của bạn</h1>
+                            <form asp-action="Login" method="post">
+                                <div class="input-block">
+                                    <label class="form-control-label">Email</label>
+                                    <input type="email" class="form-control" asp-for="Email" placeholder="Nhập địa chỉ email của bạn">
+                                    <span asp-validation-for="Email" class="text-danger"></span>
+                                </div>
+                                <div class="input-block">
+                                    <label class="form-control-label">Mật khẩu</label>
+                                    <div class="pass-group">
+                                        <input type="password" class="form-control pass-input" asp-for="Password" placeholder="Nhập mật khẩu của bạn">
+                                        <span class="feather-eye toggle-password"></span>
+                                    </div>
+                                    <span asp-validation-for="Password" class="text-danger"></span>
+                                </div>
+                                <div class="forgot">
+                                    <span>
+                                        <a class="forgot-link" href="@Url.Action("ForgotPassword", "Auth")">
+                                            Quên mật khẩu?
+                                        </a>
+                                    </span>
+                                </div>
+                                <div class="remember-me">
+                                    <label class="custom_check mr-2 mb-0 d-inline-flex remember-me">
+                                        Ghi nhớ tôi
+                                        <input type="checkbox" name="RememberMe" asp-for="RememberMe">
+                                        <span class="checkmark"></span>
+                                    </label>
+                                </div>
+                                <div class="d-grid">
+                                    <button class="btn btn-primary btn-start" type="submit">Đăng nhập</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="google-bg text-center">
+                        <span><a href="#">Hoặc đăng nhập bằng</a></span>
+                        <p class="mb-0">Người dùng mới? <a href="@Url.Action("Register", "Auth")">Tạo tài khoản</a></p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <script src="~/assets/js/jquery-3.7.1.min.js" type="text/javascript"></script>
+    <script src="~/assets/js/bootstrap.bundle.min.js" type="text/javascript"></script>
+    <script src="~/assets/js/owl.carousel.min.js" type="text/javascript"></script>
+    <script src="~/assets/js/script.js" type="text/javascript"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/cloudflare-static/rocket-loader/1.0.0/rocket-loader.min.js" defer></script>
+</body>
+</html>

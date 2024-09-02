@@ -257,3 +257,4 @@ C:\Users\PREDATOR\OneDrive\Tài liệu\EduCourse\EduCourse\bin\Debug\net8.0\Mi
 C:\Users\PREDATOR\OneDrive\Tài liệu\EduCourse\EduCourse\bin\Debug\net8.0\Microsoft.Extensions.Identity.Stores.dll
 C:\Users\PREDATOR\OneDrive\Tài liệu\EduCourse\EduCourse\bin\Debug\net8.0\Microsoft.Extensions.Options.dll
 C:\Users\PREDATOR\OneDrive\Tài liệu\EduCourse\EduCourse\bin\Debug\net8.0\MediaToolkit.dll
+C:\Users\PREDATOR\OneDrive\Tài liệu\EduCourse\EduCourse\obj\Debug\net8.0\EduCourse.sourcelink.json

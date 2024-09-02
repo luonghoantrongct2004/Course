@@ -19,5 +19,5 @@ public class Lesson
     // Navigation properties
     public Chapter? Chapter { get; set; }
 
-    public ICollection<Quiz>? Quizzes { get; set; }
+    public List<Question>? Questions { get; set; }
 }

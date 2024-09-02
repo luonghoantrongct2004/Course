@@ -99,6 +99,7 @@ public class CourseController : Controller
 
         if (ModelState.IsValid)
         {
+            // Handling course image upload
             if (file != null)
             {
                 var fileExtension = Path.GetExtension(file.FileName);
@@ -119,12 +120,13 @@ public class CourseController : Controller
                 course.Image = $"/uploads/{uniqueFileName}";
             }
 
+            // Handling chapters, lessons, and questions
             if (chapters != null)
             {
                 var chapterList = new List<Chapter>();
-                for (int chapterIndex = 0; chapterIndex < chapters.Count; chapterIndex++)
+
+                foreach (var chapter in chapters)
                 {
-                    var chapter = chapters[chapterIndex];
                     var newChapter = new Chapter
                     {
                         ChapterID = chapter.ChapterID,
@@ -132,11 +134,9 @@ public class CourseController : Controller
                         Lessons = new List<Lesson>()
                     };
 
-                    for (int lessonIndex = 0; lessonIndex < chapter.Lessons.Count; lessonIndex++)
+                    foreach (var lesson in chapter.Lessons)
                     {
-                        var lesson = chapter.Lessons.ElementAt(lessonIndex);
-
-                        var videoFileKey = $"Chapters[{chapterIndex}].Lessons[{lessonIndex}].VideoFile";
+                        var videoFileKey = $"Chapters[{chapterList.Count}].Lessons[{newChapter.Lessons.Count}].VideoFile";
                         var videoFile = Request.Form.Files.FirstOrDefault(f => f.Name == videoFileKey);
 
                         if (videoFile != null)
@@ -157,30 +157,54 @@ public class CourseController : Controller
                             lesson.CreatedDate = DateTime.Now;
                         }
 
+                        if (lesson.Questions != null)
+                        {
+                            foreach (var question in lesson.Questions)
+                            {
+                                question.LessonID = lesson.LessonID;
+                                question.Lesson = lesson;
+
+                                if (question.Options != null)
+                                {
+                                    var optionsList = new List<Option>();
+                                    foreach (var option in question.Options)
+                                    {
+                                        option.QuestionID = question.QuestionID;
+                                        option.Question = question;
+                                        optionsList.Add(option);
+                                    }
+                                    question.Options = optionsList;
+                                }
+                            }
+                        }
+
                         lesson.Chapter = newChapter;
                         newChapter.Lessons.Add(lesson);
                     }
+
                     chapterList.Add(newChapter);
                 }
 
                 course.Chapters = chapterList;
+                course.CreatedDate = DateTime.Now;
             }
 
-            course.CreatedDate = DateTime.Now;
             _context.Courses.Add(course);
             await _context.SaveChangesAsync();
 
-            return Redirect("/Admin/Course");
+            return Json(new { success = true, message = "Khóa học đã được tạo thành công" });
         }
-
-        return View();
+        return Json(new { success = false, message = "Thông tin nhập vào không hợp lệ. Vui lòng kiểm tra lại." });
     }
+
 
     public IActionResult Edit(int id)
     {
         var course = _context.Courses
             .Include(c => c.Chapters)
             .ThenInclude(l => l.Lessons)
+            .ThenInclude(q => q.Questions)
+            .ThenInclude(o => o.Options)
             .FirstOrDefault(c => c.CourseID == id);
 
         if (course == null)
@@ -197,7 +221,7 @@ public class CourseController : Controller
     {
         if (CourseID != course.CourseID)
         {
-            return NotFound();
+            return Json(new { success = false, message = "Khóa học không tìm thấy!" });
         }
 
         if (ModelState.IsValid)
@@ -240,13 +264,15 @@ public class CourseController : Controller
                     _context.Update(course);
                     await _context.SaveChangesAsync();
 
-                    // Handle chapters and lessons
+                    // Handle chapters, lessons, and questions
                     foreach (var chapter in course.Chapters)
                     {
                         if (chapter.ChapterID != 0)
                         {
                             var existingChapter = await _context.Chapters
                                 .Include(c => c.Lessons)
+                                    .ThenInclude(l => l.Questions)
+                                        .ThenInclude(q => q.Options)
                                 .FirstOrDefaultAsync(c => c.ChapterID == chapter.ChapterID);
 
                             if (existingChapter != null)
@@ -282,12 +308,32 @@ public class CourseController : Controller
                                             lesson.Duration = Convert.ToDouble(durationString);
                                         }
 
+                                        // Handle new questions and options
+                                        foreach (var question in lesson.Questions)
+                                        {
+                                            question.LessonID = lesson.LessonID;
+                                            _context.Questions.Add(question); // Add new questions to the context
+
+                                            if (question.Options != null)
+                                            {
+                                                foreach (var option in question.Options)
+                                                {
+                                                    option.QuestionID = question.QuestionID;
+                                                    _context.Options.Add(option); // Add new options to the context
+                                                }
+                                            }
+                                        }
+
                                         existingChapter.Lessons.Add(lesson);
                                     }
                                     else
                                     {
-                                        var existingLesson = existingChapter.Lessons
-                                            .FirstOrDefault(l => l.LessonID == lesson.LessonID);
+                                            var existingLesson = await _context.Lessons
+                                              .Include(l => l.Questions)
+                                                  .ThenInclude(q => q.Options)
+                                              .FirstOrDefaultAsync(l => l.LessonID == lesson.LessonID 
+                                              && l.ChapterID == chapter.ChapterID);
+
 
                                         if (existingLesson != null)
                                         {
@@ -319,11 +365,61 @@ public class CourseController : Controller
 
                                             lesson.UpdatedDate = DateTime.Now;
                                             _context.Entry(existingLesson).CurrentValues.SetValues(lesson);
+
+                                            // Handle existing questions and options
+                                            foreach (var question in lesson.Questions)
+                                            {
+                                                if (question.QuestionID == 0)
+                                                {
+                                                    question.LessonID = lesson.LessonID;
+                                                    _context.Questions.Add(question); // Add new questions to the context
+
+                                                    if (question.Options != null)
+                                                    {
+                                                        foreach (var option in question.Options)
+                                                        {
+                                                            option.QuestionID = question.QuestionID;
+                                                            _context.Options.Add(option); // Add new options to the context
+                                                        }
+                                                    }
+                                                }
+                                                else
+                                                {
+                                                    var existingQuestion = existingLesson.Questions
+                                                        .FirstOrDefault(q => q.QuestionID == question.QuestionID);
+
+                                                    if (existingQuestion != null)
+                                                    {
+                                                        _context.Entry(existingQuestion).CurrentValues.SetValues(question);
+
+                                                        // Handle options for the question
+                                                        foreach (var option in question.Options)
+                                                        {
+                                                            if (option.OptionID == 0)
+                                                            {
+                                                                option.QuestionID = question.QuestionID;
+                                                                _context.Options.Add(option); // Add new options to the context
+                                                            }
+                                                            else
+                                                            {
+                                                                var existingOption = existingQuestion.Options
+                                                                    .FirstOrDefault(o => o.OptionID == option.OptionID);
+
+                                                                if (existingOption != null)
+                                                                {
+                                                                    _context.Entry(existingOption).CurrentValues.SetValues(option);
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+
                                         }
                                     }
                                 }
 
-                                await _context.SaveChangesAsync();  // Save changes after updating lessons
+                                await _context.SaveChangesAsync();  // Save changes after updating lessons and questions
                             }
                         }
                         else
@@ -357,10 +453,27 @@ public class CourseController : Controller
                                     var durationString = await GetVideoDurationAsync(videoFilePath);
                                     lesson.Duration = Convert.ToDouble(durationString);
                                 }
+
+                                // Handle new questions and options
+                                foreach (var question in lesson.Questions)
+                                {
+                                    question.LessonID = lesson.LessonID;
+                                    _context.Questions.Add(question); // Add new questions to the context
+
+                                    if (question.Options != null)
+                                    {
+                                        foreach (var option in question.Options)
+                                        {
+                                            option.QuestionID = question.QuestionID;
+                                            _context.Options.Add(option); // Add new options to the context
+                                        }
+                                    }
+                                }
                             }
 
-                            _context.Chapters.Add(chapter);  // Add the new chapter to the context
-                            await _context.SaveChangesAsync();  // Save changes immediately after adding the new chapter
+                            _context.Chapters.Add(chapter);
+                            await _context.SaveChangesAsync();
+                            return Json(new { success = true, message = "Cập nhật khóa học thành công" });
                         }
                     }
 
@@ -369,18 +482,15 @@ public class CourseController : Controller
                 catch (DbUpdateException ex)
                 {
                     await transaction.RollbackAsync();
-                    ModelState.AddModelError("", $"An error occurred while updating the course: {ex.InnerException?.Message}");
                     ViewData["Categories"] = new SelectList(_context.Categories, "CategoryID", "Name", course.CategoryID);
-                    return View(course);
+                    return Json(new { success = false,
+                        message = $"Có lỗi trong khi cập nhật: {ex.InnerException?.Message}" });
                 }
             }
-
-            return Redirect("/Admin/Course");
         }
-
-        ViewData["Categories"] = new SelectList(_context.Categories, "CategoryID", "Name", course.CategoryID);
-        return View(course);
+        return Json(new { success = false, message = "Thông tin nhập vào không hợp lệ. Vui lòng kiểm tra lại." });
     }
+
 
     private bool CourseExists(int id)
     {
@@ -442,5 +552,35 @@ public class CourseController : Controller
 
         return Ok();
     }
+    [HttpDelete]
+    public async Task<IActionResult> DeleteQuestion(int id)
+    {
+        var question = await _context.Questions.FindAsync(id);
+        if (question == null)
+        {
+            return NotFound();
+        }
+
+        _context.Questions.Remove(question);
+        await _context.SaveChangesAsync();
+
+        return Ok();
+    }
+
+    [HttpDelete]
+    public async Task<IActionResult> DeleteOption(int id)
+    {
+        var option = await _context.Options.FindAsync(id);
+        if (option == null)
+        {
+            return NotFound();
+        }
+
+        _context.Options.Remove(option);
+        await _context.SaveChangesAsync();
+
+        return Ok();
+    }
+
 
 }

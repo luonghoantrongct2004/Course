@@ -6,6 +6,9 @@
     var user = UserManager.GetUserAsync(User).Result;
 }
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
 <style>
     .form-step {
         display: none;
@@ -87,6 +90,27 @@
     }
 </style>
 
+<style>
+    .swal-custom-popup {
+        background-color: #a52effa3;
+        color: black;
+    }
+
+    .swal-custom-title {
+        color: black;
+    }
+
+    .swal-custom-confirm, .swal-custom-cancel {
+        background-color: #ffffffd9;
+        color: #000000;
+    }
+
+        .swal-custom-confirm:hover, .swal-custom-cancel:hover {
+            background-color: #ebebeb;
+            color: black;
+        }
+
+</style>
    <!-- write your code here-->
 <div class="p-6">
     <div class="flex flex-col justify-between gap-5 mb-6 sm:flex-row">
@@ -114,7 +138,7 @@
         </div>
     </div>
     <div class="p-5 bg-white rounded-lg">
-        <form id="courseForm" action="/Admin/Course/Create" method="post" enctype="multipart/form-data" onsubmit="return validateFileInput()">
+        <form id="courseForm" enctype="multipart/form-data">
             <input type="hidden" asp-for="AuthorID" value="@user.Id" />
             <div id="step-1" class="form-step">
             <div class="grid grid-cols-1 gap-5 lg:grid-cols-2">
@@ -164,7 +188,7 @@
                                               d="M19.0003 1.25098C19.4145 1.25098 19.7503 1.58676 19.7503 2.00098V6.19032L20.4699 5.47065C20.7628 5.17775 21.2377 5.17775 21.5306 5.47065C21.8235 5.76354 21.8235 6.23841 21.5306 6.53131L20.2377 7.8242C19.5543 8.50762 18.4462 8.50762 17.7628 7.8242L16.4699 6.53131C16.177 6.23841 16.177 5.76354 16.4699 5.47065C16.7628 5.17775 17.2377 5.17775 17.5306 5.47065L18.2503 6.19032V2.00098C18.2503 1.58676 18.586 1.25098 19.0003 1.25098ZM2.75037 6.00132C2.75037 4.2064 4.20544 2.75132 6.00037 2.75132H15.0004C15.4146 2.75132 15.7504 2.41553 15.7504 2.00132C15.7504 1.58711 15.4146 1.25132 15.0004 1.25132H6.00037C3.37701 1.25132 1.25037 3.37797 1.25037 6.00132V18.0013C1.25037 20.6247 3.37701 22.7513 6.00037 22.7513H18.0004C20.6237 22.7513 22.7504 20.6247 22.7504 18.0013V10.0013C22.7504 9.58711 22.4146 9.25132 22.0004 9.25132C21.5862 9.25132 21.2504 9.58711 21.2504 10.0013V13.5014L17.926 11.2852C16.8063 10.5387 15.3155 10.6864 14.3639 11.6379L9.63684 16.365C8.68531 17.3165 7.19444 17.4641 6.07479 16.7177L2.75037 14.5014V6.00132ZM8.50026 11.001C9.88097 11.001 11.0003 9.88168 11.0003 8.50097C11.0003 7.12025 9.88097 6.00097 8.50026 6.00097C7.11954 6.00097 6.00026 7.12025 6.00026 8.50097C6.00026 9.88168 7.11954 11.001 8.50026 11.001Z"
                                               fill="#475569" />
                                     </svg>
-                                    <input type="file" name="file" id="img-upload-input" class="hidden" accept="image/*"/>
+                                    <input type="file" name="file" id="img-upload-input" class="hidden" accept=".jpg,.jpeg,.png" />
                                     <p class="mt-2 text-sm font-medium text-slate-600">
                                         <span class="underline text-primary">Nhấn vào để upload</span>
                                         <br />
@@ -263,11 +287,86 @@
                     <button type="button" onclick="prevStep(1)" class="px-12 py-3 text-sm font-medium leading-6 text-center text-red-500 border border-red-200 rounded-lg sm:text-base">
                         Quay lại
                     </button>
-                    <button type="submit" class="px-12 py-3 text-sm font-medium leading-6 text-center text-white transition border rounded-lg hover:bg-opacity-80 bg-primary sm:text-base">
+                    <button type="submit" class="submit-button px-12 py-3 text-sm font-medium leading-6 text-center text-white transition border rounded-lg hover:bg-opacity-80 bg-primary sm:text-base">
                         Thêm khóa học
                     </button>
                 </div>
             </div>
+            <script>
+                document.getElementById('courseForm').addEventListener('submit', function (e) {
+                    e.preventDefault(); // Ngăn chặn việc gửi biểu mẫu theo cách truyền thống
+
+                    // Hiển thị hộp thoại xác nhận bằng SweetAlert
+                    Swal.fire({
+                        title: 'Bạn có chắc chắn muốn tạo khóa học?',
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonText: 'Có, tạo nó!',
+                        cancelButtonText: 'Không, hủy!',
+                        reverseButtons: true,
+                        customClass: {
+                            popup: 'swal-custom-popup',
+                            title: 'swal-custom-title',
+                            confirmButton: 'swal-custom-confirm',
+                            cancelButton: 'swal-custom-cancel'
+                        }
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            // Nếu được xác nhận, tiếp tục gửi biểu mẫu
+                            const formData = new FormData(this);
+
+                            fetch('/Admin/Course/Create', {
+                                method: 'POST',
+                                body: formData
+                            })
+                                .then(response => response.json())
+                                .then(data => {
+                                    if (data.success) {
+                                        Swal.fire({
+                                            title: 'Thành công!',
+                                            text: data.message,
+                                            icon: 'success',
+                                            confirmButtonText: 'OK',
+                                            customClass: {
+                                                confirmButton: 'swal-custom-confirm'
+                                            }
+                                        }).then(() => {
+                                            window.location.href = '/Admin/Course'; // Điều hướng sau khi thành công
+                                        });
+                                    } else {
+                                        Swal.fire({
+                                            title: 'Lỗi!',
+                                            text: data.message,
+                                            icon: 'error',
+                                            confirmButtonText: 'OK',
+                                            customClass: {
+                                                confirmButton: 'swal-custom-confirm'
+                                            }
+                                        });
+                                    }
+                                })
+                                .catch(error => {
+                                    console.error('Error:', error);
+                                    Swal.fire({
+                                        title: 'Lỗi!',
+                                        text: 'Đã xảy ra lỗi bất ngờ.',
+                                        icon: 'error',
+                                        confirmButtonText: 'OK',
+                                        customClass: {
+                                            confirmButton: 'swal-custom-confirm'
+                                        }
+                                    });
+                                });
+                        } else if (result.dismiss === Swal.DismissReason.cancel) {
+                            Swal.fire(
+                                'Đã hủy',
+                                'Khóa học chưa được tạo.',
+                                'error'
+                            );
+                        }
+                    });
+                });
+            </script>
             <script>
                 let chapterCount = 0;
 
@@ -360,6 +459,14 @@
                                     <option value="Text">Text</option>
                                     <option value="Audio">Audio</option>
                                 </select>
+                                <div class="questions-container mt-4">
+                                    <button type="button" onclick="addQuestion(${chapterIndex}, ${lessonIndex})" class="px-12 py-3 text-sm font-medium leading-6 text-center text-white transition border rounded-lg hover:bg-opacity-80 bg-primary sm:text-base">
+                                        Thêm câu hỏi
+                                    </button>
+                                    <div id="questionsContainer-${chapterIndex}-${lessonIndex}" class="questions-container mt-4">
+                                        <!-- Question cards will be dynamically added here -->
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     `;
@@ -401,6 +508,132 @@
                     }
                 }
 
+                function addQuestion(chapterIndex, lessonIndex) {
+                    const questionsContainer = document.getElementById(`questionsContainer-${chapterIndex}-${lessonIndex}`);
+                    const questionIndex = questionsContainer.children.length;
+
+                    const questionCard = document.createElement('div');
+                    questionCard.classList.add('question-form');
+                    questionCard.setAttribute('id', `question-form-${chapterIndex}-${lessonIndex}-${questionIndex}`);
+                    questionCard.innerHTML = `
+                        <div class="col-span-full">
+                            <div class="flex justify-between items-center">
+                                <label for="QuestionContent-${chapterIndex}-${lessonIndex}-${questionIndex}" class="block mb-2 text-sm font-medium leading-6 text-mainblack">Nội dung câu hỏi</label>
+                                <div>
+                                    <button type="button" onclick="toggleQuestion(${chapterIndex}, ${lessonIndex}, ${questionIndex})" class="ml-2">
+                                        <i id="question-icon-${chapterIndex}-${lessonIndex}-${questionIndex}" class="fas fa-chevron-up"></i>
+                                    </button>
+                                    <button type="button" onclick="deleteQuestion(${chapterIndex}, ${lessonIndex}, ${questionIndex})" class="ml-2 text-red-600">
+                                        <i class="fas fa-trash-alt"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div id="question-${chapterIndex}-${lessonIndex}-${questionIndex}" style="display: block;">
+                                <input type="text" id="QuestionContent-${chapterIndex}-${lessonIndex}-${questionIndex}" name="Chapters[${chapterIndex}].Lessons[${lessonIndex}].Questions[${questionIndex}].Content" class="w-full px-4 py-2 text-sm border rounded-lg text-mainblack placeholder:text-sm focus:ring-0 focus:border-primary h-11 border-slate-200 placeholder:text-slate-600" placeholder="Nội dung câu hỏi" />
+
+                                <label for="QuestionShowTime-${chapterIndex}-${lessonIndex}-${questionIndex}" class="block mt-4 mb-2 text-sm font-medium leading-6 text-mainblack">Thời gian hiển thị (giây)</label>
+                                <input type="number" id="QuestionShowTime-${chapterIndex}-${lessonIndex}-${questionIndex}" name="Chapters[${chapterIndex}].Lessons[${lessonIndex}].Questions[${questionIndex}].ShowTime" class="w-full px-4 py-2 text-sm border rounded-lg text-mainblack placeholder:text-sm focus:ring-0 focus:border-primary h-11 border-slate-200 placeholder:text-slate-600" placeholder="Nhập số giây" />
+
+                                <label for="QuestionType-${chapterIndex}-${lessonIndex}-${questionIndex}" class="block mt-4 mb-2 text-sm font-medium leading-6 text-mainblack">Loại câu hỏi</label>
+                                <select id="QuestionType-${chapterIndex}-${lessonIndex}-${questionIndex}" name="Chapters[${chapterIndex}].Lessons[${lessonIndex}].Questions[${questionIndex}].QuestionType" class="w-full px-4 py-2 text-sm border rounded-lg text-mainblack placeholder:text-sm focus:ring-0 focus:border-primary h-11 border-slate-200 placeholder:text-slate-600" onchange="handleQuestionTypeChange(${chapterIndex}, ${lessonIndex}, ${questionIndex})">
+                                    <option value="Single Choice">1 đáp án đúng</option>
+                                    <option value="Multiple Choice">Nhiều đáp án đúng</option>
+                                    <option value="Keyword">Từ khóa đúng</option>
+                                </select>
+
+                                <!-- Container for answer options -->
+                                <div id="answersContainer-${chapterIndex}-${lessonIndex}-${questionIndex}" class="answers-container mt-4">
+                                    <!-- Answer options will be dynamically added here -->
+                                </div>
+                                <button type="button" onclick="addAnswerOption(${chapterIndex}, ${lessonIndex}, ${questionIndex})" class="mt-2 px-4 py-2 text-sm font-medium leading-6 text-center text-white transition border rounded-lg hover:bg-opacity-80 bg-primary sm:text-base">
+                                    Thêm đáp án
+                                </button>
+                            </div>
+                        </div>
+                    `;
+
+                    questionsContainer.appendChild(questionCard);
+                }
+                function handleQuestionTypeChange(chapterIndex, lessonIndex, questionIndex) {
+                    const questionType = document.getElementById(`QuestionType-${chapterIndex}-${lessonIndex}-${questionIndex}`).value;
+                    const answersContainer = document.getElementById(`answersContainer-${chapterIndex}-${lessonIndex}-${questionIndex}`);
+
+                    // Clear existing answers when the question type changes
+                    answersContainer.innerHTML = '';
+
+                    // If Single Choice or Multiple Choice, allow adding options
+                    if (questionType === 'Single Choice' || questionType === 'Multiple Choice') {
+                        addAnswerOption(chapterIndex, lessonIndex, questionIndex, questionType);
+                    } else if (questionType === 'Keyword') {
+                        addKeywordField(chapterIndex, lessonIndex, questionIndex);
+                    }
+                }
+
+                function addAnswerOption(chapterIndex, lessonIndex, questionIndex, questionType) {
+                    const answersContainer = document.getElementById(`answersContainer-${chapterIndex}-${lessonIndex}-${questionIndex}`);
+                    const answerIndex = answersContainer.children.length;
+
+                    const inputType = questionType === 'Single Choice' ? 'radio' : 'checkbox';
+
+                    const answerOption = document.createElement('div');
+                    answerOption.classList.add('answer-option');
+                    answerOption.setAttribute('id', `answer-option-${chapterIndex}-${lessonIndex}-${questionIndex}-${answerIndex}`);
+                    answerOption.innerHTML = `
+                        <div class="flex items-center">
+                            <input type="text" id="AnswerContent-${chapterIndex}-${lessonIndex}-${questionIndex}-${answerIndex}" name="Chapters[${chapterIndex}].Lessons[${lessonIndex}].Questions[${questionIndex}].Options[${answerIndex}].Content" class="w-full px-4 py-2 text-sm border rounded-lg text-mainblack placeholder:text-sm focus:ring-0 focus:border-primary h-11 border-slate-200 placeholder:text-slate-600" placeholder="Nhập đáp án" />
+                            <input type="${inputType}" name="Chapters[${chapterIndex}].Lessons[${lessonIndex}].Questions[${questionIndex}].Options[${answerIndex}].IsCorrect" value="true" class="ml-2">
+                            <button type="button" onclick="deleteAnswerOption(${chapterIndex}, ${lessonIndex}, ${questionIndex}, ${answerIndex})" class="ml-2 text-red-600">
+                                <i class="fas fa-trash-alt"></i>
+                            </button>
+                        </div>
+                    `;
+
+                    answersContainer.appendChild(answerOption);
+                }
+
+
+                function deleteAnswerOption(chapterIndex, lessonIndex, questionIndex, answerIndex) {
+                    const confirmed = confirm("Bạn có chắc chắn muốn xóa đáp án này không?");
+                    if (confirmed) {
+                        const answerOption = document.getElementById(`answer-option-${chapterIndex}-${lessonIndex}-${questionIndex}-${answerIndex}`);
+                        answerOption.remove();
+                    }
+                }
+
+                function addKeywordField(chapterIndex, lessonIndex, questionIndex) {
+                    const answersContainer = document.getElementById(`answersContainer-${chapterIndex}-${lessonIndex}-${questionIndex}`);
+
+                    const keywordField = document.createElement('div');
+                    keywordField.classList.add('keyword-field');
+                    keywordField.innerHTML = `
+                        <label for="KeywordAnswer-${chapterIndex}-${lessonIndex}-${questionIndex}" class="block mb-2 text-sm font-medium leading-6 text-mainblack">Nhập từ khóa đúng</label>
+                        <input type="text" id="KeywordAnswer-${chapterIndex}-${lessonIndex}-${questionIndex}" name="Chapters[${chapterIndex}].Lessons[${lessonIndex}].Questions[${questionIndex}].CorrectAnswer" class="w-full px-4 py-2 text-sm border rounded-lg text-mainblack placeholder:text-sm focus:ring-0 focus:border-primary h-11 border-slate-200 placeholder:text-slate-600" placeholder="Nhập từ khóa" />
+                    `;
+
+                    answersContainer.appendChild(keywordField);
+                }
+
+
+                function deleteQuestion(chapterIndex, lessonIndex, questionIndex) {
+                    const confirmed = confirm("Bạn có chắc chắn muốn xóa câu hỏi này không?");
+                    if (confirmed) {
+                        const questionCard = document.getElementById(`question-form-${chapterIndex}-${lessonIndex}-${questionIndex}`);
+                        questionCard.remove();
+                    }
+                }
+
+                function toggleQuestion(chapterIndex, lessonIndex, questionIndex) {
+                    const questionDiv = document.getElementById(`question-${chapterIndex}-${lessonIndex}-${questionIndex}`);
+                    const icon = document.getElementById(`question-icon-${chapterIndex}-${lessonIndex}-${questionIndex}`);
+
+                    if (questionDiv.style.display === 'none') {
+                        questionDiv.style.display = 'block';
+                        icon.className = 'fas fa-chevron-up';
+                    } else {
+                        questionDiv.style.display = 'none';
+                        icon.className = 'fas fa-chevron-down';
+                    }
+                }
 
             </script>
 

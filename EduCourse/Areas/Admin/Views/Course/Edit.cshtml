@@ -126,7 +126,7 @@
         </div>
     </div>
     <div class="p-5 bg-white rounded-lg">
-        <form id="courseForm" action="/Admin/Course/Edit" method="post" enctype="multipart/form-data">
+        <form id="courseForm" enctype="multipart/form-data">
             <input type="hidden" asp-for="CourseID" />
             <input type="hidden" asp-for="AuthorID" />
             <div id="step-1" class="form-step">
@@ -315,6 +315,67 @@
                                                             class="w-full px-4 py-2 text-sm border rounded-lg text-mainblack placeholder:text-sm focus:ring-0 focus:border-primary h-11 border-slate-200 placeholder:text-slate-600">
                                                         <option value="Video">Video</option>
                                                     </select>
+                                                    <!-- Questions section -->
+                                                    <div class="questions-container mt-4">
+                                                        <button type="button" onclick="addQuestion(@i, @j)" class="px-4 py-2 text-sm font-medium leading-6 text-white transition border rounded-lg hover:bg-opacity-80 bg-primary sm:text-base">
+                                                            Thêm câu hỏi
+                                                        </button>
+                                                        <div id="questionsContainer-@(i)-@(j)" class="questions-container mt-4">
+                                                            @for (int k = 0; k < lesson.Questions.Count; k++)
+                                                            {
+                                                                var question = lesson.Questions.ElementAt(k);
+                                                                <div class="question-form" id="question-form-@(i)-@(j)-@(k)">
+                                                                    <div class="flex justify-between items-center">
+                                                                        <label for="QuestionContent-@(i)-@(j)-@(k)" class="block mb-2 text-sm font-medium leading-6 text-mainblack">Nội dung câu hỏi</label>
+                                                                        <div>
+                                                                            <button type="button" onclick="toggleQuestion(@i, @j, @k)" class="ml-2">
+                                                                                <i id="question-icon-@(i)-@(j)-@(k)" class="fas fa-chevron-up"></i>
+                                                                            </button>
+                                                                            <button type="button" onclick="deleteQuestion(@i, @j, @k, @question.QuestionID)" class="ml-2 text-red-600">
+                                                                                <i class="fas fa-trash-alt"></i>
+                                                                            </button>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div id="question-@(i)-@(j)-@(k)" style="display: block;">
+                                                                        <input type="hidden" name="Chapters[@i].Lessons[@j].Questions[@k].QuestionID" value="@question.QuestionID" />
+                                                                        <input type="text" id="QuestionContent-@(i)-@(j)-@(k)" name="Chapters[@i].Lessons[@j].Questions[@k].Content" value="@question.Content"
+                                                                               class="w-full px-4 py-2 text-sm border rounded-lg text-mainblack placeholder:text-sm focus:ring-0 focus:border-primary h-11 border-slate-200 placeholder:text-slate-600"
+                                                                               placeholder="Nội dung câu hỏi" />
+                                                                        <label for="QuestionShowTime-@(i)-@(j)-@(k)" class="block mt-4 mb-2 text-sm font-medium leading-6 text-mainblack">Thời gian hiển thị (giây)</label>
+                                                                        <input type="number" id="QuestionShowTime-@(i)-@(j)-@(k)" name="Chapters[@i].Lessons[@j].Questions[@k].ShowTime" value="@question.ShowTime"
+                                                                               class="w-full px-4 py-2 text-sm border rounded-lg text-mainblack placeholder:text-sm focus:ring-0 focus:border-primary h-11 border-slate-200 placeholder:text-slate-600" placeholder="Nhập số giây" />
+                                                                        <label for="QuestionType-@(i)-@(j)-@(k)" class="block mt-4 mb-2 text-sm font-medium leading-6 text-mainblack">Loại câu hỏi</label>
+                                                                        <select id="QuestionType-@(i)-@(j)-@(k)" name="Chapters[@i].Lessons[@j].Questions[@k].QuestionType"
+                                                                                class="w-full px-4 py-2 text-sm border rounded-lg text-mainblack placeholder:text-sm focus:ring-0 focus:border-primary h-11 border-slate-200 placeholder:text-slate-600">
+                                                                            <option value="Single Choice" selected="@(question.QuestionType == "Single Choice" ? "selected" : null)">1 đáp án đúng</option>
+                                                                            <option value="Multiple Choice" selected="@(question.QuestionType == "Multiple Choice" ? "selected" : null)">Nhiều đáp án đúng</option>
+                                                                            <option value="Keyword" selected="@(question.QuestionType == "Keyword" ? "selected" : null)">Từ khóa đúng</option>
+                                                                        </select>
+
+
+                                                                        <!-- Container for answer options -->
+                                                                        <div id="answersContainer-@(i)-@(j)-@(k)" class="answers-container mt-4">
+                                                                            @foreach (var option in question.Options)
+                                                                            {
+                                                                                <div class="flex items-center" id="answer-option-@(i)-@(j)-@(k)-@(option.OptionID)">
+                                                                                    <input type="text" id="AnswerContent-@(i)-@(j)-@(k)-@(option.OptionID)" name="Chapters[@i].Lessons[@j].Questions[@k].Options[@option.OptionID].Content" value="@option.Content"
+                                                                                           class="w-full px-4 py-2 text-sm border rounded-lg text-mainblack placeholder:text-sm focus:ring-0 focus:border-primary h-11 border-slate-200 placeholder:text-slate-600" placeholder="Nhập đáp án" />
+                                                                                    <input type="checkbox" name="Chapters[@i].Lessons[@j].Questions[@k].Options[@option.OptionID].IsCorrect" @(option.IsCorrect == true ? "checked" : "") class="ml-2">
+                                                                                    <button type="button" onclick="deleteAnswerOption(@i, @j, @k, @option.OptionID)" class="ml-2 text-red-600">
+                                                                                        <i class="fas fa-trash-alt"></i>
+                                                                                    </button>
+                                                                                </div>
+                                                                            }
+
+                                                                        </div>
+                                                                        <button type="button" style="margin-bottom: 15px;" onclick="addAnswerOption(@i, @j, @k)" class="mt-2 px-4 py-2 text-sm font-medium leading-6 text-center text-white transition border rounded-lg hover:bg-opacity-80 bg-primary sm:text-base">
+                                                                            Thêm đáp án
+                                                                        </button>
+                                                                    </div>
+                                                                </div>
+                                                            }
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
                                         }
@@ -328,7 +389,7 @@
                     <button type="button" onclick="prevStep(1)" class="px-12 py-3 text-sm font-medium leading-6 text-center text-red-500 border border-red-200 rounded-lg sm:text-base">
                         Quay lại
                     </button>
-                    <button type="submit" class="px-12 py-3 text-sm font-medium leading-6 text-center text-white transition border rounded-lg hover:bg-opacity-80 bg-primary sm:text-base">
+                    <button type="submit" class="submit-button px-12 py-3 text-sm font-medium leading-6 text-center text-white transition border rounded-lg hover:bg-opacity-80 bg-primary sm:text-base">
                         Cập nhật khóa học
                     </button>
                 </div>
@@ -337,6 +398,83 @@
         </form>
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+        <script>
+            document.getElementById('courseForm').addEventListener('submit', function (e) {
+                e.preventDefault(); // Ngăn chặn form gửi theo cách thông thường
+
+                // Hiển thị hộp thoại xác nhận
+                Swal.fire({
+                    title: 'Bạn có chắc chắn?',
+                    text: "Bạn có muốn lưu các thay đổi không?",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: 'Có, lưu lại!',
+                    cancelButtonText: 'Không, hủy!',
+                    reverseButtons: true,
+                    customClass: {
+                        popup: 'swal-custom-popup',
+                        title: 'swal-custom-title',
+                        confirmButton: 'swal-custom-confirm',
+                        cancelButton: 'swal-custom-cancel'
+                    }
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        // Nếu xác nhận, tiến hành gửi form
+                        const formData = new FormData(this);
+
+                        fetch('/Admin/Course/Edit', {
+                            method: 'POST',
+                            body: formData
+                        })
+                            .then(response => response.json())
+                            .then(data => {
+                                if (data.success) {
+                                    Swal.fire({
+                                        title: 'Thành công!',
+                                        text: data.message,
+                                        icon: 'success',
+                                        confirmButtonText: 'OK',
+                                        customClass: {
+                                            confirmButton: 'swal-custom-confirm'
+                                        }
+                                    }).then(() => {
+                                        window.location.href = '/Admin/Course'; // Chuyển hướng sau khi thành công
+                                    });
+                                } else {
+                                    Swal.fire({
+                                        title: 'Lỗi!',
+                                        text: data.message,
+                                        icon: 'error',
+                                        confirmButtonText: 'OK',
+                                        customClass: {
+                                            confirmButton: 'swal-custom-confirm'
+                                        }
+                                    });
+                                }
+                            })
+                            .catch(error => {
+                                console.error('Lỗi:', error);
+                                Swal.fire({
+                                    title: 'Lỗi!',
+                                    text: 'Đã xảy ra lỗi không mong muốn.',
+                                    icon: 'error',
+                                    confirmButtonText: 'OK',
+                                    customClass: {
+                                        confirmButton: 'swal-custom-confirm'
+                                    }
+                                });
+                            });
+                    } else if (result.dismiss === Swal.DismissReason.cancel) {
+                        Swal.fire(
+                            'Đã hủy',
+                            'Các thay đổi của bạn không được lưu',
+                            'error'
+                        );
+                    }
+                });
+            });
+        </script>
+
         <script>
             function toggleChapter(index) {
                 const chapterDiv = document.getElementById(`chapter-${index}`);
@@ -364,7 +502,7 @@
                 }
             }
 
-            </script>
+        </script>
         <script>
             function deleteChapter(chapterIndex, chapterID) {
                 Swal.fire({
@@ -500,34 +638,34 @@
                 chapterCard.classList.add('chapter-form');
                 chapterCard.setAttribute('id', `chapter-form-${chapterIndex}`);
                 chapterCard.innerHTML = `
-                    <div class="col-span-full">
-                        <h4 class="cursor-pointer mb-2 text-sm font-medium leading-6 text-mainblack" onclick="toggleChapter(${chapterIndex})" style="display: flex; justify-content: space-between; align-items: center;">
-                            Chương ${chapterIndex + 1}
-                            <div>
-                                <button type="button" onclick="toggleChapter(${chapterIndex})" class="ml-2">
-                                    <i id="icon-${chapterIndex}" class="fas fa-chevron-up"></i>
-                                </button>
-                                <button type="button" onclick="deleteChapter(${chapterIndex})" class="ml-2 text-red-600">
-                                    <i class="fas fa-trash-alt"></i>
-                                </button>
-                            </div>
-                        </h4>
-                        <div id="chapter-${chapterIndex}" style="display: block;">
-                            <input type="hidden" name="Chapters[${chapterIndex}].ChapterID" value="0" />
-                            <input type="hidden" name="Chapters[${chapterIndex}].Index" value="${chapterIndex}" />
-                            <label for="ChapterTitle-${chapterIndex}" class="block mb-2 text-sm font-medium leading-6 text-mainblack">Tên chương *</label>
-                            <input type="text" id="ChapterTitle-${chapterIndex}" name="Chapters[${chapterIndex}].Title" class="w-full px-4 py-2 text-sm border rounded-lg text-mainblack placeholder:text-sm focus:ring-0 focus:border-primary h-11 border-slate-200 placeholder:text-slate-600" placeholder="Tên chương" />
-                            <div class="button-container mt-4">
-                                <button type="button" onclick="addLesson(${chapterIndex})" class="px-12 py-3 text-sm font-medium leading-6 text-center text-white transition border rounded-lg hover:bg-opacity-80 bg-primary sm:text-base">
-                                    Thêm bài học
-                                </button>
-                            </div>
-                            <div id="lessonsContainer-${chapterIndex}" class="lessons-container mt-4">
-                                <!-- Lesson cards will be dynamically added here -->
-                            </div>
-                        </div>
-                    </div>
-                `;
+                                <div class="col-span-full">
+                                    <h4 class="cursor-pointer mb-2 text-sm font-medium leading-6 text-mainblack" onclick="toggleChapter(${chapterIndex})" style="display: flex; justify-content: space-between; align-items: center;">
+                                        Chương ${chapterIndex + 1}
+                                        <div>
+                                            <button type="button" onclick="toggleChapter(${chapterIndex})" class="ml-2">
+                                                <i id="icon-${chapterIndex}" class="fas fa-chevron-up"></i>
+                                            </button>
+                                            <button type="button" onclick="deleteChapter(${chapterIndex})" class="ml-2 text-red-600">
+                                                <i class="fas fa-trash-alt"></i>
+                                            </button>
+                                        </div>
+                                    </h4>
+                                    <div id="chapter-${chapterIndex}" style="display: block;">
+                                        <input type="hidden" name="Chapters[${chapterIndex}].ChapterID" value="0" />
+                                        <input type="hidden" name="Chapters[${chapterIndex}].Index" value="${chapterIndex}" />
+                                        <label for="ChapterTitle-${chapterIndex}" class="block mb-2 text-sm font-medium leading-6 text-mainblack">Tên chương *</label>
+                                        <input type="text" id="ChapterTitle-${chapterIndex}" name="Chapters[${chapterIndex}].Title" class="w-full px-4 py-2 text-sm border rounded-lg text-mainblack placeholder:text-sm focus:ring-0 focus:border-primary h-11 border-slate-200 placeholder:text-slate-600" placeholder="Tên chương" />
+                                        <div class="button-container mt-4">
+                                            <button type="button" onclick="addLesson(${chapterIndex})" class="px-12 py-3 text-sm font-medium leading-6 text-center text-white transition border rounded-lg hover:bg-opacity-80 bg-primary sm:text-base">
+                                                Thêm bài học
+                                            </button>
+                                        </div>
+                                        <div id="lessonsContainer-${chapterIndex}" class="lessons-container mt-4">
+                                            <!-- Lesson cards will be dynamically added here -->
+                                        </div>
+                                    </div>
+                                </div>
+                            `;
 
                 chapterContainer.appendChild(chapterCard);
                 chapterCount++;
@@ -541,39 +679,265 @@
                 lessonCard.classList.add('lesson-form');
                 lessonCard.setAttribute('id', `lesson-form-${chapterIndex}-${lessonCount}`);
                 lessonCard.innerHTML = `
-                    <div class="col-span-full">
-                        <div class="flex justify-between items-center">
-                            <label for="LessonTitle-${chapterIndex}-${lessonCount}" class="block mb-2 text-sm font-medium leading-6 text-mainblack">Tên bài học</label>
-                            <div>
-                                <button type="button" onclick="toggleLesson(${chapterIndex}, ${lessonCount})" class="ml-2">
-                                    <i id="lesson-icon-${chapterIndex}-${lessonCount}" class="fas fa-chevron-up"></i>
-                                </button>
-                                <button type="button" onclick="deleteLesson(${chapterIndex}, ${lessonCount})" class="ml-2 text-red-600">
-                                    <i class="fas fa-trash-alt"></i>
-                                </button>
-                            </div>
-                        </div>
-                        <div id="lesson-${chapterIndex}-${lessonCount}" style="display: block;">
-                            <input type="hidden" name="Chapters[${chapterIndex}].Lessons[${lessonCount}].LessonID" value="0" />
-                            <input type="hidden" name="Chapters[${chapterIndex}].Lessons[${lessonCount}].Index" value="${lessonCount}" />
-                            <label for="LessonTitle-${chapterIndex}-${lessonCount}" class="block mb-2 text-sm font-medium leading-6 text-mainblack">Tên bài học</label>
-                            <input type="text" id="LessonTitle-${chapterIndex}-${lessonCount}" name="Chapters[${chapterIndex}].Lessons[${lessonCount}].Title" class="w-full px-4 py-2 text-sm border rounded-lg text-mainblack placeholder:text-sm focus:ring-0 focus:border-primary h-11 border-slate-200 placeholder:text-slate-600" placeholder="Tên bài học" />
-                            <label for="LessonDescription-${chapterIndex}-${lessonCount}" class="block mt-4 mb-2 text-sm font-medium leading-6 text-mainblack">Mô tả bài học</label>
-                            <input type="text" id="LessonDescription-${chapterIndex}-${lessonCount}" name="Chapters[${chapterIndex}].Lessons[${lessonCount}].Description" class="w-full px-4 py-2 text-sm border rounded-lg text-mainblack placeholder:text-sm focus:ring-0 focus:border-primary h-11 border-slate-200 placeholder:text-slate-600" placeholder="Mô tả bài học" />
-                            <label for="LessonVideoFile-${chapterIndex}-${lessonCount}" class="block mt-4 mb-2 text-sm font-medium leading-6 text-mainblack">Chọn Video</label>
-                            <input type="file" id="LessonVideoFile-${chapterIndex}-${lessonCount}" name="Chapters[${chapterIndex}].Lessons[${lessonCount}].VideoFile" class="w-full px-4 py-2 text-sm border rounded-lg text-mainblack placeholder:text-sm focus:ring-0 focus:border-primary h-11 border-slate-200 placeholder:text-slate-600" accept=".mp4" />
-                            <label for="LessonContentType-${chapterIndex}-${lessonCount}" class="block mt-4 mb-2 text-sm font-medium leading-6 text-mainblack">Loại nội dung</label>
-                            <select id="LessonContentType-${chapterIndex}-${lessonCount}" name="Chapters[${chapterIndex}].Lessons[${lessonCount}].ContentType" class="w-full px-4 py-2 text-sm border rounded-lg text-mainblack placeholder:text-sm focus:ring-0 focus:border-primary h-11 border-slate-200 placeholder:text-slate-600">
-                                <option value="Video">Video</option>
-                                <option value="PDF">PDF</option>
-                                <option value="Text">Text</option>
-                                <option value="Audio">Audio</option>
-                            </select>
-                        </div>
-                    </div>
-                `;
+                                <div class="col-span-full">
+                                    <div class="flex justify-between items-center">
+                                        <label for="LessonTitle-${chapterIndex}-${lessonCount}" class="block mb-2 text-sm font-medium leading-6 text-mainblack">Tên bài học</label>
+                                        <div>
+                                            <button type="button" onclick="toggleLesson(${chapterIndex}, ${lessonCount})" class="ml-2">
+                                                <i id="lesson-icon-${chapterIndex}-${lessonCount}" class="fas fa-chevron-up"></i>
+                                            </button>
+                                            <button type="button" onclick="deleteLesson(${chapterIndex}, ${lessonCount})" class="ml-2 text-red-600">
+                                                <i class="fas fa-trash-alt"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div id="lesson-${chapterIndex}-${lessonCount}" style="display: block;">
+                                        <input type="hidden" name="Chapters[${chapterIndex}].Lessons[${lessonCount}].LessonID" value="0" />
+                                        <input type="hidden" name="Chapters[${chapterIndex}].Lessons[${lessonCount}].Index" value="${lessonCount}" />
+                                        <label for="LessonTitle-${chapterIndex}-${lessonCount}" class="block mb-2 text-sm font-medium leading-6 text-mainblack">Tên bài học</label>
+                                        <input type="text" id="LessonTitle-${chapterIndex}-${lessonCount}" name="Chapters[${chapterIndex}].Lessons[${lessonCount}].Title" class="w-full px-4 py-2 text-sm border rounded-lg text-mainblack placeholder:text-sm focus:ring-0 focus:border-primary h-11 border-slate-200 placeholder:text-slate-600" placeholder="Tên bài học" />
+                                        <label for="LessonDescription-${chapterIndex}-${lessonCount}" class="block mt-4 mb-2 text-sm font-medium leading-6 text-mainblack">Mô tả bài học</label>
+                                        <input type="text" id="LessonDescription-${chapterIndex}-${lessonCount}" name="Chapters[${chapterIndex}].Lessons[${lessonCount}].Description" class="w-full px-4 py-2 text-sm border rounded-lg text-mainblack placeholder:text-sm focus:ring-0 focus:border-primary h-11 border-slate-200 placeholder:text-slate-600" placeholder="Mô tả bài học" />
+                                        <label for="LessonVideoFile-${chapterIndex}-${lessonCount}" class="block mt-4 mb-2 text-sm font-medium leading-6 text-mainblack">Chọn Video</label>
+                                        <input type="file" id="LessonVideoFile-${chapterIndex}-${lessonCount}" name="Chapters[${chapterIndex}].Lessons[${lessonCount}].VideoFile" class="w-full px-4 py-2 text-sm border rounded-lg text-mainblack placeholder:text-sm focus:ring-0 focus:border-primary h-11 border-slate-200 placeholder:text-slate-600" accept=".mp4" />
+                                        <label for="LessonContentType-${chapterIndex}-${lessonCount}" class="block mt-4 mb-2 text-sm font-medium leading-6 text-mainblack">Loại nội dung</label>
+                                        <select id="LessonContentType-${chapterIndex}-${lessonCount}" name="Chapters[${chapterIndex}].Lessons[${lessonCount}].ContentType" class="w-full px-4 py-2 text-sm border rounded-lg text-mainblack placeholder:text-sm focus:ring-0 focus:border-primary h-11 border-slate-200 placeholder:text-slate-600">
+                                            <option value="Video">Video</option>
+                                            <option value="PDF">PDF</option>
+                                            <option value="Text">Text</option>
+                                            <option value="Audio">Audio</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            `;
 
                 lessonContainer.appendChild(lessonCard);
+            }
+            function addQuestion(chapterIndex, lessonIndex) {
+                const questionsContainer = document.getElementById(`questionsContainer-${chapterIndex}-${lessonIndex}`);
+                const questionIndex = questionsContainer.children.length;
+
+                const questionCard = document.createElement('div');
+                questionCard.classList.add('question-form');
+                questionCard.setAttribute('id', `question-form-${chapterIndex}-${lessonIndex}-${questionIndex}`);
+                questionCard.innerHTML = `
+                                <div class="col-span-full">
+                                    <div class="flex justify-between items-center">
+                                        <label for="QuestionContent-${chapterIndex}-${lessonIndex}-${questionIndex}" class="block mb-2 text-sm font-medium leading-6 text-mainblack">Nội dung câu hỏi</label>
+                                        <div>
+                                            <button type="button" onclick="toggleQuestion(${chapterIndex}, ${lessonIndex}, ${questionIndex})" class="ml-2">
+                                                <i id="question-icon-${chapterIndex}-${lessonIndex}-${questionIndex}" class="fas fa-chevron-up"></i>
+                                            </button>
+                                            <button type="button" onclick="deleteQuestion(${chapterIndex}, ${lessonIndex}, ${questionIndex})" class="ml-2 text-red-600">
+                                                <i class="fas fa-trash-alt"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div id="question-${chapterIndex}-${lessonIndex}-${questionIndex}" style="display: block;">
+                                        <input type="text" id="QuestionContent-${chapterIndex}-${lessonIndex}-${questionIndex}" name="Chapters[${chapterIndex}].Lessons[${lessonIndex}].Questions[${questionIndex}].Content" class="w-full px-4 py-2 text-sm border rounded-lg text-mainblack placeholder:text-sm focus:ring-0 focus:border-primary h-11 border-slate-200 placeholder:text-slate-600" placeholder="Nội dung câu hỏi" />
+
+                                        <label for="QuestionShowTime-${chapterIndex}-${lessonIndex}-${questionIndex}" class="block mt-4 mb-2 text-sm font-medium leading-6 text-mainblack">Thời gian hiển thị (giây)</label>
+                                        <input type="number" id="QuestionShowTime-${chapterIndex}-${lessonIndex}-${questionIndex}" name="Chapters[${chapterIndex}].Lessons[${lessonIndex}].Questions[${questionIndex}].ShowTime" class="w-full px-4 py-2 text-sm border rounded-lg text-mainblack placeholder:text-sm focus:ring-0 focus:border-primary h-11 border-slate-200 placeholder:text-slate-600" placeholder="Nhập số giây" />
+
+                                        <label for="QuestionAnswer-${chapterIndex}-${lessonIndex}-${questionIndex}" class="block mt-4 mb-2 text-sm font-medium leading-6 text-mainblack">Câu trả lời đúng</label>
+                                        <input type="text" id="QuestionAnswer-${chapterIndex}-${lessonIndex}-${questionIndex}" name="Chapters[${chapterIndex}].Lessons[${lessonIndex}].Questions[${questionIndex}].CorrectAnswer" class="w-full px-4 py-2 text-sm border rounded-lg text-mainblack placeholder:text-sm focus:ring-0 focus:border-primary h-11 border-slate-200 placeholder:text-slate-600" placeholder="Nhập câu trả lời đúng" />
+                                    </div>
+                                </div>
+                            `;
+
+                questionsContainer.appendChild(questionCard);
+            }
+
+
+            function handleQuestionTypeChange(chapterIndex, lessonIndex, questionIndex) {
+                const questionType = document.getElementById(`QuestionType-${chapterIndex}-${lessonIndex}-${questionIndex}`).value;
+                const answersContainer = document.getElementById(`answersContainer-${chapterIndex}-${lessonIndex}-${questionIndex}`);
+
+                // Clear existing answers when the question type changes
+                answersContainer.innerHTML = '';
+
+                if (questionType === 'Single Choice' || questionType === 'Multiple Choice') {
+                    addAnswerOption(chapterIndex, lessonIndex, questionIndex, questionType);
+                } else if (questionType === 'Keyword') {
+                    addKeywordField(chapterIndex, lessonIndex, questionIndex);
+                }
+            }
+            function addAnswerOption(chapterIndex, lessonIndex, questionIndex, questionType = 'Single Choice') {
+                const answersContainer = document.getElementById(`answersContainer-${chapterIndex}-${lessonIndex}-${questionIndex}`);
+                const answerIndex = answersContainer.children.length;
+
+                const inputType = questionType === 'Single Choice' ? 'radio' : 'checkbox';
+                const answerOption = document.createElement('div');
+                answerOption.classList.add('answer-option');
+                answerOption.setAttribute('id', `answer-option-${chapterIndex}-${lessonIndex}-${questionIndex}-${answerIndex}`);
+                answerOption.innerHTML = `
+                                <div class="flex items-center">
+                                    <input type="text" id="AnswerContent-${chapterIndex}-${lessonIndex}-${questionIndex}-${answerIndex}"
+                                        name="Chapters[${chapterIndex}].Lessons[${lessonIndex}].Questions[${questionIndex}].Options[${answerIndex}].Content"
+                                        class="w-full px-4 py-2 text-sm border rounded-lg text-mainblack placeholder:text-sm focus:ring-0 focus:border-primary h-11 border-slate-200 placeholder:text-slate-600"
+                                        placeholder="Nhập đáp án" />
+                                    <input type="${inputType}"
+                                        name="Chapters[${chapterIndex}].Lessons[${lessonIndex}].Questions[${questionIndex}].CorrectAnswer"
+                                        value="${answerIndex}"
+                                        class="ml-2"
+                                        onclick="setCorrectAnswer(${chapterIndex}, ${lessonIndex}, ${questionIndex}, ${answerIndex}, '${questionType}')">
+                                    <button type="button" onclick="deleteAnswerOptionClient(${chapterIndex}, ${lessonIndex}, ${questionIndex}, ${answerIndex})"
+                                        class="ml-2 text-red-600">
+                                        <i class="fas fa-trash-alt"></i>
+                                    </button>
+                                </div>
+                            `;
+
+                answersContainer.appendChild(answerOption);
+            }
+            function deleteAnswerOptionClient(chapterIndex, lessonIndex, questionIndex, answerIndex) {
+                Swal.fire({
+                    title: 'Bạn có chắc chắn muốn xóa đáp án này không?',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: 'Có, xóa nó!',
+                    cancelButtonText: 'Không, hủy!',
+                    reverseButtons: true,
+                    customClass: {
+                        popup: 'swal-custom-popup',
+                        title: 'swal-custom-title',
+                        confirmButton: 'swal-custom-confirm',
+                        cancelButton: 'swal-custom-cancel'
+                    }
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        // Remove the answer option element from the DOM
+                        const answerOptionElement = document.getElementById(`answer-option-${chapterIndex}-${lessonIndex}-${questionIndex}-${answerIndex}`);
+                        if (answerOptionElement) {
+                            answerOptionElement.remove();
+                        }
+
+                        Swal.fire({
+                            title: 'Xóa thành công!',
+                            text: 'Đáp án đã được xóa.',
+                            icon: 'success',
+                            customClass: {
+                                popup: 'swal-custom-popup',
+                                title: 'swal-custom-title',
+                                confirmButton: 'swal-custom-confirm'
+                            }
+                        });
+                    }
+                });
+            }
+
+
+
+            function deleteQuestion(chapterIndex, lessonIndex, questionIndex, questionID) {
+                // Show confirmation dialog using SweetAlert
+                Swal.fire({
+                    title: 'Bạn có chắc chắn muốn xóa câu hỏi này không?',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: 'Có, xóa nó!',
+                    cancelButtonText: 'Không, hủy!',
+                    reverseButtons: true,
+                    customClass: {
+                        popup: 'swal-custom-popup',
+                        title: 'swal-custom-title',
+                        confirmButton: 'swal-custom-confirm',
+                        cancelButton: 'swal-custom-cancel'
+                    }
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        // Send a DELETE request to the server to delete the question from the database
+                        fetch(`/Admin/Course/DeleteQuestion/${questionID}`, {
+                            method: 'DELETE'
+                        }).then(response => {
+                            if (response.ok) {
+                                // If deletion is successful, remove the question from the UI
+                                document.getElementById(`question-form-${chapterIndex}-${lessonIndex}-${questionIndex}`).remove();
+                                Swal.fire('Đã xóa!', 'Câu hỏi đã được xóa.', 'success');
+                            } else {
+                                Swal.fire('Lỗi!', 'Không thể xóa câu hỏi.', 'error');
+                            }
+                        }).catch(error => {
+                            console.error('Failed to delete question:', error);
+                            Swal.fire('Lỗi!', 'Đã xảy ra lỗi khi xóa câu hỏi.', 'error');
+                        });
+                    }
+                });
+            }
+
+            function deleteAnswerOption(chapterIndex, lessonIndex, questionIndex, optionID) {
+                Swal.fire({
+                    title: 'Bạn có chắc chắn muốn xóa đáp án này không?',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: 'Có, xóa nó!',
+                    cancelButtonText: 'Không, hủy!',
+                    reverseButtons: true,
+                    customClass: {
+                        popup: 'swal-custom-popup',
+                        title: 'swal-custom-title',
+                        confirmButton: 'swal-custom-confirm',
+                        cancelButton: 'swal-custom-cancel'
+                    }
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        fetch(`/Admin/Course/DeleteOption/${optionID}`, {
+                            method: 'DELETE'
+                        })
+                            .then(response => {
+                                if (response.ok) {
+                                    document.getElementById(`answer-option-${chapterIndex}-${lessonIndex}-${questionIndex}-${optionID}`).remove();
+                                    Swal.fire({
+                                        title: 'Xóa thành công!',
+                                        text: 'Đáp án đã được xóa.',
+                                        icon: 'success',
+                                        customClass: {
+                                            popup: 'swal-custom-popup',
+                                            title: 'swal-custom-title',
+                                            confirmButton: 'swal-custom-confirm'
+                                        }
+                                    });
+                                } else {
+                                    Swal.fire({
+                                        title: 'Lỗi!',
+                                        text: 'Xóa đáp án không thành công.',
+                                        icon: 'error',
+                                        customClass: {
+                                            popup: 'swal-custom-popup',
+                                            title: 'swal-custom-title',
+                                            confirmButton: 'swal-custom-confirm'
+                                        }
+                                    });
+                                }
+                            })
+                            .catch(error => {
+                                console.error('Error:', error);
+                                Swal.fire({
+                                    title: 'Lỗi!',
+                                    text: 'Đã xảy ra lỗi trong quá trình xóa.',
+                                    icon: 'error',
+                                    customClass: {
+                                        popup: 'swal-custom-popup',
+                                        title: 'swal-custom-title',
+                                        confirmButton: 'swal-custom-confirm'
+                                    }
+                                });
+                            });
+                    }
+                });
+            }
+
+
+            function toggleQuestion(chapterIndex, lessonIndex, questionIndex) {
+                const questionDiv = document.getElementById(`question-${chapterIndex}-${lessonIndex}-${questionIndex}`);
+                const icon = document.getElementById(`question-icon-${chapterIndex}-${lessonIndex}-${questionIndex}`);
+
+                if (questionDiv.style.display === 'none') {
+                    questionDiv.style.display = 'block';
+                    icon.className = 'fas fa-chevron-up'; // Up arrow icon
+                } else {
+                    questionDiv.style.display = 'none';
+                    icon.className = 'fas fa-chevron-down'; // Down arrow icon
+                }
             }
 
             // Function to toggle the visibility of a chapter

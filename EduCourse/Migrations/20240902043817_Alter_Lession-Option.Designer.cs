@@ -4,6 +4,7 @@ using EduCourse.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EduCourse.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240902043817_Alter_Lession-Option")]
+    partial class Alter_LessionOption
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -301,7 +304,7 @@ namespace EduCourse.Migrations
                     b.Property<string>("QuestionType")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("QuizID")
+                    b.Property<int>("QuizID")
                         .HasColumnType("int");
 
                     b.Property<double>("ShowTime")
@@ -352,7 +355,7 @@ namespace EduCourse.Migrations
 
                     b.HasIndex("LessonID");
 
-                    b.ToTable("Quiz");
+                    b.ToTable("Quizzes");
                 });
 
             modelBuilder.Entity("EduCourse.Entities.Role", b =>
@@ -735,11 +738,15 @@ namespace EduCourse.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("EduCourse.Entities.Quiz", null)
+                    b.HasOne("EduCourse.Entities.Quiz", "Quiz")
                         .WithMany("Questions")
-                        .HasForeignKey("QuizID");
+                        .HasForeignKey("QuizID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Lesson");
+
+                    b.Navigation("Quiz");
                 });
 
             modelBuilder.Entity("EduCourse.Entities.Quiz", b =>
@@ -751,7 +758,7 @@ namespace EduCourse.Migrations
                         .IsRequired();
 
                     b.HasOne("EduCourse.Entities.Lesson", "Lesson")
-                        .WithMany()
+                        .WithMany("Quizzes")
                         .HasForeignKey("LessonID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -874,6 +881,8 @@ namespace EduCourse.Migrations
             modelBuilder.Entity("EduCourse.Entities.Lesson", b =>
                 {
                     b.Navigation("Questions");
+
+                    b.Navigation("Quizzes");
                 });
 
             modelBuilder.Entity("EduCourse.Entities.Question", b =>

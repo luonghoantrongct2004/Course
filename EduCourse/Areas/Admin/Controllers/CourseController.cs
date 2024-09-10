@@ -51,6 +51,8 @@ public class CourseController : Controller
             .Include(c => c.Category)
             .Include(c => c.Chapters)
                 .ThenInclude(l => l.Lessons)
+                    .ThenInclude(q => q.Questions)
+                        .ThenInclude(o => o.Options)
             .FirstOrDefault(i => i.CourseID == id);
 
         if (course == null)
@@ -219,10 +221,6 @@ public class CourseController : Controller
     [HttpPost]
     public async Task<IActionResult> Edit(int CourseID, IFormFile? file, Course course)
     {
-        if (CourseID != course.CourseID)
-        {
-            return Json(new { success = false, message = "Khóa học không tìm thấy!" });
-        }
 
         if (ModelState.IsValid)
         {
@@ -473,22 +471,22 @@ public class CourseController : Controller
 
                             _context.Chapters.Add(chapter);
                             await _context.SaveChangesAsync();
-                            return Json(new { success = true, message = "Cập nhật khóa học thành công" });
+                            return Redirect("/Admin/Course");
                         }
                     }
 
                     await transaction.CommitAsync();
+                    return Redirect("/Admin/Course");
                 }
                 catch (DbUpdateException ex)
                 {
                     await transaction.RollbackAsync();
                     ViewData["Categories"] = new SelectList(_context.Categories, "CategoryID", "Name", course.CategoryID);
-                    return Json(new { success = false,
-                        message = $"Có lỗi trong khi cập nhật: {ex.InnerException?.Message}" });
+                    return View(course);
                 }
             }
         }
-        return Json(new { success = false, message = "Thông tin nhập vào không hợp lệ. Vui lòng kiểm tra lại." });
+        return View(course);
     }
 
 

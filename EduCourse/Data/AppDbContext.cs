@@ -31,6 +31,24 @@ public class AppDbContext : IdentityDbContext<User, Role, int>
             .HasOne(c => c.Author)
             .WithMany(u => u.Courses)
             .HasForeignKey(c => c.AuthorID);
+
+        modelBuilder.Entity<ExamQuestion>()
+                .HasKey(eq => new { eq.ExamID, eq.QuestionID });
+
+        modelBuilder.Entity<ExamQuestion>()
+            .HasOne(eq => eq.Exam)
+            .WithMany(e => e.ExamQuestions)
+            .HasForeignKey(eq => eq.ExamID);
+
+        modelBuilder.Entity<ExamQuestion>()
+            .HasOne(eq => eq.Question)
+            .WithMany(q => q.ExamQuestions)
+            .HasForeignKey(eq => eq.QuestionID);
+        modelBuilder.Entity<Question>()
+       .HasOne(q => q.Lesson)
+       .WithMany(l => l.Questions)
+       .HasForeignKey(q => q.LessonID)
+       .IsRequired(false);
     }
 
     public DbSet<Course> Courses { get; set; }
@@ -44,4 +62,6 @@ public class AppDbContext : IdentityDbContext<User, Role, int>
     public DbSet<Library> Libraries { get; set; }
     public DbSet<Category> Categories { get; set; }
     public DbSet<Chapter> Chapters { get; set; }
+    public DbSet<Exam> Exams { get; set; }
+    public DbSet<ExamQuestion> ExamQuestions { get; set; }
 }

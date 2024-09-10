@@ -126,7 +126,7 @@
         </div>
     </div>
     <div class="p-5 bg-white rounded-lg">
-        <form id="courseForm" enctype="multipart/form-data">
+        <form id="courseForm" enctype="multipart/form-data" method="post" action="/Admin/Course/Edit">
             <input type="hidden" asp-for="CourseID" />
             <input type="hidden" asp-for="AuthorID" />
             <div id="step-1" class="form-step">
@@ -396,84 +396,9 @@
             </div>
 
         </form>
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
-        <script>
-            document.getElementById('courseForm').addEventListener('submit', function (e) {
-                e.preventDefault(); // Ngăn chặn form gửi theo cách thông thường
-
-                // Hiển thị hộp thoại xác nhận
-                Swal.fire({
-                    title: 'Bạn có chắc chắn?',
-                    text: "Bạn có muốn lưu các thay đổi không?",
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonText: 'Có, lưu lại!',
-                    cancelButtonText: 'Không, hủy!',
-                    reverseButtons: true,
-                    customClass: {
-                        popup: 'swal-custom-popup',
-                        title: 'swal-custom-title',
-                        confirmButton: 'swal-custom-confirm',
-                        cancelButton: 'swal-custom-cancel'
-                    }
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        // Nếu xác nhận, tiến hành gửi form
-                        const formData = new FormData(this);
-
-                        fetch('/Admin/Course/Edit', {
-                            method: 'POST',
-                            body: formData
-                        })
-                            .then(response => response.json())
-                            .then(data => {
-                                if (data.success) {
-                                    Swal.fire({
-                                        title: 'Thành công!',
-                                        text: data.message,
-                                        icon: 'success',
-                                        confirmButtonText: 'OK',
-                                        customClass: {
-                                            confirmButton: 'swal-custom-confirm'
-                                        }
-                                    }).then(() => {
-                                        window.location.href = '/Admin/Course'; // Chuyển hướng sau khi thành công
-                                    });
-                                } else {
-                                    Swal.fire({
-                                        title: 'Lỗi!',
-                                        text: data.message,
-                                        icon: 'error',
-                                        confirmButtonText: 'OK',
-                                        customClass: {
-                                            confirmButton: 'swal-custom-confirm'
-                                        }
-                                    });
-                                }
-                            })
-                            .catch(error => {
-                                console.error('Lỗi:', error);
-                                Swal.fire({
-                                    title: 'Lỗi!',
-                                    text: 'Đã xảy ra lỗi không mong muốn.',
-                                    icon: 'error',
-                                    confirmButtonText: 'OK',
-                                    customClass: {
-                                        confirmButton: 'swal-custom-confirm'
-                                    }
-                                });
-                            });
-                    } else if (result.dismiss === Swal.DismissReason.cancel) {
-                        Swal.fire(
-                            'Đã hủy',
-                            'Các thay đổi của bạn không được lưu',
-                            'error'
-                        );
-                    }
-                });
-            });
-        </script>
 
         <script>
             function toggleChapter(index) {

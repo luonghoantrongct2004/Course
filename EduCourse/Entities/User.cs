@@ -11,4 +11,5 @@ public class User: IdentityUser<int>
     public ICollection<Course>? Courses { get; set; }
 
     public ICollection<Payment>? Payments { get; set; }
+    public ICollection<Exam>? CreatedExams { get; set; }
 }

@@ -1,4 +1,10 @@
-﻿<!DOCTYPE html>
+﻿@using EduCourse.Entities
+@using Microsoft.AspNetCore.Identity
+@inject UserManager<User> UserManager
+@{
+    var user = UserManager.GetUserAsync(User).Result;
+}
+<!DOCTYPE html>
 <html lang="en">
 
 <meta http-equiv="content-type" content="text/html;charset=utf-8" />
@@ -63,7 +69,7 @@
                                             <path d="M10.8333 14.5C10.8333 13.3954 11.7287 12.5 12.8333 12.5H16.3333C17.4378 12.5 18.3333 13.3954 18.3333 14.5V16.3333C18.3333 17.4379 17.4378 18.3333 16.3333 18.3333H12.8333C11.7287 18.3333 10.8333 17.4379 10.8333 16.3333V14.5Z"
                                                   fill="#7C3AED" />
                                         </svg>
-                                        <span class="item-text">Dashboards</span>
+                                        <span class="item-text">Dashboard</span>
                                         <svg class="ml-auto"
                                              width="20"
                                              height="20"
@@ -74,20 +80,6 @@
                                                   fill="#8247FF" />
                                         </svg>
                                     </button>
-                                    <ul class="pl-8 space-y-1 sub-menu">
-                                        <li>
-                                            <a href="index-2.html"
-                                               class="p-2.5 gap-2 w-full flex items-center rounded-lg bg-transparent hover:bg-violet-50 transition text-base font-medium text-mainblue cursor-pointer">
-                                                Dashboard One
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="index-3.html"
-                                               class="p-2.5 gap-2 w-full flex items-center rounded-lg bg-transparent hover:bg-violet-50 transition text-base font-medium text-mainblue cursor-pointer">
-                                                Dashboard Two
-                                            </a>
-                                        </li>
-                                    </ul>
                                 </li>
                                 <li class="item">
                                     <a href="teachers-list.html"
@@ -118,7 +110,7 @@
                                                   d="M11.875 9.16602C11.875 8.82084 12.1548 8.54102 12.5 8.54102H15C15.3452 8.54102 15.625 8.82084 15.625 9.16602C15.625 9.51119 15.3452 9.79102 15 9.79102H12.5C12.1548 9.79102 11.875 9.51119 11.875 9.16602Z"
                                                   fill="#8247FF" />
                                         </svg>
-                                        <span class="item-text">Teachers</span>
+                                        <span class="item-text">Giáo viên</span>
                                     </a>
                                 </li>
                                 <li class="item">
@@ -152,7 +144,7 @@
                                             <path d="M5.37277 11.9892L6.49375 13.1227C6.76995 13.402 7.22105 13.402 7.49725 13.1227L8.61823 11.9892C8.7914 11.8141 9.0442 11.7395 9.28047 11.809C11.26 12.3911 12.6409 13.7063 12.6409 15.2356C12.6409 16.0151 12.009 16.647 11.2295 16.647H2.76148C1.98201 16.647 1.35013 16.0151 1.35013 15.2356C1.35013 13.7063 2.73103 12.3911 4.71054 11.809C4.9468 11.7395 5.19961 11.8141 5.37277 11.9892Z"
                                                   fill="#8247FF" />
                                         </svg>
-                                        Students
+                                        Học sinh
                                     </a>
                                 </li>
                                 <li class="item">
@@ -190,7 +182,7 @@
                                                   d="M9.37496 4.53794C8.15709 3.81037 6.54696 3.47122 5.32998 3.34025C4.68954 3.27132 4.16663 3.78066 4.16663 4.40908V10.6673C4.16663 11.2957 4.68954 11.8052 5.32998 11.8742C6.62404 12.0134 8.36262 12.3881 9.60144 13.2148C9.83953 13.3737 10.1604 13.3737 10.3985 13.2148C11.6373 12.3881 13.3759 12.0134 14.6699 11.8742C15.3104 11.8052 15.8333 11.2957 15.8333 10.6673V4.40908C15.8333 3.78066 15.3104 3.27132 14.6699 3.34025C13.453 3.47122 11.8428 3.81037 10.625 4.53794V13.0718C10.5478 13.1179 10.4723 13.1655 10.3985 13.2148C10.1604 13.3737 9.83953 13.3737 9.60144 13.2148C9.52765 13.1655 9.45209 13.1179 9.37496 13.0718V4.53794Z"
                                                   fill="#8247FF" />
                                         </svg>
-                                        <span class="item-text">Resource</span>
+                                        <span class="item-text">Quản lý thi</span>
                                         <svg class="ml-auto"
                                              width="20"
                                              height="20"
@@ -203,327 +195,26 @@
                                     </button>
                                     <ul class="pl-8 space-y-1 sub-menu">
                                         <li>
-                                            <a href="resource-blog.html"
+                                            <a href="/Admin/Question/Index"
                                                class="p-2.5 gap-2 w-full flex items-center rounded-lg bg-transparent hover:bg-violet-50 transition text-base font-medium text-mainblue cursor-pointer">
-                                                Blog
+                                                Câu hỏi
                                             </a>
                                         </li>
                                         <li>
                                             <a href="resource-ebook.html"
                                                class="p-2.5 gap-2 w-full flex items-center rounded-lg bg-transparent hover:bg-violet-50 transition text-base font-medium text-mainblue cursor-pointer">
-                                                Ebook
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </li>
-                                <li class="item">
-                                    <a href="certificate-list.html"
-                                       class="flex items-center gap-2 p-2.5 rounded-lg bg-transparent hover:bg-violet-50 transition text-base font-medium text-mainblue cursor-pointer">
-                                        <svg class="item-ico"
-                                             width="20"
-                                             height="20"
-                                             viewBox="0 0 20 20"
-                                             fill="none"
-                                             xmlns="http://www.w3.org/2000/svg">
-                                            <path opacity="0.4"
-                                                  d="M10.8334 17.4993V12.916H14.1667V17.4993L12.5 16.666L10.8334 17.4993Z"
-                                                  fill="#8247FF" />
-                                            <path opacity="0.4"
-                                                  d="M18.3334 12.5L18.3334 4.16667C18.3334 3.24619 17.5872 2.5 16.6667 2.5L3.33337 2.5C2.4129 2.5 1.66671 3.24619 1.66671 4.16667L1.66671 12.5C1.66671 13.4205 2.4129 14.1667 3.33337 14.1667L7.91671 14.1667L16.6667 14.1667C17.5872 14.1667 18.3334 13.4205 18.3334 12.5Z"
-                                                  fill="#8247FF" />
-                                            <path d="M15 12.5C15 13.8807 13.8807 15 12.5 15C11.1193 15 10 13.8807 10 12.5C10 11.1193 11.1193 10 12.5 10C13.8807 10 15 11.1193 15 12.5Z"
-                                                  fill="#8247FF" />
-                                            <path fill-rule="evenodd"
-                                                  clip-rule="evenodd"
-                                                  d="M4.375 5.83398C4.375 5.48881 4.65482 5.20898 5 5.20898H15C15.3452 5.20898 15.625 5.48881 15.625 5.83398C15.625 6.17916 15.3452 6.45898 15 6.45898H5C4.65482 6.45898 4.375 6.17916 4.375 5.83398Z"
-                                                  fill="#8247FF" />
-                                            <path fill-rule="evenodd"
-                                                  clip-rule="evenodd"
-                                                  d="M4.375 9.16602C4.375 8.82084 4.65482 8.54102 5 8.54102H8.33333C8.67851 8.54102 8.95833 8.82084 8.95833 9.16602C8.95833 9.51119 8.67851 9.79102 8.33333 9.79102H5C4.65482 9.79102 4.375 9.51119 4.375 9.16602Z"
-                                                  fill="#8247FF" />
-                                        </svg>
-                                        Certificate
-                                    </a>
-                                </li>
-                                <li class="item">
-                                    <a href="messages.html"
-                                       class="flex items-center gap-2 p-2.5 rounded-lg bg-transparent hover:bg-violet-50 transition text-base font-medium text-mainblue cursor-pointer">
-                                        <svg class="item-ico"
-                                             width="20"
-                                             height="20"
-                                             viewBox="0 0 20 20"
-                                             fill="none"
-                                             xmlns="http://www.w3.org/2000/svg">
-                                            <path opacity="0.4"
-                                                  d="M10.8333 3.33203H9.16663C5.02449 3.33203 1.66663 6.6899 1.66663 10.832V14.9987C1.66663 16.8396 3.15901 18.332 4.99996 18.332H10.8333C14.9754 18.332 18.3333 14.9742 18.3333 10.832C18.3333 6.6899 14.9754 3.33203 10.8333 3.33203Z"
-                                                  fill="#8247FF" />
-                                            <path d="M18.3333 4.99935C18.3333 6.8403 16.8409 8.33268 15 8.33268C13.159 8.33268 11.6666 6.8403 11.6666 4.99935C11.6666 3.1584 13.159 1.66602 15 1.66602C16.8409 1.66602 18.3333 3.1584 18.3333 4.99935Z"
-                                                  fill="#8247FF" />
-                                            <path fill-rule="evenodd"
-                                                  clip-rule="evenodd"
-                                                  d="M6.04163 9.16602C6.04163 8.82084 6.32145 8.54102 6.66663 8.54102H9.99996C10.3451 8.54102 10.625 8.82084 10.625 9.16602C10.625 9.51119 10.3451 9.79102 9.99996 9.79102H6.66663C6.32145 9.79102 6.04163 9.51119 6.04163 9.16602ZM6.04163 12.4993C6.04163 12.1542 6.32145 11.8743 6.66663 11.8743H13.3333C13.6785 11.8743 13.9583 12.1542 13.9583 12.4993C13.9583 12.8445 13.6785 13.1243 13.3333 13.1243H6.66663C6.32145 13.1243 6.04163 12.8445 6.04163 12.4993Z"
-                                                  fill="#8247FF" />
-                                        </svg>
-                                        Chat
-                                    </a>
-                                </li>
-                                <li class="space-y-1 item">
-                                    <button class="p-2.5 gap-2 w-full flex items-center rounded-lg hover:bg-violet-50 transition text-base font-medium text-mainblue cursor-pointer">
-                                        <svg class="item-ico"
-                                             width="20"
-                                             height="20"
-                                             viewBox="0 0 20 20"
-                                             fill="none"
-                                             xmlns="http://www.w3.org/2000/svg">
-                                            <path d="M1.66663 4.99935C1.66663 3.1584 3.15901 1.66602 4.99996 1.66602H9.99996V9.99935L1.66663 9.99935V4.99935Z"
-                                                  fill="#8247FF" />
-                                            <path opacity="0.4"
-                                                  d="M1.66663 14.9987C1.66663 16.8396 3.15901 18.332 4.99996 18.332H9.99996V9.9987L1.66663 9.9987V14.9987Z"
-                                                  fill="#8247FF" />
-                                            <path opacity="0.4"
-                                                  d="M18.3333 4.99935C18.3333 3.1584 16.8409 1.66602 14.9999 1.66602H9.99992V9.99935L18.3333 9.99935V4.99935Z"
-                                                  fill="#8247FF" />
-                                            <path fill-rule="evenodd"
-                                                  clip-rule="evenodd"
-                                                  d="M18.3333 15C18.3333 16.841 16.8409 18.3333 15 18.3333H10V10H18.3333V15ZM16.4583 12.9167C16.4583 13.2618 16.1785 13.5417 15.8333 13.5417L12.5 13.5417C12.1548 13.5417 11.875 13.2618 11.875 12.9167C11.875 12.5715 12.1548 12.2917 12.5 12.2917L15.8333 12.2917C16.1785 12.2917 16.4583 12.5715 16.4583 12.9167ZM15.8333 16.0417C16.1785 16.0417 16.4583 15.7618 16.4583 15.4167C16.4583 15.0715 16.1785 14.7917 15.8333 14.7917L12.5 14.7917C12.1548 14.7917 11.875 15.0715 11.875 15.4167C11.875 15.7618 12.1548 16.0417 12.5 16.0417H15.8333Z"
-                                                  fill="#8247FF" />
-                                        </svg>
-                                        <span class="item-text"> Pages</span>
-                                        <svg class="ml-auto"
-                                             width="20"
-                                             height="20"
-                                             viewBox="0 0 20 20"
-                                             fill="none"
-                                             xmlns="http://www.w3.org/2000/svg">
-                                            <path d="M15.5917 6.8422C15.5142 6.76409 15.422 6.7021 15.3205 6.65979C15.2189 6.61748 15.11 6.5957 15 6.5957C14.89 6.5957 14.7811 6.61748 14.6795 6.65979C14.578 6.7021 14.4858 6.76409 14.4083 6.8422L10.5917 10.6589C10.5142 10.737 10.422 10.799 10.3205 10.8413C10.2189 10.8836 10.11 10.9054 10 10.9054C9.89 10.9054 9.78108 10.8836 9.67953 10.8413C9.57798 10.799 9.48581 10.737 9.40834 10.6589L5.59168 6.8422C5.51421 6.76409 5.42204 6.7021 5.32049 6.65979C5.21894 6.61748 5.11002 6.5957 5.00001 6.5957C4.89 6.5957 4.78108 6.61748 4.67953 6.65979C4.57798 6.7021 4.48581 6.76409 4.40834 6.8422C4.25313 6.99834 4.16602 7.20955 4.16602 7.4297C4.16602 7.64986 4.25313 7.86107 4.40834 8.0172L8.23334 11.8422C8.70209 12.3104 9.33751 12.5733 10 12.5733C10.6625 12.5733 11.2979 12.3104 11.7667 11.8422L15.5917 8.0172C15.7469 7.86107 15.834 7.64986 15.834 7.4297C15.834 7.20955 15.7469 6.99834 15.5917 6.8422Z"
-                                                  fill="#8247FF" />
-                                        </svg>
-                                    </button>
-                                    <ul class="pl-8 space-y-1 sub-menu">
-                                        <li>
-                                            <a href="integrations.html"
-                                               class="flex items-center gap-2 p-2.5 rounded-lg bg-transparent hover:bg-violet-50 transition text-base font-medium text-mainblue cursor-pointer">
-                                                Integrations
+                                                Đề thi
                                             </a>
                                         </li>
                                         <li>
-                                            <a href="projects.html"
-                                               class="flex items-center gap-2 p-2.5 rounded-lg bg-transparent hover:bg-violet-50 transition text-base font-medium text-mainblue cursor-pointer">
-                                                Projects
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="transaction-list.html"
-                                               class="flex items-center gap-2 p-2.5 rounded-lg bg-transparent hover:bg-violet-50 transition text-base font-medium text-mainblue cursor-pointer">
-                                                Transaction
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="calenders-month-events.html"
-                                               class="flex items-center gap-2 p-2.5 rounded-lg bg-transparent hover:bg-violet-50 transition text-base font-medium text-mainblue cursor-pointer">
-                                                Calender Events
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </li>
-                                <li class="space-y-1 item">
-                                    <button class="p-2.5 gap-2 w-full flex items-center rounded-lg hover:bg-violet-50 transition text-base font-medium text-mainblue cursor-pointer">
-                                        <svg class="item-ico"
-                                             width="20"
-                                             height="20"
-                                             viewBox="0 0 20 20"
-                                             fill="none"
-                                             xmlns="http://www.w3.org/2000/svg">
-                                            <path fill-rule="evenodd"
-                                                  clip-rule="evenodd"
-                                                  d="M10.625 15.8262V17.7077H12.5C12.8452 17.7077 13.125 17.9875 13.125 18.3327C13.125 18.6779 12.8452 18.9577 12.5 18.9577H7.5C7.15482 18.9577 6.875 18.6779 6.875 18.3327C6.875 17.9875 7.15482 17.7077 7.5 17.7077H9.375V15.8262H10.625Z"
-                                                  fill="#8247FF" />
-                                            <path opacity="0.4"
-                                                  d="M1.66663 4.99935C1.66663 3.1584 3.15901 1.66602 4.99996 1.66602H15C16.8409 1.66602 18.3333 3.1584 18.3333 4.99935V12.4993C18.3333 14.3403 16.8409 15.8327 15 15.8327H4.99996C3.15901 15.8327 1.66663 14.3403 1.66663 12.4993V4.99935Z"
-                                                  fill="#8247FF" />
-                                            <ellipse cx="1.66667"
-                                                     cy="1.66667"
-                                                     rx="1.66667"
-                                                     ry="1.66667"
-                                                     transform="matrix(1 0 0 -1 8.33325 8.33203)"
-                                                     fill="#8247FF" />
-                                            <rect x="6.66663"
-                                                  y="9.16602"
-                                                  width="6.66667"
-                                                  height="3.33333"
-                                                  rx="1.66667"
-                                                  fill="#8247FF" />
-                                        </svg>
-                                        <span class="item-text"> Authentication</span>
-                                        <svg class="ml-auto"
-                                             width="20"
-                                             height="20"
-                                             viewBox="0 0 20 20"
-                                             fill="none"
-                                             xmlns="http://www.w3.org/2000/svg">
-                                            <path d="M15.5917 6.8422C15.5142 6.76409 15.422 6.7021 15.3205 6.65979C15.2189 6.61748 15.11 6.5957 15 6.5957C14.89 6.5957 14.7811 6.61748 14.6795 6.65979C14.578 6.7021 14.4858 6.76409 14.4083 6.8422L10.5917 10.6589C10.5142 10.737 10.422 10.799 10.3205 10.8413C10.2189 10.8836 10.11 10.9054 10 10.9054C9.89 10.9054 9.78108 10.8836 9.67953 10.8413C9.57798 10.799 9.48581 10.737 9.40834 10.6589L5.59168 6.8422C5.51421 6.76409 5.42204 6.7021 5.32049 6.65979C5.21894 6.61748 5.11002 6.5957 5.00001 6.5957C4.89 6.5957 4.78108 6.61748 4.67953 6.65979C4.57798 6.7021 4.48581 6.76409 4.40834 6.8422C4.25313 6.99834 4.16602 7.20955 4.16602 7.4297C4.16602 7.64986 4.25313 7.86107 4.40834 8.0172L8.23334 11.8422C8.70209 12.3104 9.33751 12.5733 10 12.5733C10.6625 12.5733 11.2979 12.3104 11.7667 11.8422L15.5917 8.0172C15.7469 7.86107 15.834 7.64986 15.834 7.4297C15.834 7.20955 15.7469 6.99834 15.5917 6.8422Z"
-                                                  fill="#8247FF" />
-                                        </svg>
-                                    </button>
-                                    <ul class="pl-8 space-y-1 sub-menu">
-                                        <li>
-                                            <a href="sign-in.html"
+                                            <a href="resource-ebook.html"
                                                class="p-2.5 gap-2 w-full flex items-center rounded-lg bg-transparent hover:bg-violet-50 transition text-base font-medium text-mainblue cursor-pointer">
-                                                Sign In
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="sign-up.html"
-                                               class="p-2.5 gap-2 w-full flex items-center rounded-lg bg-transparent hover:bg-violet-50 transition text-base font-medium text-mainblue cursor-pointer">
-                                                Sign Up
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="forgot-pass.html"
-                                               class="p-2.5 gap-2 w-full flex items-center rounded-lg bg-transparent hover:bg-violet-50 transition text-base font-medium text-mainblue cursor-pointer">
-                                                Forgot Password
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="otp.html"
-                                               class="p-2.5 gap-2 w-full flex items-center rounded-lg bg-transparent hover:bg-violet-50 transition text-base font-medium text-mainblue cursor-pointer">
-                                                OTP
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="new-password.html"
-                                               class="p-2.5 gap-2 w-full flex items-center rounded-lg bg-transparent hover:bg-violet-50 transition text-base font-medium text-mainblue cursor-pointer">
-                                                New Password
+                                                Cuộc thi
                                             </a>
                                         </li>
                                     </ul>
                                 </li>
                             </ul>
-                        </div>
-                        <div class="mb-5 item-wrapper">
-                            <h4 class="text-sm font-medium leading-7 text-slate-600">
-                                Help
-                            </h4>
-                            <ul class="mt-2.5">
-                                <li class="item">
-                                    <a href="settings.html"
-                                       class="flex items-center gap-2 p-2.5 rounded-lg bg-transparent hover:bg-violet-50 transition text-base font-medium text-mainblue cursor-pointer">
-                                        <svg class="item-ico"
-                                             width="20"
-                                             height="20"
-                                             viewBox="0 0 20 20"
-                                             fill="none"
-                                             xmlns="http://www.w3.org/2000/svg">
-                                            <path opacity="0.4"
-                                                  d="M10.7955 2.5H9.20454C8.3259 2.5 7.61363 3.17157 7.61363 4C7.61363 4.94801 6.5993 5.55073 5.76667 5.09747L5.6821 5.05144C4.92117 4.63722 3.94819 4.88304 3.50887 5.60048L2.71341 6.89951C2.27409 7.61695 2.5348 8.53434 3.29572 8.94855C4.12876 9.40202 4.12876 10.598 3.29572 11.0514C2.5348 11.4657 2.27409 12.383 2.71341 13.1005L3.50887 14.3995C3.94818 15.117 4.92117 15.3628 5.6821 14.9486L5.76667 14.9025C6.5993 14.4493 7.61363 15.052 7.61363 16C7.61363 16.8284 8.3259 17.5 9.20454 17.5H10.7955C11.6741 17.5 12.3864 16.8284 12.3864 16C12.3864 15.052 13.4007 14.4493 14.2333 14.9025L14.3179 14.9486C15.0788 15.3628 16.0518 15.117 16.4911 14.3995L17.2866 13.1005C17.7259 12.383 17.4652 11.4657 16.7043 11.0514C15.8712 10.598 15.8712 9.40203 16.7043 8.94856C17.4652 8.53435 17.7259 7.61696 17.2866 6.89952L16.4911 5.60049C16.0518 4.88305 15.0788 4.63723 14.3179 5.05145L14.2333 5.09748C13.4007 5.55074 12.3864 4.94801 12.3864 4C12.3864 3.17157 11.6741 2.5 10.7955 2.5Z"
-                                                  fill="#8247FF" />
-                                            <circle cx="10" cy="10" r="2.5" fill="#8247FF" />
-                                        </svg>
-                                        Settings
-                                    </a>
-                                </li>
-                                <li class="space-y-1 item">
-                                    <button class="p-2.5 gap-2 w-full flex items-center rounded-lg hover:bg-violet-50 transition text-base font-medium text-mainblue cursor-pointer">
-                                        <svg class="item-ico"
-                                             width="20"
-                                             height="20"
-                                             viewBox="0 0 20 20"
-                                             fill="none"
-                                             xmlns="http://www.w3.org/2000/svg">
-                                            <path opacity="0.4"
-                                                  d="M17.2368 8.22704L7.87794 3.55044C6.21339 2.71867 4.42235 4.42912 5.17818 6.1287L6.54182 9.19503C6.76977 9.70761 6.76977 10.2927 6.54182 10.8053L5.17818 13.8716C4.42235 15.5712 6.21339 17.2817 7.87793 16.4499L17.2368 11.7733C18.6988 11.0427 18.6988 8.9576 17.2368 8.22704Z"
-                                                  fill="#8247FF" />
-                                            <path fill-rule="evenodd"
-                                                  clip-rule="evenodd"
-                                                  d="M6.45829 10.0002C6.45829 9.65498 6.73811 9.37516 7.08329 9.37516H9.99996C10.3451 9.37516 10.625 9.65498 10.625 10.0002C10.625 10.3453 10.3451 10.6252 9.99996 10.6252H7.08329C6.73811 10.6252 6.45829 10.3453 6.45829 10.0002Z"
-                                                  fill="#8247FF" />
-                                            <path fill-rule="evenodd"
-                                                  clip-rule="evenodd"
-                                                  d="M1.04163 8.3335C1.04163 7.98832 1.32145 7.7085 1.66663 7.7085H3.33329C3.67847 7.7085 3.95829 7.98832 3.95829 8.3335C3.95829 8.67867 3.67847 8.9585 3.33329 8.9585H1.66663C1.32145 8.9585 1.04163 8.67867 1.04163 8.3335Z"
-                                                  fill="#8247FF" />
-                                            <path fill-rule="evenodd"
-                                                  clip-rule="evenodd"
-                                                  d="M1.04163 11.6668C1.04163 11.3217 1.32145 11.0418 1.66663 11.0418H3.33329C3.67847 11.0418 3.95829 11.3217 3.95829 11.6668C3.95829 12.012 3.67847 12.2918 3.33329 12.2918H1.66663C1.32145 12.2918 1.04163 12.012 1.04163 11.6668Z"
-                                                  fill="#8247FF" />
-                                        </svg>
-                                        <span class="item-text"> Support</span>
-                                        <svg class="ml-auto"
-                                             width="20"
-                                             height="20"
-                                             viewBox="0 0 20 20"
-                                             fill="none"
-                                             xmlns="http://www.w3.org/2000/svg">
-                                            <path d="M15.5917 6.84171C15.5142 6.76361 15.422 6.70161 15.3205 6.6593C15.2189 6.617 15.11 6.59521 15 6.59521C14.89 6.59521 14.7811 6.617 14.6795 6.6593C14.578 6.70161 14.4858 6.76361 14.4083 6.84171L10.5917 10.6584C10.5142 10.7365 10.422 10.7985 10.3205 10.8408C10.2189 10.8831 10.11 10.9049 10 10.9049C9.89 10.9049 9.78108 10.8831 9.67953 10.8408C9.57798 10.7985 9.48581 10.7365 9.40834 10.6584L5.59168 6.84171C5.51421 6.76361 5.42204 6.70161 5.32049 6.6593C5.21894 6.617 5.11002 6.59521 5.00001 6.59521C4.89 6.59521 4.78108 6.617 4.67953 6.6593C4.57798 6.70161 4.48581 6.76361 4.40834 6.84171C4.25313 6.99785 4.16602 7.20906 4.16602 7.42921C4.16602 7.64937 4.25313 7.86058 4.40834 8.01671L8.23334 11.8417C8.70209 12.3099 9.33751 12.5728 10 12.5728C10.6625 12.5728 11.2979 12.3099 11.7667 11.8417L15.5917 8.01671C15.7469 7.86058 15.834 7.64937 15.834 7.42921C15.834 7.20906 15.7469 6.99785 15.5917 6.84171Z"
-                                                  fill="#8247FF" />
-                                        </svg>
-                                    </button>
-                                    <ul class="pl-8 space-y-1 sub-menu">
-                                        <li>
-                                            <a href="support-ticket-list.html"
-                                               class="p-2.5 gap-2 w-full flex items-center rounded-lg bg-transparent hover:bg-violet-50 transition text-base font-medium text-mainblue cursor-pointer">
-                                                Support Ticket
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="support-ticket.html"
-                                               class="p-2.5 gap-2 w-full flex items-center rounded-lg bg-transparent hover:bg-violet-50 transition text-base font-medium text-mainblue cursor-pointer">
-                                                Ticket Details
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="relative p-3 rounded-lg bg-violet-50">
-                        <button class="absolute top-3 right-3">
-                            <svg width="24"
-                                 height="24"
-                                 viewBox="0 0 24 24"
-                                 fill="none"
-                                 xmlns="http://www.w3.org/2000/svg">
-                                <path fill-rule="evenodd"
-                                      clip-rule="evenodd"
-                                      d="M15.7128 16.7729C16.0057 17.0658 16.4805 17.0658 16.7734 16.7729C17.0663 16.48 17.0663 16.0052 16.7734 15.7123L13.0611 12L16.7734 8.2877C17.0663 7.99481 17.0663 7.51993 16.7734 7.22704C16.4805 6.93415 16.0057 6.93415 15.7128 7.22704L12.0005 10.9393L8.28815 7.22699C7.99526 6.9341 7.52038 6.9341 7.22749 7.22699C6.9346 7.51989 6.9346 7.99476 7.22749 8.28765L10.9398 12L7.22748 15.7123C6.93459 16.0052 6.93459 16.4801 7.22748 16.773C7.52038 17.0659 7.99525 17.0659 8.28814 16.773L12.0005 13.0606L15.7128 16.7729Z"
-                                      fill="#EF4444" />
-                            </svg>
-                        </button>
-                        <h4 class="mb-2 text-sm font-semibold text-mainblue">
-                            New Features available
-                        </h4>
-                        <p class="text-sm text-slate-600">
-                            Check out the new dashboard view. Pages now load faster.
-                        </p>
-                        <div class="relative py-3">
-                            <img src="~/admin/assets/img/green-men.png" class="w-full" alt="" />
-                            <button class="absolute inline-flex items-center justify-center -translate-x-1/2 -translate-y-1/2 bg-white rounded-full w-7 h-7 top-1/2 left-1/2">
-                                <svg width="10"
-                                     height="10"
-                                     viewBox="0 0 10 10"
-                                     fill="none"
-                                     xmlns="http://www.w3.org/2000/svg">
-                                    <g clipPath="url(#clip0_3942_1479)">
-                                        <path d="M8.09604 3.53047L4.61865 0.980574C4.34704 0.781688 4.02567 0.661896 3.69015 0.634476C3.35463 0.607056 3.01807 0.673079 2.71778 0.825226C2.41749 0.977374 2.16519 1.2097 1.98885 1.49646C1.81251 1.78322 1.71903 2.11321 1.71875 2.44984V7.55219C1.71823 7.88916 1.81123 8.21966 1.9874 8.50691C2.16356 8.79416 2.41599 9.02688 2.71658 9.17918C3.01717 9.33147 3.35412 9.39737 3.68993 9.36952C4.02575 9.34168 4.34725 9.22118 4.61865 9.02146L8.09604 6.47156C8.32678 6.30223 8.51441 6.08095 8.64373 5.82563C8.77306 5.57031 8.84044 5.28813 8.84044 5.00193C8.84044 4.71572 8.77306 4.43354 8.64373 4.17822C8.51441 3.9229 8.32678 3.70162 8.09604 3.53229V3.53047Z"
-                                              fill="#8247FF" />
-                                    </g>
-                                    <defs>
-                                        <clipPath id="clip0_3942_1479">
-                                            <rect width="8.75"
-                                                  height="8.75"
-                                                  fill="white"
-                                                  transform="translate(0.625 0.625)" />
-                                        </clipPath>
-                                    </defs>
-                                </svg>
-                            </button>
-                        </div>
-                        <div class="space-x-4">
-                            <button class="bg-primary rounded-md py-1.5 px-3 text-sm font-medium text-white">
-                                Dismiss
-                            </button>
-                            <button class="text-sm underline text-primary">
-                                What’s new?
-                            </button>
                         </div>
                     </div>
                     <div class="relative bottom-0 w-full py-5 bg-white">
@@ -534,29 +225,30 @@
                                      alt="" />
                                 <div>
                                     <h4 class="text-sm font-semibold text-slate-800">
-                                        Neurotic Spy
+                                        @user.FullName
                                     </h4>
-                                    <p class="text-sm text-slate-500">neurotic@taildo.com</p>
                                 </div>
                             </div>
                             <div>
-                                <a href="sign-in.html">
-                                    <svg width="24"
-                                         height="24"
-                                         viewBox="0 0 24 24"
-                                         fill="none"
-                                         xmlns="http://www.w3.org/2000/svg">
-                                        <path d="M18 14L19.2929 12.7071C19.6834 12.3166 19.6834 11.6834 19.2929 11.2929L18 10"
-                                              stroke="#EF4444"
-                                              stroke-width="1.5"
-                                              stroke-linecap="round"
-                                              stroke-linejoin="round" />
-                                        <path d="M19 12L13 12M4 17.2663V7.26633M16 17.2663C16 18.3709 15.1046 19.2663 14 19.2663H10M16 7.26633C16 6.16176 15.1046 5.26633 14 5.26633H10M4.8906 19.8601L6.8906 21.1934C8.21971 22.0795 10 21.1267 10 19.5293V5.00336C10 3.40597 8.21971 2.45319 6.8906 3.33926L4.8906 4.6726C4.3342 5.04353 4 5.66799 4 6.3367V18.196C4 18.8647 4.3342 19.4891 4.8906 19.8601Z"
-                                              stroke="#EF4444"
-                                              stroke-width="1.5"
-                                              stroke-linecap="round" />
-                                    </svg>
-                                </a>
+                                <form action="/auth/logout" method="post">
+                                    <button type="submit">
+                                        <svg width="24"
+                                             height="24"
+                                             viewBox="0 0 24 24"
+                                             fill="none"
+                                             xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M18 14L19.2929 12.7071C19.6834 12.3166 19.6834 11.6834 19.2929 11.2929L18 10"
+                                                  stroke="#EF4444"
+                                                  stroke-width="1.5"
+                                                  stroke-linecap="round"
+                                                  stroke-linejoin="round" />
+                                            <path d="M19 12L13 12M4 17.2663V7.26633M16 17.2663C16 18.3709 15.1046 19.2663 14 19.2663H10M16 7.26633C16 6.16176 15.1046 5.26633 14 5.26633H10M4.8906 19.8601L6.8906 21.1934C8.21971 22.0795 10 21.1267 10 19.5293V5.00336C10 3.40597 8.21971 2.45319 6.8906 3.33926L4.8906 4.6726C4.3342 5.04353 4 5.66799 4 6.3367V18.196C4 18.8647 4.3342 19.4891 4.8906 19.8601Z"
+                                                  stroke="#EF4444"
+                                                  stroke-width="1.5"
+                                                  stroke-linecap="round" />
+                                        </svg>
+                                    </button>
+                                </form>
                             </div>
                         </div>
                     </div>
@@ -1206,147 +898,6 @@
                                     </div>
                                 </div>
                             </div>
-                            <!-- Wishlist -->
-                            <div class="message-popup-wrapper">
-                                <div onclick="wishlistAction()"
-                                     id="mes-outside"
-                                     class="fixed inset-0 top-0 hidden w-full h-full"></div>
-                                <div id="message-box"
-                                     class="bg-white w-[354px] absolute -left-[200px] top-16 rounded-lg hidden">
-                                    <div class="p-6">
-                                        <h4 class="pb-4 text-base font-medium border-b text-slate-900 border-slate-100">
-                                            All Wishlist
-                                        </h4>
-                                        <ul class="py-4 space-y-1.5">
-                                            <li class="relative flex p-2 transition bg-transparent rounded-lg hover:bg-slate-50">
-                                                <div class="mr-2">
-                                                    <img src="~/admin/assets/img/cards/pro-1.png"
-                                                         class="w-12 h-12 rounded"
-                                                         alt="" />
-                                                </div>
-                                                <div>
-                                                    <h4 class="text-base font-medium leading-6 text-slate-900">
-                                                        Short Top New collection
-                                                    </h4>
-                                                    <p class="text-base leading-6 text-slate-500">
-                                                        10 minutes ago
-                                                    </p>
-                                                </div>
-                                                <button class="absolute grid transition -translate-y-1/2 rounded-full w-7 h-7 bg-red-50 right-2 place-items-center top-1/2">
-                                                    <svg width="20"
-                                                         height="20"
-                                                         viewBox="0 0 20 20"
-                                                         fill="none"
-                                                         xmlns="http://www.w3.org/2000/svg">
-                                                        <path fill-rule="evenodd"
-                                                              clip-rule="evenodd"
-                                                              d="M10 4.60352L10.6375 3.91857C12.3981 2.02714 15.2524 2.02714 17.0129 3.91857C18.7735 5.81 18.7735 8.87661 17.0129 10.768L11.2751 16.9326C10.5709 17.6891 9.42913 17.6891 8.72492 16.9326L2.98706 10.768C1.22654 8.87662 1.22654 5.81 2.98706 3.91857C4.74758 2.02714 7.60194 2.02714 9.36246 3.91857L10 4.60352ZM14.1667 4.375C13.8215 4.375 13.5417 4.65482 13.5417 5C13.5417 5.34518 13.8215 5.625 14.1667 5.625C14.742 5.625 15.2083 6.09137 15.2083 6.66667C15.2083 7.01184 15.4882 7.29167 15.8333 7.29167C16.1785 7.29167 16.4583 7.01184 16.4583 6.66667C16.4583 5.40101 15.4323 4.375 14.1667 4.375Z"
-                                                              fill="#EF4444" />
-                                                    </svg>
-                                                </button>
-                                            </li>
-                                            <li class="relative flex p-2 transition bg-transparent rounded-lg hover:bg-slate-50">
-                                                <div class="mr-2">
-                                                    <img src="~/admin/assets/img/cards/pro-2.png"
-                                                         class="w-12 h-12 rounded"
-                                                         alt="" />
-                                                </div>
-                                                <div>
-                                                    <h4 class="text-base font-medium leading-6 text-slate-900">
-                                                        Short Top New collection
-                                                    </h4>
-                                                    <p class="text-base leading-6 text-slate-500">
-                                                        10 minutes ago
-                                                    </p>
-                                                </div>
-                                                <button class="absolute grid transition -translate-y-1/2 rounded-full w-7 h-7 bg-red-50 right-2 place-items-center top-1/2">
-                                                    <svg width="20"
-                                                         height="20"
-                                                         viewBox="0 0 20 20"
-                                                         fill="none"
-                                                         xmlns="http://www.w3.org/2000/svg">
-                                                        <path fill-rule="evenodd"
-                                                              clip-rule="evenodd"
-                                                              d="M10 4.60352L10.6375 3.91857C12.3981 2.02714 15.2524 2.02714 17.0129 3.91857C18.7735 5.81 18.7735 8.87661 17.0129 10.768L11.2751 16.9326C10.5709 17.6891 9.42913 17.6891 8.72492 16.9326L2.98706 10.768C1.22654 8.87662 1.22654 5.81 2.98706 3.91857C4.74758 2.02714 7.60194 2.02714 9.36246 3.91857L10 4.60352ZM14.1667 4.375C13.8215 4.375 13.5417 4.65482 13.5417 5C13.5417 5.34518 13.8215 5.625 14.1667 5.625C14.742 5.625 15.2083 6.09137 15.2083 6.66667C15.2083 7.01184 15.4882 7.29167 15.8333 7.29167C16.1785 7.29167 16.4583 7.01184 16.4583 6.66667C16.4583 5.40101 15.4323 4.375 14.1667 4.375Z"
-                                                              fill="#EF4444" />
-                                                    </svg>
-                                                </button>
-                                            </li>
-                                            <li class="relative flex p-2 transition bg-transparent rounded-lg hover:bg-slate-50">
-                                                <div class="mr-2">
-                                                    <img src="~/admin/assets/img/cards/pro-3.png"
-                                                         class="w-12 h-12 rounded"
-                                                         alt="" />
-                                                </div>
-                                                <div>
-                                                    <h4 class="text-base font-medium leading-6 text-slate-900">
-                                                        Short Top New collection
-                                                    </h4>
-                                                    <p class="text-base leading-6 text-slate-500">
-                                                        10 minutes ago
-                                                    </p>
-                                                </div>
-                                                <button class="absolute grid transition -translate-y-1/2 rounded-full w-7 h-7 bg-red-50 right-2 place-items-center top-1/2">
-                                                    <svg width="20"
-                                                         height="20"
-                                                         viewBox="0 0 20 20"
-                                                         fill="none"
-                                                         xmlns="http://www.w3.org/2000/svg">
-                                                        <path fill-rule="evenodd"
-                                                              clip-rule="evenodd"
-                                                              d="M10 4.60352L10.6375 3.91857C12.3981 2.02714 15.2524 2.02714 17.0129 3.91857C18.7735 5.81 18.7735 8.87661 17.0129 10.768L11.2751 16.9326C10.5709 17.6891 9.42913 17.6891 8.72492 16.9326L2.98706 10.768C1.22654 8.87662 1.22654 5.81 2.98706 3.91857C4.74758 2.02714 7.60194 2.02714 9.36246 3.91857L10 4.60352ZM14.1667 4.375C13.8215 4.375 13.5417 4.65482 13.5417 5C13.5417 5.34518 13.8215 5.625 14.1667 5.625C14.742 5.625 15.2083 6.09137 15.2083 6.66667C15.2083 7.01184 15.4882 7.29167 15.8333 7.29167C16.1785 7.29167 16.4583 7.01184 16.4583 6.66667C16.4583 5.40101 15.4323 4.375 14.1667 4.375Z"
-                                                              fill="#EF4444" />
-                                                    </svg>
-                                                </button>
-                                            </li>
-                                        </ul>
-                                        <a href="#"
-                                           class="block w-full px-5 py-3 text-sm font-medium text-center transition border rounded-lg text-primary border-primary hover:bg-primary hover:border-transparent hover:text-white">
-                                            Check Wishlist
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- Gift -->
-                            <div class="store-wrapper">
-                                <div id="store-outside"
-                                     onclick="storeAction()"
-                                     class="fixed inset-0 top-0 hidden w-full h-full"></div>
-                                <div id="store-box"
-                                     class="overflow-hidden w-[325px] shadow-md bg-white absolute -left-[180px] top-16 rounded-lg hidden">
-                                    <div class="p-6">
-                                        <div class="px-5 py-4 text-center border border-blue-100 border-dashed rounded-lg bg-slate-50">
-                                            <h3 class="text-2xl font-semibold text-slate-900">
-                                                60% Bonus
-                                            </h3>
-                                            <p class="mb-5 text-slate-500">
-                                                Create an account and get Bonus
-                                            </p>
-                                            <a href="#"
-                                               class="inline-block w-full px-5 py-3 text-sm font-medium text-center text-white transition rounded-lg bg-primary hover:bg-violet-600">
-                                                Grab the deal
-                                            </a>
-                                        </div>
-                                        <div class="mt-4 text-center">
-                                            <p class="mb-2 text-sm text-slate-500">
-                                                More friends also here
-                                            </p>
-                                            <div class="flex justify-center -space-x-2 isolate">
-                                                <img class="relative z-30 inline-block w-8 h-8 rounded-full"
-                                                     src="~/admin/assets/img/cards/gg-1.png"
-                                                     alt="" /><img class="relative z-30 inline-block w-8 h-8 rounded-full"
-                                                                   src="~/admin/assets/img/cards/gg-2.png"
-                                                                   alt="" /><img class="relative z-30 inline-block w-8 h-8 rounded-full"
-                                                                                 src="~/admin/assets/img/cards/gg-3.png"
-                                                                                 alt="" />
-                                                <div class="relative z-40 inline-flex items-center justify-center w-8 h-8 text-base font-normal rounded-full text-primarybg-blue-100 ring-2 ring-white">
-                                                    +3
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
                         </nav>
                         <div class="pl-8 flex items-center gap-2.5 relative">
                             <div class="flex">
@@ -1380,61 +931,11 @@
                                             </div>
                                             <div class="flex-1">
                                                 <h4 class="text-xl font-semibold text-slate-900">
-                                                    Neurotic Spy
+                                                    @user.FullName
                                                 </h4>
-                                                <p class="text-sm text-slate-500">
-                                                    neurotic@taildo.com
-                                                </p>
                                             </div>
                                         </div>
                                         <ul class="py-5">
-                                            <li>
-                                                <a href="settings.html"
-                                                   class="flex gap-2.5 items-center text-slate-600 font-medium text-base px-2 py-3 rounded-md hover:bg-slate-100 transition">
-                                                    <svg class="text-slate-700"
-                                                         width="24"
-                                                         height="24"
-                                                         viewBox="0 0 24 24"
-                                                         fill="none"
-                                                         xmlns="http://www.w3.org/2000/svg">
-                                                        <g clipPath="url(#clip0_4024_31755)">
-                                                            <path d="M9 12C12.309 12 15 9.309 15 6C15 2.691 12.309 0 9 0C5.691 0 3 2.691 3 6C3 9.309 5.691 12 9 12ZM9 2C11.206 2 13 3.794 13 6C13 8.206 11.206 10 9 10C6.794 10 5 8.206 5 6C5 3.794 6.794 2 9 2ZM10.75 16.22C10.182 16.074 9.593 16 9 16C5.14 16 2 19.14 2 23C2 23.552 1.552 24 1 24C0.448 24 0 23.552 0 23C0 18.038 4.038 14 9 14C9.762 14 10.519 14.095 11.25 14.284C11.785 14.422 12.106 14.967 11.969 15.502C11.832 16.037 11.289 16.358 10.751 16.221L10.75 16.22ZM23.121 11.879C21.987 10.745 20.011 10.745 18.878 11.879L12.171 18.586C11.416 19.341 10.999 20.346 10.999 21.415V23.001C10.999 23.553 11.447 24.001 11.999 24.001H13.585C14.654 24.001 15.658 23.584 16.413 22.829L23.12 16.122C23.687 15.555 23.999 14.802 23.999 14C23.999 13.198 23.687 12.445 23.121 11.879ZM21.706 14.707L14.998 21.414C14.621 21.792 14.119 22 13.584 22H12.998V21.414C12.998 20.88 13.206 20.378 13.584 20L20.292 13.293C20.669 12.915 21.328 12.915 21.706 13.293C21.895 13.481 21.999 13.732 21.999 14C21.999 14.268 21.895 14.518 21.706 14.707Z"
-                                                                  fill="currentColor" />
-                                                        </g>
-                                                        <defs>
-                                                            <clipPath id="clip0_4024_31755">
-                                                                <rect width="24" height="24" fill="white" />
-                                                            </clipPath>
-                                                        </defs>
-                                                    </svg>
-                                                    Profile Setting
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a href="#"
-                                                   class="flex gap-2.5 items-center text-slate-600 font-medium text-base px-2 py-3 rounded-md hover:bg-slate-100 transition">
-                                                    <svg class="text-slate-700"
-                                                         width="24"
-                                                         height="24"
-                                                         viewBox="0 0 24 24"
-                                                         fill="none"
-                                                         xmlns="http://www.w3.org/2000/svg">
-                                                        <rect x="2"
-                                                              y="3"
-                                                              width="20"
-                                                              height="18"
-                                                              rx="4"
-                                                              stroke="currentColor"
-                                                              stroke-width="1.5" />
-                                                        <path d="M2 7L9.50122 13.001C10.9621 14.1697 13.0379 14.1697 14.4988 13.001L22 7"
-                                                              stroke="currentColor"
-                                                              stroke-width="1.5"
-                                                              stroke-linecap="round"
-                                                              stroke-linejoin="round" />
-                                                    </svg>
-                                                    Inbox
-                                                </a>
-                                            </li>
                                             <li>
                                                 <a href="#"
                                                    class="flex gap-2.5 items-center text-slate-600 font-medium text-base px-2 py-3 rounded-md hover:bg-slate-100 transition">
@@ -1454,7 +955,7 @@
                                                             </clipPath>
                                                         </defs>
                                                     </svg>
-                                                    Users
+                                                    @user.Courses?.Count()
                                                 </a>
                                             </li>
                                             <li>
@@ -1476,29 +977,31 @@
                                                             </clipPath>
                                                         </defs>
                                                     </svg>
-                                                    Support
+                                                    @user.DateJoined
                                                 </a>
                                             </li>
                                         </ul>
-                                        <button class="flex w-full justify-center items-center gap-1.5 px-5 py-3 text-sm font-medium text-center transition border border-transparent rounded-lg bg-red-500 text-white hover:bg-red-600 hover:border-transparent hover:text-white">
-                                            <svg width="20"
-                                                 height="20"
-                                                 viewBox="0 0 20 20"
-                                                 fill="none"
-                                                 xmlns="http://www.w3.org/2000/svg">
-                                                <path d="M16.6667 11.6667L17.6262 10.7071C18.0168 10.3166
+                                        <form action="/auth/logout" method="post">
+                                            <button type="submit" class="flex w-full justify-center items-center gap-1.5 px-5 py-3 text-sm font-medium text-center transition border border-transparent rounded-lg bg-red-500 text-white hover:bg-red-600 hover:border-transparent hover:text-white">
+                                                <svg width="20"
+                                                     height="20"
+                                                     viewBox="0 0 20 20"
+                                                     fill="none"
+                                                     xmlns="http://www.w3.org/2000/svg">
+                                                    <path d="M16.6667 11.6667L17.6262 10.7071C18.0168 10.3166
                 18.0168 9.68344 17.6262 9.29291L16.6667 8.33335"
-                                                      stroke="currentColor"
-                                                      stroke-width="1.5"
-                                                      stroke-linecap="round"
-                                                      stroke-linejoin="round" />
-                                                <path d="M17.5 9.99998H10.8333M5.00001 16.6666C3.15906 16.6666 1.66667 15.1743 1.66667 13.3333V6.66665C1.66667 4.8257 3.15906 3.33331 5.00001 3.33331M5.00001 16.6666C6.84095 16.6666 8.33334 15.1743 8.33334 13.3333V6.66665C8.33334 4.8257 6.84095 3.33331 5.00001 3.33331M5.00001 16.6666H11.6667C13.5076 16.6666 15 15.1743 15 13.3333M5.00001 3.33331H11.6667C13.5076 3.33331 15 4.8257 15 6.66665"
-                                                      stroke="currentColor"
-                                                      stroke-linecap="round" />
-                                            </svg>
+                                                          stroke="currentColor"
+                                                          stroke-width="1.5"
+                                                          stroke-linecap="round"
+                                                          stroke-linejoin="round" />
+                                                    <path d="M17.5 9.99998H10.8333M5.00001 16.6666C3.15906 16.6666 1.66667 15.1743 1.66667 13.3333V6.66665C1.66667 4.8257 3.15906 3.33331 5.00001 3.33331M5.00001 16.6666C6.84095 16.6666 8.33334 15.1743 8.33334 13.3333V6.66665C8.33334 4.8257 6.84095 3.33331 5.00001 3.33331M5.00001 16.6666H11.6667C13.5076 16.6666 15 15.1743 15 13.3333M5.00001 3.33331H11.6667C13.5076 3.33331 15 4.8257 15 6.66665"
+                                                          stroke="currentColor"
+                                                          stroke-linecap="round" />
+                                                </svg>
 
-                                            Logout
-                                        </button>
+                                                Logout
+                                            </button>
+                                        </form>
                                     </div>
                                 </div>
                             </div>

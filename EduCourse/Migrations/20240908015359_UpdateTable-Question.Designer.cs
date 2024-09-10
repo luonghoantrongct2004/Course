@@ -4,6 +4,7 @@ using EduCourse.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EduCourse.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240908015359_UpdateTable-Question")]
+    partial class UpdateTableQuestion
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -337,7 +340,7 @@ namespace EduCourse.Migrations
                     b.Property<string>("Keyword")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("LessonID")
+                    b.Property<int>("LessonID")
                         .HasColumnType("int");
 
                     b.Property<string>("QuestionType")
@@ -800,7 +803,9 @@ namespace EduCourse.Migrations
                 {
                     b.HasOne("EduCourse.Entities.Lesson", "Lesson")
                         .WithMany("Questions")
-                        .HasForeignKey("LessonID");
+                        .HasForeignKey("LessonID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("EduCourse.Entities.Quiz", null)
                         .WithMany("Questions")

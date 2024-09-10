@@ -605,11 +605,10 @@ height: 330px;" src="@Model.Image" alt="Course Thumbnail" />
                                     <div class="accordion-content">
                                         <div class="mt-2.5">
                                             <ul class="pt-4 space-y-6 pl-6 relative after:content-[''] after:bg-violet-200 after:w-1 after:h-full after:rounded-full after:left-[30px] after:absolute after:top-2 z-10">
-                                                @foreach (var lession in item.Lessons)
+                                                @foreach (var lesson in item.Lessons)
                                                 {
                                                     <li class="relative z-20 flex gap-3">
-
-                                                        <button class="play-video-btn" data-video-url="@lession.VideoURL">
+                                                        <button class="play-video-btn" data-video-url="@lesson.VideoURL">
                                                             <svg width="25"
                                                                  height="23"
                                                                  viewBox="0 0 16 17"
@@ -627,31 +626,69 @@ height: 330px;" src="@Model.Image" alt="Course Thumbnail" />
                                                             </svg>
                                                         </button>
                                                         <div>
-                                                            <p>@lession.Title</p>
+                                                            <p>@lesson.Title</p>
                                                             <div class="flex items-center gap-1">
                                                                 <div>
                                                                     @{
-                                                                        int hourL = (int)(lession.Duration / 3600);
-                                                                        int minuteL = (int)((lession.Duration % 3600) / 60);
-                                                                        int secondL = (int)(lession.Duration % 60);
+                                                                        int hourL = (int)(lesson.Duration / 3600);
+                                                                        int minuteL = (int)((lesson.Duration % 3600) / 60);
+                                                                        int secondL = (int)(lesson.Duration % 60);
                                                                     }
                                                                     <p class="text-xs text-slate-600">
-
-                                                                        @if (hours > 0)
+                                                                        @if (hourL > 0)
                                                                         {
-                                                                            @($"{hours} giờ ")
+                                                                            @($"{hourL} giờ ")
                                                                         }
-                                                                        @if (minutes > 0 || hours > 0)
+                                                                        @if (minuteL > 0 || hourL > 0)
                                                                         {
-                                                                            @($"{minutes} phút ")
+                                                                            @($"{minuteL} phút ")
                                                                         }
-                                                                        @if (seconds > 0 || (hours == 0 && minutes == 0))
+                                                                        @if (secondL > 0 || (hourL == 0 && minuteL == 0))
                                                                         {
-                                                                            @($"{seconds} giây")
+                                                                            @($"{secondL} giây")
                                                                         }
                                                                     </p>
                                                                 </div>
                                                             </div>
+
+                                                            <!-- Display Questions and Options for each lesson -->
+                                                            @if (lesson.Questions != null && lesson.Questions.Any())
+                                                            {
+                                                                <div class="questions mt-4">
+                                                                    <h4>Câu hỏi</h4>
+                                                                    <ul class="pl-4">
+                                                                        @foreach (var question in lesson.Questions)
+                                                                        {
+                                                                            <li class="mb-4">
+                                                                                <p><strong>Câu hỏi:</strong> @question.Content</p>
+                                                                                <p><strong>Loại:</strong> @question.QuestionType</p>
+                                                                                <p><strong>Thời gian hiển thị:</strong> @question.ShowTime giây</p>
+
+                                                                                @if (question.Options != null && question.Options.Any())
+                                                                                {
+                                                                                    <div class="options pl-4">
+                                                                                        <p><strong>Đáp án</strong></p>
+                                                                                        <ul>
+                                                                                            @foreach (var option in question.Options)
+                                                                                            {
+                                                                                                <li>
+                                                                                                    <input type="checkbox" disabled @(option.IsCorrect.HasValue && option.IsCorrect.Value ? "checked" : "") />
+                                                                                                    @option.Content
+                                                                                                </li>
+                                                                                            }
+                                                                                        </ul>
+                                                                                    </div>
+                                                                                }
+                                                                                else
+                                                                                {
+                                                                                    <p>Không có đáp án</p>
+                                                                                }
+                                                                            </li>
+                                                                        }
+                                                                    </ul>
+                                                                </div>
+
+                                                            }
                                                         </div>
                                                     </li>
                                                 }

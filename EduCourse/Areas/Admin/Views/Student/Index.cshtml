@@ -1,0 +1,467 @@
+﻿@model IEnumerable<User>
+<link rel="stylesheet" href="~/admin/assets/css/output.css" asp-append-version="true" />
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+
+<style>
+    .swal-custom-popup {
+        background-color: #a52effa3;
+        color: black;
+    }
+
+    .swal-custom-title {
+        color: black;
+    }
+
+    .swal-custom-confirm, .swal-custom-cancel {
+        background-color: #ffffffd9;
+        color: #000000;
+    }
+
+        .swal-custom-confirm:hover, .swal-custom-cancel:hover {
+            background-color: #ebebeb;
+            color: black;
+        }
+</style>
+<main class="w-full">
+    <!-- write your code here-->
+    <div class="p-7">
+        <div class="flex flex-col justify-between gap-5 mb-6 sm:flex-row">
+            <div>
+                <h3 class="mb-1 text-xl font-semibold leading-6 text-slate-800">
+                    
+                </h3>
+                <p class="text-sm text-slate-600">
+                    Những học sinh tuyệt vời
+                </p>
+            </div>
+            <div class="flex gap-5">
+                <a href="/admin/question/create"
+                   class="flex items-center gap rounded-lg py-2.5 px-4 text-sm bg-mainblack text-white shadow-xs">
+                    <svg width="20"
+                         height="20"
+                         viewBox="0 0 20 20"
+                         fill="none"
+                         xmlns="http://www.w3.org/2000/svg">
+                        <path d="M10 5V15M15 10L5 10"
+                              stroke="currentColor"
+                              stroke-width="1.5"
+                              stroke-linecap="round"
+                              stroke-linejoin="round" />
+                    </svg>
+                    Thêm học sinh
+                </a>
+            </div>
+        </div>
+        <div class="py-5 bg-white rounded-lg">
+            <div class="flex flex-col justify-between gap-4 px-5 md:flex-row md:items-center">
+                <div class="flex-1">
+                    <div class="relative">
+                        <div class="absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none">
+                            <svg width="25"
+                                 height="24"
+                                 viewBox="0 0 25 24"
+                                 fill="none"
+                                 xmlns="http://www.w3.org/2000/svg">
+                                <circle cx="12.2669"
+                                        cy="11.7666"
+                                        r="8.98856"
+                                        stroke="#0F172A"
+                                        stroke-width="1.5"
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round" />
+                                <path d="M18.5186 18.4851L22.0426 22"
+                                      stroke="#0F172A"
+                                      stroke-width="1.5"
+                                      stroke-linecap="round"
+                                      stroke-linejoin="round" />
+                            </svg>
+                        </div>
+                        <input type="text" id="questionSearch"
+                               placeholder="Tìm theo tên tên học sinh..."
+                               class="w-full h-12 p-4 pl-12 border border-transparent rounded-lg ring-0 focus:ring-0 focus:border-primary bg-slate-50 placeholder:text-slate-400" />
+                    </div>
+                </div>
+                <div class="sm:flex sm:flex-wrap spac-y-4 sm:space-y-0 sm:gap-4">
+                    <div class="relative hidden lg:block">
+                        <button onclick="dropdownFilterAction('#paymentFilter')"
+                                class="inline-flex items-center justify-center h-12 gap-1 p-4 text-sm font-medium transition ease-in-out rounded-lg bg-slate-50 text-slate-500 hover:bg-primary hover:text-white hover:border-transparent">
+                            <svg xmlns="http://www.w3.org/2000/svg"
+                                 width="19"
+                                 height="17"
+                                 viewBox="0 0 19 17"
+                                 fill="none">
+                                <path d="M7.83001 13.5928H1.5293"
+                                      stroke="currentColor"
+                                      stroke-width="1.5"
+                                      stroke-linecap="round"
+                                      stroke-linejoin="round" />
+                                <path d="M10.6406 3.90042H16.9413"
+                                      stroke="currentColor"
+                                      stroke-width="1.5"
+                                      stroke-linecap="round"
+                                      stroke-linejoin="round" />
+                                <path fill-rule="evenodd"
+                                      clip-rule="evenodd"
+                                      d="M6.22629 3.84625C6.22629 2.5506 5.16813 1.5 3.86314 1.5C2.55816 1.5 1.5 2.5506 1.5 3.84625C1.5 5.14191 2.55816 6.19251 3.86314 6.19251C5.16813 6.19251 6.22629 5.14191 6.22629 3.84625Z"
+                                      stroke="currentColor"
+                                      stroke-width="1.5"
+                                      stroke-linecap="round"
+                                      stroke-linejoin="round" />
+                                <path fill-rule="evenodd"
+                                      clip-rule="evenodd"
+                                      d="M17.4997 13.5538C17.4997 12.2581 16.4424 11.2075 15.1374 11.2075C13.8316 11.2075 12.7734 12.2581 12.7734 13.5538C12.7734 14.8494 13.8316 15.9 15.1374 15.9C16.4424 15.9 17.4997 14.8494 17.4997 13.5538Z"
+                                      stroke="currentColor"
+                                      stroke-width="1.5"
+                                      stroke-linecap="round"
+                                      stroke-linejoin="round" />
+                            </svg>
+                            Filter
+                        </button>
+                        <div id="paymentFilter"
+                             class="absolute right-0 z-10 hidden w-full overflow-hidden bg-white rounded-lg shadow-lg top-full">
+                            <ul>
+                                <li onclick="dropdownFilterAction('#paymentFilter')"
+                                    class="px-2 py-2 text-sm font-semibold text-gray-500 cursor-pointer hover:bg-gray-50">
+                                    January
+                                </li>
+                                <li onclick="dropdownFilterAction('#paymentFilter')"
+                                    class="px-2 py-2 text-sm font-semibold text-gray-500 cursor-pointer hover:bg-gray-50">
+                                    February
+                                </li>
+                                <li onclick="dropdownFilterAction('#paymentFilter')"
+                                    class="px-2 py-2 text-sm font-semibold text-gray-500 cursor-pointer hover:bg-gray-50">
+                                    March
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="relative">
+                        <button onclick="dropdownFilterAction('#dateFilter')"
+                                class="flex items-center justify-center w-full h-12 gap-1 p-4 text-sm font-medium transition ease-in-out rounded-lg bg-slate-50 text-slate-500 hover:bg-primary hover:text-white hover:border-transparent">
+                            <svg width="25"
+                                 height="24"
+                                 viewBox="0 0 25 24"
+                                 fill="none"
+                                 xmlns="http://www.w3.org/2000/svg">
+                                <path d="M18.5 5H6.5C5.39543 5 4.5 5.89543 4.5 7V19C4.5 20.1046 5.39543 21 6.5 21H18.5C19.6046 21 20.5 20.1046 20.5 19V7C20.5 5.89543 19.6046 5 18.5 5Z"
+                                      stroke="currentColor"
+                                      stroke-width="1.5"
+                                      stroke-linecap="round"
+                                      stroke-linejoin="round" />
+                                <path d="M16.5 3V7"
+                                      stroke="currentColor"
+                                      stroke-width="1.5"
+                                      stroke-linecap="round"
+                                      stroke-linejoin="round" />
+                                <path d="M8.5 3V7"
+                                      stroke="currentColor"
+                                      stroke-width="1.5"
+                                      stroke-linecap="round"
+                                      stroke-linejoin="round" />
+                                <path d="M4.5 11H20.5"
+                                      stroke="currentColor"
+                                      stroke-width="1.5"
+                                      stroke-linecap="round"
+                                      stroke-linejoin="round" />
+                                <path d="M11.5 15H12.5"
+                                      stroke="currentColor"
+                                      stroke-width="2"
+                                      stroke-linecap="round"
+                                      stroke-linejoin="round" />
+                                <path d="M12.5 15V18"
+                                      stroke="currentColor"
+                                      stroke-width="1.5"
+                                      stroke-linecap="round"
+                                      stroke-linejoin="round" />
+                            </svg>
+                            April 11 - April 24
+                        </button>
+                        <div id="dateFilter"
+                             class="absolute right-0 z-10 hidden w-full overflow-hidden bg-white rounded-lg shadow-lg top-full">
+                            <ul>
+                                <li onclick="dropdownFilterAction('#dateFilter')"
+                                    class="px-2 py-2 text-sm font-semibold text-gray-500 cursor-pointer hover:bg-gray-50">
+                                    Jan 11 - Jan 24
+                                </li>
+                                <li onclick="dropdownFilterAction('#dateFilter')"
+                                    class="px-2 py-2 text-sm font-semibold text-gray-500 cursor-pointer hover:bg-gray-50">
+                                    Feb 11 - Feb 24
+                                </li>
+                                <li onclick="dropdownFilterAction('#dateFilter')"
+                                    class="px-2 py-2 text-sm font-semibold text-gray-500 cursor-pointer hover:bg-gray-50">
+                                    Mar 11 - Mar 24
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Tables -->
+            <div class="-m-1.5 overflow-x-auto">
+                <div class="p-1.5 min-w-full inline-block align-middle">
+                    <table class="min-w-full divide-y divide-slate-100" id="questionTable">
+                        <thead>
+                            <tr>
+                                <th scope="col"
+                                    class="px-5 py-3 text-base font-medium capitalize text-start text-slate-900">
+                                    Họ và tên
+                                </th>
+                                <th scope="col"
+                                    class="px-5 py-3 text-sm font-medium capitalize text-start text-mainblack">
+                                    Ngày gia nhập
+                                </th>
+                                <th scope="col"
+                                    class="px-5 py-3 text-sm font-medium capitalize text-start text-mainblack">
+                                    Email
+                                </th>
+                                <th scope="col"
+                                    class="px-5 py-3 text-sm font-medium capitalize text-start text-mainblack">
+                                    Khóa học đã mua
+                                </th>
+                                <th scope="col"
+                                    class="px-5 py-3 text-sm font-medium capitalize text-start text-mainblack">
+                                    Tổng bài thi
+                                </th>
+                                <th scope="col"
+                                    class="px-5 py-3 text-sm font-medium capitalize text-end text-mainblack">
+                                    Action
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-100">
+                            @foreach (var item in Model)
+                            {
+                                <tr class="course-row transition hover:bg-slate-50" data-search="@item.FullName">
+
+                                    <td class="px-5 py-3 text-sm font-medium whitespace-nowrap text-slate-500">
+                                        @item.FullName
+                                    </td>
+                                    <td class="px-5 py-3 text-sm whitespace-nowrap text-mainblack">
+                                        @item.DateJoined.ToString("dd/MM/yyyy")
+                                    </td>
+                                    <td class="px-5 py-3 text-sm whitespace-nowrap text-slate-600">
+                                        @item.Email
+                                    </td>
+                                    <td class="px-5 py-3 text-sm whitespace-nowrap text-slate-600">
+                                        @item.Courses?.Count()
+                                    </td>
+                                    <td class="px-5 py-3 text-sm whitespace-nowrap text-slate-600">
+                                        @item.CreatedExams?.Count()
+                                    </td>
+                                    <td class="px-5 py-3 whitespace-nowrap">
+                                        <div class="flex justify-end gap-2">
+                                            <a href="/Admin/Student/Detail?id=@item.Id"
+                                               class="inline-flex items-center justify-center w-8 h-8 text-white rounded bg-primary">
+                                                <svg width="20"
+                                                     height="21"
+                                                     viewBox="0 0 20 21"
+                                                     fill="none"
+                                                     xmlns="http://www.w3.org/2000/svg">
+                                                    <path d="M17.6084 8.71075C18.5748 9.72748 18.5748 11.2722 17.6084 12.2889C15.9786 14.0037 13.1794 16.3332 9.99984 16.3332C6.82024 16.3332 4.02108 14.0037 2.39126 12.2889C1.42492 11.2722 1.42492 9.72748 2.39126 8.71075C4.02108 6.99595 6.82024 4.6665 9.99984 4.6665C13.1794 4.6665 15.9786 6.99595 17.6084 8.71075Z"
+                                                          stroke="currentColor"
+                                                          stroke-width="1.5" />
+                                                    <path d="M12.4998 10.4998C12.4998 11.8805 11.3805 12.9998 9.99984 12.9998C8.61913 12.9998 7.49984 11.8805 7.49984 10.4998C7.49984 9.11913 8.61913 7.99984 9.99984 7.99984C11.3805 7.99984 12.4998 9.11913 12.4998 10.4998Z"
+                                                          stroke="currentColor"
+                                                          stroke-width="1.5" />
+                                                </svg>
+                                            </a>
+                                            <a href="/Admin/Student/Update?id=@item.Id"
+                                               class="inline-flex items-center justify-center w-8 h-8 text-white bg-green-500 rounded">
+                                                <svg width="20"
+                                                     height="21"
+                                                     viewBox="0 0 20 21"
+                                                     fill="none"
+                                                     xmlns="http://www.w3.org/2000/svg">
+                                                    <g clip-path="url(#clip0_67_6479)">
+                                                        <path d="M17.5 8.83317V6.74984C17.5 4.90889 16.0076 3.4165 14.1667 3.4165H5.83333C3.99238 3.4165 2.5 4.90889 2.5 6.74984V15.4998C2.5 17.3408 3.99238 18.8332 5.83333 18.8332H7.5M6.66667 2.1665V4.6665M13.3333 2.1665V4.6665M10 18.8332L12.5506 18.106C12.6874 18.067 12.8119 17.9938 12.9125 17.8933L17.0915 13.7143C17.6362 13.1696 17.6362 12.2864 17.0915 11.7417C16.5468 11.197 15.6636 11.197 15.1189 11.7417L10.9399 15.9207C10.8394 16.0213 10.7661 16.1458 10.7271 16.2825L10 18.8332Z"
+                                                              stroke="currentColor"
+                                                              stroke-width="1.8"
+                                                              stroke-linecap="round" />
+                                                    </g>
+                                                    <defs>
+                                                        <clipPath id="clip0_67_6479">
+                                                            <rect width="20"
+                                                                  height="20"
+                                                                  fill="white"
+                                                                  transform="translate(0 0.5)" />
+                                                        </clipPath>
+                                                    </defs>
+                                                </svg>
+                                            </a>
+                                            <button type="button" onclick="delete(@item.Id)"
+                                                    class="inline-flex items-center justify-center w-8 h-8 text-white bg-red-500 rounded">
+                                                <svg width="20"
+                                                     height="21"
+                                                     viewBox="0 0 20 21"
+                                                     fill="none"
+                                                     xmlns="http://www.w3.org/2000/svg">
+                                                    <path d="M4.16667 7.1665V15.4998C4.16667 17.3408 5.65905 18.8332 7.5 18.8332H12.5C14.3409 18.8332 15.8333 17.3408 15.8333 15.4998V7.1665M11.6667 9.6665V14.6665M8.33333 9.6665L8.33333 14.6665M13.3333 4.6665L12.1614 2.90867C11.8523 2.44501 11.3319 2.1665 10.7747 2.1665H9.22531C8.66805 2.1665 8.14767 2.44501 7.83856 2.90867L6.66667 4.6665M13.3333 4.6665H6.66667M13.3333 4.6665H17.5M6.66667 4.6665H2.5"
+                                                          stroke="currentColor"
+                                                          stroke-width="1.5"
+                                                          stroke-linecap="round"
+                                                          stroke-linejoin="round" />
+                                                </svg>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <script>
+                function delete(questionID) {
+                    Swal.fire({
+                        title: 'Bạn có chắc chắn muốn xóa học sinh này không?',
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonText: 'Có, xóa nó!',
+                        cancelButtonText: 'Không, hủy!',
+                        reverseButtons: true,
+                        customClass: {
+                            popup: 'swal-custom-popup',
+                            title: 'swal-custom-title',
+                            confirmButton: 'swal-custom-confirm',
+                            cancelButton: 'swal-custom-cancel'
+                        }
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            fetch(`/Admin/Student/Delete/${questionID}`, {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json'
+                                }
+                            })
+                                .then(response => {
+                                    if (response.ok) {
+                                        Swal.fire({
+                                            title: 'Xóa thành công!',
+                                            text: 'Câu hỏi đã được xóa.',
+                                            icon: 'success',
+                                            customClass: {
+                                                popup: 'swal-custom-popup',
+                                                title: 'swal-custom-title',
+                                                confirmButton: 'swal-custom-confirm'
+                                            }
+                                        }).then(() => {
+                                            location.reload();  // Reload the page after deletion
+                                        });
+                                    } else {
+                                        Swal.fire({
+                                            title: 'Lỗi!',
+                                            text: 'Xóa học sinh không thành công.',
+                                            icon: 'error',
+                                            customClass: {
+                                                popup: 'swal-custom-popup',
+                                                title: 'swal-custom-title',
+                                                confirmButton: 'swal-custom-confirm'
+                                            }
+                                        });
+                                    }
+                                })
+                                .catch(error => {
+                                    console.error('Error:', error);
+                                    Swal.fire({
+                                        title: 'Lỗi!',
+                                        text: 'Đã xảy ra lỗi trong quá trình xóa.',
+                                        icon: 'error',
+                                        customClass: {
+                                            popup: 'swal-custom-popup',
+                                            title: 'swal-custom-title',
+                                            confirmButton: 'swal-custom-confirm'
+                                        }
+                                    });
+                                });
+                        }
+                    });
+                }
+
+            </script>
+            <script>
+                $(document).ready(function () {
+                    $('#questionSearch').on('keyup', function () {
+                        var searchText = $(this).val().toLowerCase();
+
+                        $('#questionSearch .course-row').filter(function () {
+                            $(this).toggle($(this).attr('data-search').toLowerCase().indexOf(searchText) > -1);
+                        });
+                    });
+                });
+            </script>
+            <!-- Pagination -->
+            <div class="flex flex-col items-center justify-between gap-5 px-5 mt-6 md:flex-row">
+                <div>
+                    <p class="text-sm font-medium text-slate-600">
+                        Hiện @(((ViewData["CurrentPage"] as int?) ?? 1 - 1)) đến
+                        @Math.Min(((ViewData["CurrentPage"] as int?) ?? 1) * ((ViewData["PageSize"] as int?) ?? 10), (ViewData["TotalCourses"] as int?) ?? 0)
+                        của @ViewData["TotalCourses"] kết quả
+                    </p>
+
+                </div>
+                <nav>
+                    <ul class="flex flex-wrap items-center gap-2">
+                        <li>
+                            <button class="flex items-center justify-center rounded-full bg-violet-100 text-primary h-7 w-7">
+                                <svg xmlns="http://www.w3.org/2000/svg"
+                                     width="24"
+                                     height="24"
+                                     viewBox="0 0 24 24"
+                                     fill="none">
+                                    <path d="M10.6 12.71C10.5063 12.617 10.4319 12.5064
+                        10.3811 12.3846C10.3303 12.2627 10.3042 12.132 10.3042
+                        12C10.3042 11.868 10.3303 11.7373 10.3811
+                        11.6154C10.4319 11.4936 10.5063 11.383 10.6 11.29L15.19
+                        6.71C15.2837 6.61704 15.3581 6.50644 15.4089
+                        6.38458C15.4596 6.26272 15.4858 6.13201 15.4858
+                        6C15.4858 5.86799 15.4596 5.73728 15.4089
+                        5.61542C15.3581 5.49356 15.2837 5.38296 15.19
+                        5.29C15.0026 5.10375 14.7492 4.99921 14.485
+                        4.99921C14.2208 4.99921 13.9673 5.10375 13.78
+                        5.29L9.18998 9.88C8.62818 10.4425 8.31262 11.205 8.31262
+                        12C8.31262 12.795 8.62818 13.5575 9.18998 14.12L13.78
+                        18.71C13.9662 18.8947 14.2176 18.9989 14.48 19C14.6116
+                        19.0008 14.7421 18.9755 14.8639 18.9258C14.9857 18.876
+                        15.0965 18.8027 15.19 18.71C15.2837 18.617 15.3581
+                        18.5064 15.4089 18.3846C15.4596 18.2627 15.4858 18.132
+                        15.4858 18C15.4858 17.868 15.4596 17.7373 15.4089
+                        17.6154C15.3581 17.4936 15.2837 17.383 15.19 17.29L10.6
+                        12.71Z"
+                                          fill="currentColor" />
+                                </svg>
+                            </button>
+                        </li>
+                        @for (int i = 1; i <= Math.Ceiling((double)(ViewData["TotalCourses"] as int? ?? 0) / (ViewData["PageSize"] as int? ?? 1)); i++)
+                        {
+                            <li>
+                                <a href="@Url.Action("Index", new { page = i, pageSize = ViewData["PageSize"] })"
+                                   class="flex items-center justify-center text-sm rounded-full @(i == (ViewData["CurrentPage"] as int?) ? "text-white bg-primary" : "text-primary") h-7 w-7">
+                                    @i
+                                </a>
+                            </li>
+                        }
+                        <li>
+                            <button class="flex items-center justify-center rounded-full bg-violet-50 text-primary h-7 w-7">
+                                <svg width="7"
+                                     height="12"
+                                     viewBox="0 0 7 12"
+                                     fill="none"
+                                     xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M4.16662 5.40832C4.24473 5.48579 4.30672 5.57796 4.34903 5.67951C4.39134 5.78106 4.41312 5.88998 4.41312 5.99999C4.41312 6.11 4.39134 6.21892 4.34903 6.32047C4.30672 6.42202 4.24473 6.51419 4.16662 6.59166L0.341621 10.4083C0.263514 10.4858 0.201518 10.578 0.159211 10.6795C0.116903 10.7811 0.0951224 10.89 0.0951224 11C0.0951224 11.11 0.116903 11.2189 0.159211 11.3205C0.201518 11.422 0.263514 11.5142 0.341621 11.5917C0.497756 11.7469 0.708966 11.834 0.929121 11.834C1.14928 11.834 1.36049 11.7469 1.51662 11.5917L5.34162 7.76666C5.80979 7.29791 6.07275 6.66249 6.07275 5.99999C6.07275 5.33749 5.80979 4.70207 5.34162 4.23332L1.51662 0.408324C1.3614 0.25437 1.15191 0.167576 0.933289 0.166656C0.823617 0.166022 0.714897 0.187043 0.613366 0.228513C0.511835 0.269984 0.419488 0.331089 0.341622 0.408324C0.263515 0.485793 0.201519 0.57796 0.159212 0.679509C0.116904 0.781059 0.0951233 0.88998 0.0951233 0.99999C0.0951233 1.11 0.116904 1.21892 0.159212 1.32047C0.201519 1.42202 0.263514 1.51419 0.341622 1.59166L4.16662 5.40832Z"
+                                          fill="currentColor" />
+                                </svg>
+                            </button>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+    <!-- write your code here-->
+</main>
+
+<script src="~/admin/assets/js/main.js"></script>

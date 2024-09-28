@@ -1,0 +1,282 @@
+﻿@model ProfileViewModel
+
+<link rel="stylesheet" href="~/assets/plugins/boxicons/css/boxicons.min.css">
+
+<div class="breadcrumb-bar breadcrumb-bar-info">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 col-12">
+                <div class="breadcrumb-list">
+                    <h2 class="breadcrumb-title">My Profile</h2>
+                    <nav aria-label="breadcrumb" class="page-breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="/">Home</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">My Profile</li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="page-content">
+    <div class="container">
+        <div class="row">
+
+            <div class="col-xl-3 col-lg-3 theiaStickySidebar">
+                <div class="settings-widget dash-profile">
+                    <div class="settings-menu">
+                        <div class="profile-bg">
+                            <div class="profile-img">
+                                <a href="student-profile.html"><img src="assets/img/user/user16.jpg" alt="Img"></a>
+                            </div>
+                        </div>
+                        <div class="profile-group">
+                            <div class="profile-name text-center">
+                                <h4><a href="student-profile.html">@Model.User.FullName</a></h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="settings-widget account-settings">
+                    <div class="settings-menu">
+                        <h3>Dashboard</h3>
+                        <ul>
+                            <li class="nav-item active">
+                                <a href="student-dashboard.html" class="nav-link">
+                                    <i class="bx bxs-tachometer"></i>Dashboard
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="student-profile.html" class="nav-link">
+                                    <i class="bx bxs-user"></i>My Profile
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="student-courses.html" class="nav-link">
+                                    <i class="bx bxs-graduation"></i>Enrolled Courses
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="student-quiz.html" class="nav-link">
+                                    <i class="bx bxs-shapes"></i>My Exam
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="/profile/historyOrder" class="nav-link">
+                                    <i class="bx bxs-cart"></i>Order History
+                                </a>
+                            </li>
+                        </ul>
+                        <h3>Account Settings</h3>
+                        <ul>
+                            <li class="nav-item">
+                                <a href="index-2.html" class="nav-link">
+                                    <i class="bx bxs-log-out"></i>Logout
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+
+
+            <div class="col-xl-9 col-lg-9">
+                <div class="settings-widget card-details">
+                    <div class="settings-menu p-0">
+                        <div class="profile-heading">
+                            <h3>Order History</h3>
+                        </div>
+                        <div class="checkout-form">
+
+                            <div class="wishlist-tab order-tab">
+                                <ul class="nav">
+                                    <li class="nav-item">
+                                        <a href="javascript:void(0);" class="active" data-bs-toggle="tab" data-bs-target="#today">Today</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="javascript:void(0);" data-bs-toggle="tab" data-bs-target="#month">Monthly</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="javascript:void(0);" data-bs-toggle="tab" data-bs-target="#year">Yearly</a>
+                                    </li>
+                                </ul>
+                            </div>
+
+                            <style>
+                                .title-course {
+                                    width: 230px;
+                                }
+                            </style>
+                            <div class="tab-content">
+                                <div>
+                                    <a href="javascript:void(0);" class="action-icon"><i class="bx bxs-download"></i></a>
+                                </div>
+                                <div class="tab-pane show active" id="today">
+                                    <div class="table-responsive custom-table">
+                                        <table class="table table-nowrap mb-0">
+                                            <thead>
+                                                <tr>
+                                                    <th>Order ID</th>
+                                                    <th>Tên khóa học</th>
+                                                    <th>Ngày mua</th>
+                                                    <th>Giá</th>
+                                                    <th>Phương thức thanh toán</th>
+                                                    <th>Trạng thái</th>
+                                                    <th></th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @foreach (var item in Model.Orders)
+                                                {
+                                                    if (item.OrderDetails != null && item.OrderDetails.Any()){
+                                                    foreach(var detail in item.OrderDetails){
+                                                    <tr>
+                                                        <td>@item.OrderID</td>
+                                                        <td><span class="title-course">@detail.Course.Title</span></td>
+                                                        <td>@item.OrderDate.ToString("dd/MM/yyyy hh:mm")</td>
+                                                        <td>@detail.CoursePrice</td>
+                                                        <td>@item.PaymentMethod</td>
+                                                        <td>@item.PaymentStatus</td>
+                                                     
+                                                    </tr>
+                                                    }
+                                                    }
+                                                }
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+
+
+                                <div class="tab-pane fade" id="month">
+                                    <div class="table-responsive custom-table">
+                                        <table class="table table-nowrap mb-0">
+                                            <thead>
+                                                <tr>
+                                                    <th>Order ID</th>
+                                                    <th>Course Name</th>
+                                                    <th>Date</th>
+                                                    <th>Price</th>
+                                                    <th>Status</th>
+                                                    <th></th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>#2643</td>
+                                                    <td><span class="title-course">Build Responsive Real World Websites with HTML5 and CSS3</span></td>
+                                                    <td>March 24, 2024</td>
+                                                    <td>$34</td>
+                                                    <td>On Hold</td>
+                                                    <td>
+                                                        <a href="javascript:void(0);" class="action-icon"><i class="bx bxs-download"></i></a>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>#2644</td>
+                                                    <td><span class="title-course">Sketch from A to Z (2024): Become an app designer</span></td>
+                                                    <td>March 26, 2024</td>
+                                                    <td>$40</td>
+                                                    <td>On Hold</td>
+                                                    <td>
+                                                        <a href="javascript:void(0);" class="action-icon"><i class="bx bxs-download"></i></a>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+
+
+                                <div class="tab-pane fade" id="year">
+                                    <div class="table-responsive custom-table">
+                                        <table class="table table-nowrap mb-0">
+                                            <thead>
+                                                <tr>
+                                                    <th>Order ID</th>
+                                                    <th>Course Name</th>
+                                                    <th>Date</th>
+                                                    <th>Price</th>
+                                                    <th>Status</th>
+                                                    <th></th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>#2643</td>
+                                                    <td><span class="title-course">Build Responsive Real World Websites with HTML5 and CSS3</span></td>
+                                                    <td>March 24, 2024</td>
+                                                    <td>$34</td>
+                                                    <td>On Hold</td>
+                                                    <td>
+                                                        <a href="javascript:void(0);" class="action-icon"><i class="bx bxs-download"></i></a>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>#2644</td>
+                                                    <td><span class="title-course">Sketch from A to Z (2024): Become an app designer</span></td>
+                                                    <td>March 26, 2024</td>
+                                                    <td>$40</td>
+                                                    <td>On Hold</td>
+                                                    <td>
+                                                        <a href="javascript:void(0);" class="action-icon"><i class="bx bxs-download"></i></a>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>#2645</td>
+                                                    <td><span class="title-course">Learn Angular Fundamentals Beginners Guide</span></td>
+                                                    <td>April 12, 2024</td>
+                                                    <td>$25</td>
+                                                    <td>Completed</td>
+                                                    <td>
+                                                        <a href="javascript:void(0);" class="action-icon"><i class="bx bxs-download"></i></a>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>#2646</td>
+                                                    <td><span class="title-course">Build Responsive Real World Websites with HTML5 and CSS3</span></td>
+                                                    <td>April 16, 2024</td>
+                                                    <td>$35</td>
+                                                    <td>On Hold</td>
+                                                    <td>
+                                                        <a href="javascript:void(0);" class="action-icon"><i class="bx bxs-download"></i></a>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="dash-pagination">
+                    <div class="row align-items-center">
+                        <div class="col-6">
+                            <p>Page 1 of 2</p>
+                        </div>
+                        <div class="col-6">
+                            <ul class="pagination">
+                                <li class="active">
+                                    <a href="#">1</a>
+                                </li>
+                                <li>
+                                    <a href="#">2</a>
+                                </li>
+                                <li>
+                                    <a href="#"><i class="bx bx-chevron-right"></i></a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

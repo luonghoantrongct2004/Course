@@ -233,6 +233,10 @@
                                 </th>
                                 <th scope="col"
                                     class="px-5 py-3 text-sm font-medium capitalize text-start text-mainblack">
+                                    Thể loại
+                                </th>
+                                <th scope="col"
+                                    class="px-5 py-3 text-sm font-medium capitalize text-start text-mainblack">
                                     Giảm Giá (%)
                                 </th>
                                 <th scope="col"
@@ -280,6 +284,9 @@
 
                                     <td class="px-5 py-3 text-sm font-medium whitespace-nowrap text-slate-500">
                                         @item.Author?.FullName
+                                    </td>
+                                    <td class="px-5 py-3 text-sm whitespace-nowrap text-mainblack">
+                                        @item.Category?.Name
                                     </td>
                                     <td class="px-5 py-3 text-sm whitespace-nowrap text-mainblack">
                                         @item.Discount

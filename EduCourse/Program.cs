@@ -1,50 +1,58 @@
 ﻿using EduCourse.Data;
 using EduCourse.Entities;
+using EduCourse.Models;
+using EduCourse.SeedDataMigration;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Stripe;
 
 namespace EduCourse
 {
     public class Program
     {
-        public static void Main(string[] args)
+        public static async Task Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
-            builder.Services.AddIdentity<User, Role>(options =>
-            {
-                options.Password.RequiredLength = 8; // Đặt độ dài tối thiểu là 8 ký tự
-                options.Password.RequireDigit = false; // Không yêu cầu chữ số
-                options.Password.RequireLowercase = false; // Không yêu cầu chữ cái thường
-                options.Password.RequireUppercase = false; // Không yêu cầu chữ cái hoa
-                options.Password.RequireNonAlphanumeric = false; // Không yêu cầu ký tự đặc biệt
-                options.Password.RequiredUniqueChars = 0; // Không yêu cầu các ký tự độc nhất
 
-                // Cấu hình khóa bảo mật
+            // Cấu hình Identity
+            builder.Services.AddIdentity<User, IdentityRole>(options =>
+            {
+                options.Password.RequiredLength = 8;
+                options.Password.RequireDigit = false;
+                options.Password.RequireLowercase = false;
+                options.Password.RequireUppercase = false;
+                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequiredUniqueChars = 0;
+
                 options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
                 options.Lockout.MaxFailedAccessAttempts = 5;
                 options.Lockout.AllowedForNewUsers = true;
 
-                // Cấu hình xác thực
                 options.User.RequireUniqueEmail = true;
             })
             .AddEntityFrameworkStores<AppDbContext>()
             .AddDefaultTokenProviders();
 
-
+            // Cấu hình Cookie
             builder.Services.ConfigureApplicationCookie(options =>
             {
                 options.LoginPath = "/Auth/Login";
                 options.LogoutPath = "/Auth/Logout";
             });
-            builder.Services.AddControllersWithViews();
 
+            // Cấu hình DbContext
             builder.Services.AddDbContext<AppDbContext>(opts =>
             {
                 opts.UseSqlServer(builder.Configuration.GetConnectionString("Connection"));
             });
+            builder.Services.Configure<StripeSettings>(builder.Configuration.GetSection("Stripe"));
+            StripeConfiguration.ApiKey = builder.Configuration["Stripe:SecretKey"];
+
+            builder.Services.AddControllersWithViews();
+
             var app = builder.Build();
 
-            // Configure the HTTP request pipeline.
+            // Cấu hình request pipeline
             if (!app.Environment.IsDevelopment())
             {
                 app.UseExceptionHandler("/Home/Error500");
@@ -54,20 +62,35 @@ namespace EduCourse
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-
             app.UseRouting();
-
-            app.UseAuthorization();
+            app.UseAuthentication(); // Sử dụng Identity cho Authentication
+            app.UseAuthorization();  // Sử dụng Identity cho Authorization
 
             app.MapControllerRoute(
                 name: "default",
                 pattern: "{controller=Home}/{action=Index}/{id?}");
+
             app.MapControllerRoute(
                  name: "area",
                  pattern: "{area:exists}/{controller=Dashboard}/{action=Index}/{id?}");
 
+            // Khởi tạo roles khi ứng dụng bắt đầu
+            using (var scope = app.Services.CreateScope())
+            {
+                var services = scope.ServiceProvider;
+                try
+                {
+                    // Khởi tạo các vai trò (Admin, Teacher, Student)
+                    await SeedRoles.Initialize(services);
+                }
+                catch (Exception ex)
+                {
+                    var logger = services.GetRequiredService<ILogger<Program>>();
+                    logger.LogError(ex, "An error occurred creating roles");
+                }
+            }
 
-            app.Run();
+            await app.RunAsync();
         }
     }
 }

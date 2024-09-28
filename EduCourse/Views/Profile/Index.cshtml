@@ -1,0 +1,209 @@
+﻿@model ProfileViewModel
+
+
+<div class="breadcrumb-bar breadcrumb-bar-info">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 col-12">
+                <div class="breadcrumb-list">
+                    <h2 class="breadcrumb-title">My Profile</h2>
+                    <nav aria-label="breadcrumb" class="page-breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="/">Home</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">My Profile</li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="page-content">
+    <div class="container">
+        <div class="row">
+
+            <div class="col-xl-3 col-lg-3 theiaStickySidebar">
+                <div class="settings-widget dash-profile">
+                    <div class="settings-menu">
+                        <div class="profile-bg">
+                            <div class="profile-img">
+                                <a href="student-profile.html"><img src="assets/img/user/user16.jpg" alt="Img"></a>
+                            </div>
+                        </div>
+                        <div class="profile-group">
+                            <div class="profile-name text-center">
+                                <h4><a href="student-profile.html">@Model.User.FullName</a></h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="settings-widget account-settings">
+                    <div class="settings-menu">
+                        <h3>Dashboard</h3>
+                        <ul>
+                            <li class="nav-item active">
+                                <a href="student-dashboard.html" class="nav-link">
+                                    <i class="bx bxs-tachometer"></i>Dashboard
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="student-profile.html" class="nav-link">
+                                    <i class="bx bxs-user"></i>My Profile
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="student-courses.html" class="nav-link">
+                                    <i class="bx bxs-graduation"></i>Enrolled Courses
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="student-quiz.html" class="nav-link">
+                                    <i class="bx bxs-shapes"></i>My Exam
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="/profile/historyOrder" class="nav-link">
+                                    <i class="bx bxs-cart"></i>Order History
+                                </a>
+                            </li>
+                        </ul>
+                        <h3>Account Settings</h3>
+                        <ul>
+                            <li class="nav-item">
+                                <a href="index-2.html" class="nav-link">
+                                    <i class="bx bxs-log-out"></i>Logout
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="col-xl-9 col-lg-9">
+
+                <div class="row justify-content-center">
+                    <div class="col-lg-6 col-md-6 d-flex">
+                        <div class="card dash-info flex-fill">
+                            <div class="card-body">
+                                <h5>Enrolled Courses</h5>
+                                <h2>@Model.EnrollCourse</h2>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-md-6 d-flex">
+                        <div class="card dash-info flex-fill">
+                            <div class="card-body">
+                                <h5>Exams</h5>
+                                <h2>@Model.Exam</h2>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="dashboard-title">
+                    <h4>Recently Enrolled Courses</h4>
+                </div>
+                <div class="row">
+                    @foreach (var item in Model.UserCourses)
+                    {
+                        <div class="col-xxl-4 col-md-6 d-flex">
+                            <div class="course-box flex-fill">
+                                <div class="product">
+                                    <div class="product-img">
+                                        <a href="/home/detail?id=@item.CourseID">
+                                            <img class="img-fluid" alt="Img" src="@item.Course.Image">
+                                        </a>
+                                        @{
+                                            var price = item.Course.Price * (1 - item.Course.Discount / 100.0M);
+                                        }
+                                        <div class="price">
+                                            <h3>@item.Course.Price.ToString("N0") <span>@price.ToString("N0")</span></h3>
+                                        </div>
+                                    </div>
+                                    <div class="product-content">
+                                        <div class="course-group d-flex">
+                                            <div class="course-group-img d-flex">
+                                                <a href="instructor-profile.html"><img src="assets/img/user/user2.jpg" alt="Img" class="img-fluid"></a>
+                                                <div class="course-name">
+                                                    <h4><a href="instructor-profile.html">@item.Course.Author.FullName</a></h4>
+                                                </div>
+                                            </div>
+                                            <div class="course-share d-flex align-items-center justify-content-center">
+                                            </div>
+                                        </div>
+                                        <h3 class="title instructor-text">
+                                            <a href="/home/detail?id=@item.CourseID">
+                                                @item.Course.Title
+                                            </a>
+                                        </h3>
+                                        @{
+                                            var chapters = item.Course.Chapters?.ToList();
+                                            double totalCourseDuration = chapters?
+                                            .Sum(chapter => chapter.Lessons.Sum(lesson => lesson.Duration)) ?? 0;
+
+                                            int hours = (int)(totalCourseDuration / 3600);
+                                            int minutes = (int)((totalCourseDuration % 3600) / 60);
+                                            int seconds = (int)(totalCourseDuration % 60);
+                                        }
+                                        <p>
+                                           
+                                        <div class="course-info d-flex align-items-center">
+                                            <div class="rating-img d-flex align-items-center">
+                                                <img src="assets/img/icon/icon-01.svg" alt="Img">
+                                                    <p>@item.Course.Chapters.Sum(chapter => chapter.Lessons.Count())</p>
+                                            </div>
+                                            <div class="course-view d-flex align-items-center">
+                                                <img src="assets/img/icon/icon-02.svg" alt="Img">
+                                                    <p>
+                                                        @if (hours > 0)
+                                                        {
+                                                            @($"{hours} giờ{(hours > 1 ? "" : "")} ")
+                                                        }
+                                                        @if (minutes > 0)
+                                                        {
+                                                            @($"{minutes} phút{(minutes > 1 ? "" : "")} ")
+                                                        }
+                                                        @if (seconds > 0)
+                                                        {
+                                                            @($"{seconds} giây{(seconds > 1 ? "" : "")}")
+                                                        }
+                                                        @if (hours == 0 && minutes == 0 && seconds == 0)
+                                                        {
+                                                            @("0 giây")
+                                                        }
+                                                    </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+                <div class="dash-pagination">
+                    <div class="row align-items-center">
+                        <div class="col-6">
+                            <p>Page 1 of 2</p>
+                        </div>
+                        <div class="col-6">
+                            <ul class="pagination">
+                                <li class="active">
+                                    <a href="#">1</a>
+                                </li>
+                                <li>
+                                    <a href="#">2</a>
+                                </li>
+                                <li>
+                                    <a href="#"><i class="bx bx-chevron-right"></i></a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

@@ -1,9 +1,6 @@
-﻿
+﻿@model HomeViewModel
 <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
-<script>
-    AOS.init();
-</script>
 
 <section class="home-two-slide d-flex align-items-center">
     <div class="container">
@@ -274,23 +271,24 @@
         </div>
         <div class="featured-courses-two">
             <div class="row">
-
-                <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12 d-flex" data-aos="fade-down">
-                    <div class="featured-details-two">
-                        <div class="product-item-two">
-                            <div class="product-img-two">
-                                <a href="course-details.html">
-                                    <img class="img-fluid" alt="Img" src="~/assets/img/course/courses-01.jpg">
-                                </a>
-                                <div class="price-text">
-                                    <h4><span>PHP</span></h4>
+                @foreach (var course in Model.Courses.Take(6))
+                {
+                    <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12 d-flex" data-aos="fade-down">
+                        <div class="featured-details-two">
+                            <div class="product-item-two">
+                                <div class="product-img-two">
+                                    <a href="/home/detail?id=@course.CourseID">
+                                        <img class="img-fluid" alt="Img" src="@course.Image">
+                                    </a>
+                                    <div class="price-text">
+                                        <h4><span>@course.Category?.Name</span></h4>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="course-details-content">
-                                <div class="image-info">
-                                    <img class="img-fluid" alt="Img" src="~/assets/img/profiles/avatar-01.jpg">
-                                </div>
-                                <div class="rating">
+                                <div class="course-details-content">
+                                    <div class="image-info">
+                                        <img class="img-fluid" alt="Img" src="~/assets/img/profiles/avatar-01.jpg">
+                                    </div>
+                                    @*  <div class="rating">
                                     <i class="fas fa-star filled"></i>
                                     <i class="fas fa-star filled"></i>
                                     <i class="fas fa-star filled"></i>
@@ -298,277 +296,59 @@
                                     <i class="fas fa-star filled"></i>
                                     <span class="ms-3">203 reviews</span>
                                 </div>
-                                <div class="name-text featured-info-two">
-                                    <h3 class="title instructor-text">
-                                        <a href="course-details.html">
-                                            The Complete
-                                            Web Developer PHP framework Course 2.0
-                                        </a>
-                                    </h3>
-                                    <p class="me-3">
-                                        By<span class="text-danger ms-2">Russell T. Johnson</span>
-                                    </p>
-                                </div>
-                                <div class="featured-info-time d-flex align-items-center">
-                                    <div class="hours-time-two d-flex align-items-center">
-                                        <span><i class="fa-regular fa-clock me-2"></i></span>
-                                        <p>6hr 30min</p>
+                                *@
+                                    <div class="name-text featured-info-two">
+                                        <h3 class="title instructor-text">
+                                            <a href="/home/detail?id=@course.CourseID">
+                                                @course.Title
+                                            </a>
+                                        </h3>
+                                        <p class="me-3">
+                                            By<span class="text-danger ms-2">@course.Author?.FullName</span>
+                                        </p>
                                     </div>
-                                    <div class="course-view d-inline-flex align-items-center">
-                                        <div class="course-price">
-                                            <h3>$400 <span>$99.00</span></h3>
+                                    <div class="featured-info-time d-flex align-items-center">
+                                        <div class="hours-time-two d-flex align-items-center">
+                                            <span><i class="fa-regular fa-clock me-2"></i></span>
+                                            @{
+                                                var chapters = course.Chapters?.ToList();
+                                                double totalCourseDuration = chapters?
+                                                .Sum(chapter => chapter.Lessons.Sum(lesson => lesson.Duration)) ?? 0;
+
+                                                int hours = (int)(totalCourseDuration / 3600);
+                                                int minutes = (int)((totalCourseDuration % 3600) / 60);
+                                                int seconds = (int)(totalCourseDuration % 60);
+                                            }
+                                            <p>
+                                                @if (hours > 0)
+                                                {
+                                                    @($"{hours} giờ{(hours > 1 ? "" : "")} ")
+                                                }
+                                                @if (minutes > 0)
+                                                {
+                                                    @($"{minutes} phút{(minutes > 1 ? "" : "")} ")
+                                                }
+                                                @if (seconds > 0)
+                                                {
+                                                    @($"{seconds} giây{(seconds > 1 ? "" : "")}")
+                                                }
+                                                @if (hours == 0 && minutes == 0 && seconds == 0)
+                                                {
+                                                    @("0 giây")
+                                                }
+                                            </p>
+                                        </div>
+                                        <div class="course-view d-inline-flex align-items-center">
+                                            <div class="course-price">
+                                                <h3>@(course.Price * (1 - course.Discount / 100M)) <span>@course.Price</span></h3>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
-
-
-                <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12 d-flex" data-aos="fade-down">
-                    <div class="featured-details-two">
-                        <div class="product-item-two">
-                            <div class="product-img-two">
-                                <a href="course-details.html">
-                                    <img class="img-fluid" alt="Img" src="~/assets/img/course/courses-02.jpg">
-                                </a>
-                                <div class="price-text">
-                                    <h4><span>Wordpress</span></h4>
-                                </div>
-                            </div>
-                            <div class="course-details-content">
-                                <div class="image-info">
-                                    <img class="img-fluid" alt="Img" src="~/assets/img/profiles/avatar-02.jpg">
-                                </div>
-                                <div class="rating">
-                                    <i class="fas fa-star filled"></i>
-                                    <i class="fas fa-star filled"></i>
-                                    <i class="fas fa-star filled"></i>
-                                    <i class="fas fa-star filled"></i>
-                                    <i class="fas fa-star filled"></i>
-                                    <span class="ms-2">243 reviews</span>
-                                </div>
-                                <div class="name-text featured-info-two">
-                                    <h3 class="title instructor-text">
-                                        <a href="course-details.html">
-                                            Wordpress
-                                            for Beginners - Master Wordpress Quickly
-                                        </a>
-                                    </h3>
-                                    <p class="me-3">By<span class="text-danger ms-2">Cristofer Nolen</span></p>
-                                </div>
-                                <div class="featured-info-time d-flex align-items-center">
-                                    <div class="rating-img d-flex align-items-center">
-                                        <span><i class="fa-regular fa-clock me-2"></i></span>
-                                        <span>6hr 30min</span>
-                                    </div>
-                                    <div class="course-view d-inline-flex align-items-center">
-                                        <div class="course-price">
-                                            <h3>$300 <span>$99.00</span></h3>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-
-                <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12 d-flex" data-aos="fade-down">
-                    <div class="featured-details-two">
-                        <div class="product-item-two">
-                            <div class="product-img-two">
-                                <a href="course-details.html">
-                                    <img class="img-fluid" alt="Img" src="~/assets/img/course/courses-03.jpg">
-                                </a>
-                                <div class="price-text">
-                                    <h4><span>Angular</span></h4>
-                                </div>
-                            </div>
-                            <div class="course-details-content">
-                                <div class="image-info">
-                                    <img class="img-fluid" alt="Img" src="~/assets/img/profiles/avatar-03.jpg">
-                                </div>
-                                <div class="rating">
-                                    <i class="fas fa-star filled"></i>
-                                    <i class="fas fa-star filled"></i>
-                                    <i class="fas fa-star filled"></i>
-                                    <i class="fas fa-star filled"></i>
-                                    <i class="fas fa-star filled"></i>
-                                    <span class="ms-2">243 reviews</span>
-                                </div>
-                                <div class="name-text featured-info-two">
-                                    <h3 class="title instructor-text">
-                                        <a href="course-details.html">
-                                            Learn
-                                            Angular Fundamentals From beginning to advance lavel
-                                        </a>
-                                    </h3>
-                                    <p class="me-3">By<span class="text-danger ms-2">Cristofer Nolen</span></p>
-                                </div>
-                                <div class="featured-info-time d-flex align-items-center">
-                                    <div class="rating-img d-flex align-items-center">
-                                        <span><i class="fa-regular fa-clock me-2"></i></span>
-                                        <span>6hr 30min</span>
-                                    </div>
-                                    <div class="course-view d-inline-flex align-items-center">
-                                        <div class="course-price">
-                                            <h3>$300 <span>$99.00</span></h3>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-
-                <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12 d-flex" data-aos="fade-down">
-                    <div class="featured-details-two">
-                        <div class="product-item-two">
-                            <div class="product-img-two">
-                                <a href="course-details.html">
-                                    <img class="img-fluid" alt="Img" src="~/assets/img/course/courses-04.jpg">
-                                </a>
-                                <div class="price-text">
-                                    <h4><span>HTML5</span></h4>
-                                </div>
-                            </div>
-                            <div class="course-details-content">
-                                <div class="image-info">
-                                    <img class="img-fluid" alt="Img" src="~/assets/img/profiles/avatar-04.jpg">
-                                </div>
-                                <div class="rating">
-                                    <i class="fas fa-star filled"></i>
-                                    <i class="fas fa-star filled"></i>
-                                    <i class="fas fa-star filled"></i>
-                                    <i class="fas fa-star filled"></i>
-                                    <i class="fas fa-star filled"></i>
-                                    <span class="ms-2">243 reviews</span>
-                                </div>
-                                <div class="name-text featured-info-two">
-                                    <h3 class="title instructor-text">
-                                        <a href="course-details.html">
-                                            Build
-                                            Responsive Real World Websites with HTML5 and CSS3
-                                        </a>
-                                    </h3>
-                                    <p class="me-3">By<span class="text-danger ms-2">Cristofer Nolen</span></p>
-                                </div>
-                                <div class="featured-info-time d-flex align-items-center">
-                                    <div class="rating-img d-flex align-items-center">
-                                        <span><i class="fa-regular fa-clock me-2"></i></span>
-                                        <span>6hr 30min</span>
-                                    </div>
-                                    <div class="course-view d-inline-flex align-items-center">
-                                        <div class="course-price">
-                                            <h3>$300 <span>$99.00</span></h3>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-
-                <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12 d-flex" data-aos="fade-down">
-                    <div class="featured-details-two">
-                        <div class="product-item-two">
-                            <div class="product-img-two">
-                                <a href="course-details.html">
-                                    <img class="img-fluid" alt="Img" src="~/assets/img/course/courses-05.jpg">
-                                </a>
-                                <div class="price-text">
-                                    <h4><span>C#</span></h4>
-                                </div>
-                            </div>
-                            <div class="course-details-content">
-                                <div class="image-info">
-                                    <img class="img-fluid" alt="Img" src="~/assets/img/profiles/avatar-05.jpg">
-                                </div>
-                                <div class="rating">
-                                    <i class="fas fa-star filled"></i>
-                                    <i class="fas fa-star filled"></i>
-                                    <i class="fas fa-star filled"></i>
-                                    <i class="fas fa-star filled"></i>
-                                    <i class="fas fa-star filled"></i>
-                                    <span class="ms-2">243 reviews</span>
-                                </div>
-                                <div class="name-text featured-info-two">
-                                    <h3 class="title instructor-text">
-                                        <a href="course-details.html">
-                                            C#
-                                            Developers Double Your Coding Speed with Visual Studio
-                                        </a>
-                                    </h3>
-                                    <p class="me-3">By<span class="text-danger ms-2">Cristofer Nolen</span></p>
-                                </div>
-                                <div class="featured-info-time d-flex align-items-center">
-                                    <div class="rating-img d-flex align-items-center">
-                                        <span><i class="fa-regular fa-clock me-2"></i></span>
-                                        <span>6hr 30min</span>
-                                    </div>
-                                    <div class="course-view d-inline-flex align-items-center">
-                                        <div class="course-price">
-                                            <h3>$300 <span>$99.00</span></h3>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-
-                <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12 d-flex" data-aos="fade-down">
-                    <div class="featured-details-two">
-                        <div class="product-item-two">
-                            <div class="product-img-two">
-                                <a href="course-details.html">
-                                    <img class="img-fluid" alt="Img" src="~/assets/img/course/courses-06.jpg">
-                                </a>
-                                <div class="price-text">
-                                    <h4><span>UI/UX</span></h4>
-                                </div>
-                            </div>
-                            <div class="course-details-content">
-                                <div class="image-info">
-                                    <img class="img-fluid" alt="Img" src="~/assets/img/profiles/avatar-06.jpg">
-                                </div>
-                                <div class="rating">
-                                    <i class="fas fa-star filled"></i>
-                                    <i class="fas fa-star filled"></i>
-                                    <i class="fas fa-star filled"></i>
-                                    <i class="fas fa-star filled"></i>
-                                    <i class="fas fa-star filled"></i>
-                                    <span class="ms-2">243 reviews</span>
-                                </div>
-                                <div class="name-text featured-info-two">
-                                    <h3 class="title instructor-text">
-                                        <a href="course-details.html">
-                                            Information
-                                            About UI/UX Design Degree
-                                        </a>
-                                    </h3>
-                                    <p class="me-3">By<span class="text-danger ms-2">Cristofer Nolen</span></p>
-                                </div>
-                                <div class="featured-info-time d-flex align-items-center">
-                                    <div class="rating-img d-flex align-items-center">
-                                        <span><i class="fa-regular fa-clock me-2"></i></span>
-                                        <span>6hr 30min</span>
-                                    </div>
-                                    <div class="course-view d-inline-flex align-items-center">
-                                        <div class="course-price">
-                                            <h3>$300 <span>$99.00</span></h3>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                }
 
             </div>
         </div>
@@ -1493,3 +1273,15 @@
 
     </div>
 </section>
+@if (!string.IsNullOrEmpty(ViewData["PaymentMessage"] as string))
+{
+    <script>
+        Swal.fire({
+            icon: 'success',
+            title: 'Thanh toán thành công!',
+            text: '@ViewData["PaymentMessage"]',
+            showConfirmButton: false,
+            timer: 2000
+        });
+    </script>
+}

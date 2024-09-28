@@ -30,6 +30,7 @@ public class CourseController : Controller
         var courses = await _context.Courses
             .Include(p => p.Author)
             .Include(c => c.Category)
+            .Include(c => c.Category)
             .Include(c => c.Chapters)
                 .ThenInclude(l => l.Lessons)
             .OrderBy(c => c.CreatedDate)
@@ -405,7 +406,18 @@ public class CourseController : Controller
 
                                                                 if (existingOption != null)
                                                                 {
-                                                                    _context.Entry(existingOption).CurrentValues.SetValues(option);
+                                                                    // Cập nhật giá trị IsCorrect
+                                                                    existingOption.IsCorrect = option.IsCorrect;
+
+                                                                    // Cập nhật giá trị Content của đáp án
+                                                                    existingOption.Content = option.Content;
+
+                                                                    _context.Entry(existingOption).State = EntityState.Modified;
+                                                                }
+                                                                else
+                                                                {
+                                                                    // Nếu không có option trong CSDL, thì thêm mới
+                                                                    _context.Options.Add(option);
                                                                 }
                                                             }
                                                         }

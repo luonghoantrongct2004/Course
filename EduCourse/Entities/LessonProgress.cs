@@ -3,7 +3,7 @@
     public class LessonProgress
     {
         public int LessonProgressID { get; set; }
-        public int UserID { get; set; }
+        public string UserID { get; set; }
         public int LessonID { get; set; }
         public DateTime LastAccessed { get; set; }
         public double CompletionPercentage { get; set; } // e.g., 0-100%

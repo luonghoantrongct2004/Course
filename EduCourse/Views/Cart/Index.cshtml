@@ -1,0 +1,228 @@
+﻿@model List<Cart>
+<section class="course-content cart-widget">
+    <div class="container">
+        <div class="student-widget">
+            <div class="row">
+                <!-- Phần danh sách khóa học chiếm 80% -->
+                <div class="col-lg-9">
+                    <div class="cart-head d-flex justify-content-between align-items-center">
+                        <h4>Tổng khóa học @Model.Count()</h4>
+                        <!-- Checkbox "Chọn tất cả" -->
+                        <div>
+                            <input type="checkbox" id="select-all" onchange="toggleSelectAll(this)">
+                            <label for="select-all">Chọn tất cả</label>
+                        </div>
+                    </div>
+                    <div class="cart-group">
+                        <div class="row">
+                            @foreach (var item in Model)
+                            {
+                                var isPurchased = ViewBag.PurchasedCourses.Contains(item.Course.CourseID);
+                                @if (!isPurchased)
+                                {
+                                <div class="col-lg-12 col-md-12 d-flex">
+                                    <!-- Checkbox cho mỗi khóa học -->
+                                    <input type="checkbox"
+                                           style="margin-right: 10px;width: 20px;"
+                                           class="course-checkbox"
+                                           data-course-id="@item.Course.CourseID"
+                                           data-price="@item.Course.Price * (1 - item.Course.Discount / 100.0M)"
+                                           onchange="updateTotal()">
+
+                                    <div class="course-box course-design list-course d-flex">
+                                        <div class="product">
+                                            <div class="product-img">
+                                                <a href="/home/detail?id=@item.Course.CourseID">
+                                                    <img class="img-fluid" alt="Img" src="@item.Course.Image">
+                                                </a>
+                                                @{
+                                                    var price = item.Course.Price * (1 - item.Course.Discount / 100.0M);
+                                                }
+
+                                                <div class="price">
+                                                    @if (price <= 0)
+                                                    {
+                                                        <h3 class="free-color">Miễn phí</h3>
+                                                    }
+                                                    else
+                                                    {
+                                                        <h3>@price.ToString("N0") <span>@item.Course.Price.ToString("N0")</span></h3>
+                                                    }
+                                                </div>
+                                            </div>
+                                            <div class="product-content">
+                                                <div class="head-course-title">
+                                                    <h3 class="title">
+                                                        <a href="/home/detail?id=@item.Course.CourseID">
+                                                            @item.Course.Title
+                                                        </a>
+                                                    </h3>
+                                                </div>
+                                                <div class="course-info d-flex align-items-center border-bottom-0 pb-0">
+                                                    @if (item.Course.Chapters != null && item.Course.Chapters.Any())
+                                                    {
+                                                        @foreach (var chapter in item.Course.Chapters)
+                                                        {
+                                                            <div class="rating-img d-flex align-items-center">
+                                                                <img src="assets/img/icon/icon-01.svg" alt="Img">
+                                                                <p>@chapter.Lessons.Count()</p>
+                                                            </div>
+                                                            <div class="course-view d-flex align-items-center">
+                                                                <img src="assets/img/icon/icon-02.svg" alt="Img">
+                                                                @foreach (var lesson in chapter.Lessons)
+                                                                {
+                                                                    int hourL = (int)(lesson.Duration / 3600);
+                                                                    int minuteL = (int)((lesson.Duration % 3600) / 60);
+                                                                    int secondL = (int)(lesson.Duration % 60);
+                                                                    <p>
+                                                                        @if (hourL > 0)
+                                                                        {
+                                                                            @($"{hourL} giờ ")
+                                                                        }
+                                                                        @if (minuteL > 0 || hourL > 0)
+                                                                        {
+                                                                            @($"{minuteL} phút ")
+                                                                        }
+                                                                        @if (secondL > 0 || (hourL == 0 && minuteL == 0))
+                                                                        {
+                                                                            @($"{secondL} giây")
+                                                                        }
+                                                                    </p>
+                                                                }
+                                                            </div>
+                                                        }
+                                                    }
+                                                </div>
+                                            </div>
+                                            <div class="cart-remove">
+                                                <a href="javascript:void(0);" class="btn btn-primary" onclick="removeFromCart(@item.Course.CourseID)">
+                                                    <i class="fa fa-trash"></i> 
+                                                </a>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                }
+                            }
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Phần tổng tiền chiếm 20% -->
+                <div class="col-lg-3">
+                    <div class="cart-total">
+                        <div class="cart-subtotal pb-4">
+                            <p>Tổng tiền</p>
+                            <!-- Nơi hiển thị tổng tiền -->
+                            <span id="total-price">0.00</span> VND
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-12 col-md-12">
+                                <div class="check-outs">
+                                    <button class="btn btn-outline-info w-100" onclick="checkout()">Thanh toán</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+    function checkout() {
+        const selectedCourses = [];
+        document.querySelectorAll('.course-checkbox:checked').forEach(function (checkbox) {
+            selectedCourses.push(checkbox.getAttribute('data-course-id')); // Lấy trực tiếp data-course-id từ checkbox
+        });
+
+        if (selectedCourses.length === 0) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Lỗi',
+                text: 'Vui lòng chọn ít nhất một khóa học để thanh toán.'
+            });
+            return;
+        }
+
+        document.getElementById('loading-overlay').style.display = 'block';
+
+        $.ajax({
+            url: '/Cart/Checkout',
+            type: 'POST',
+            data: JSON.stringify(selectedCourses),
+            success: function (response) {
+                var stripe = Stripe('pk_test_51P7bRY1vJ264C6HKaJUP0nrssbUv01bbiRYNuUhbQTM2TOZEZsF6fApNwxnuylG7VYnphnJlksYfpt4y64pX7AWA002OEkCN6X');
+                stripe.redirectToCheckout({ sessionId: response.sessionId });
+            },
+            error: function () {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Lỗi',
+                    text: 'Có lỗi xảy ra khi thanh toán. Vui lòng thử lại.'
+                });
+
+                document.getElementById('loading-overlay').style.display = 'none';
+            }
+        });
+    }
+
+</script>
+
+<script>
+    function removeFromCart(courseId) {
+        $.ajax({
+            url: '/Cart/RemoveFromCart',
+            type: 'POST',
+            data: { courseId: courseId },
+            success: function (response) {
+                if (response.success) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Xóa thành công',
+                        text: response.message,
+                        showConfirmButton: false,
+                        timer: 1500
+                    }).then(() => {
+                        location.reload();
+                    });
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Lỗi',
+                        text: response.message
+                    });
+                }
+            },
+            error: function () {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Lỗi',
+                    text: 'Có lỗi xảy ra. Vui lòng thử lại.'
+                });
+            }
+        });
+    }
+</script>
+
+<script>
+    // Hàm tính toán tổng tiền dựa trên các khóa học được chọn
+    function updateTotal() {
+        let total = 0;
+        document.querySelectorAll('.course-checkbox:checked').forEach(function (checkbox) {
+            total += parseFloat(checkbox.getAttribute('data-price'));
+        });
+        document.getElementById('total-price').innerText = total.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' });
+    }
+
+    // Hàm chọn tất cả hoặc bỏ chọn tất cả
+    function toggleSelectAll(selectAllCheckbox) {
+        const checkboxes = document.querySelectorAll('.course-checkbox');
+        checkboxes.forEach(function (checkbox) {
+            checkbox.checked = selectAllCheckbox.checked;
+        });
+        updateTotal();
+    }
+</script>

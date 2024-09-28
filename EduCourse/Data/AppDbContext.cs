@@ -1,10 +1,11 @@
 ﻿using EduCourse.Entities;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace EduCourse.Data;
 
-public class AppDbContext : IdentityDbContext<User, Role, int>
+public class AppDbContext : IdentityDbContext<User>
 {
     public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
     {
@@ -64,4 +65,9 @@ public class AppDbContext : IdentityDbContext<User, Role, int>
     public DbSet<Chapter> Chapters { get; set; }
     public DbSet<Exam> Exams { get; set; }
     public DbSet<ExamQuestion> ExamQuestions { get; set; }
+    public DbSet<Cart> Carts { get; set; }
+    public DbSet<Order> Orders { get; set; }
+    public DbSet<OrderDetail> OrderDetails { get; set; }
+    public DbSet<StudentExam> StudentExams { get; set; }
+
 }

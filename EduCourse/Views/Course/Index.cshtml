@@ -1,0 +1,227 @@
+﻿
+<style>
+    .footer {
+        display: none;
+    }
+
+    .video-container {
+        position: relative;
+        padding-bottom: 56.25%;
+        height: 0;
+        overflow: hidden;
+        max-width: 100%;
+        background-color: #f1f1f1;
+    }
+
+        .video-container video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+    .question-overlay {
+        display: none;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.8);
+        color: white;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        z-index: 2;
+    }
+
+    .question-form {
+        background: white;
+        padding: 20px;
+        border-radius: 10px;
+        text-align: left;
+        color: black;
+    }
+</style>
+<div class="container-fluid" style="margin-top:120px">
+    <div class="row">
+        <!-- Cột phải: Hiển thị video -->
+        <div class="col-md-8">
+            <div id="video-container" class="video-container">
+                <video id="lesson-video" controls>
+                    <source src="" type="video/mp4">
+                    Trình duyệt của bạn không hỗ trợ thẻ video.
+                </video>
+                <div id="question-overlay" class="question-overlay">
+                    <div class="question-form">
+                        <h3 id="question-content"></h3>
+                        <div id="answer-options"></div>
+                        <button class="btn btn-primary" id="submit-answer" onclick="submitAnswer()">Nộp đáp án</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Cột trái: Collapse danh sách chương và bài -->
+        <div class="col-md-4">
+            <div class="accordion" id="chapterAccordion">
+                @foreach (var chapter in Model.Chapters)
+                {
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="chapterOneHeading">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#chapterOne" aria-expanded="true" aria-controls="chapterOne">
+                                @chapter.Title
+                            </button>
+                        </h2>
+                        <div id="chapterOne" class="accordion-collapse collapse show" aria-labelledby="chapterOneHeading" data-bs-parent="#chapterAccordion">
+                            <div class="accordion-body">
+                                <ul class="list-group">
+                                    @foreach (var lesson in chapter.Lessons)
+                                    {
+                                        var questionsJson = lesson.Questions != null ? Newtonsoft.Json.JsonConvert.SerializeObject(lesson.Questions) : "[]";
+
+                                        <li class="list-group-item signin-head button"
+                                            onclick="loadVideo('@lesson.VideoURL', @lesson.LessonID, @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(lesson.Questions).Replace("\"", "&quot;")))">
+                                            <a>@lesson.Title</a>
+                                        </li>
+
+                                    }
+
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    let currentQuestions = [];
+    let currentQuestionIndex = 0;
+    let currentLessonID = 0;
+
+    function loadVideo(videoSrc, lessonID, questions) {
+        console.log("Loaded questions: ", questions);
+
+        try {
+            const $video = $('#lesson-video');
+            $video.attr('src', videoSrc);
+            $video[0].currentTime = 0;
+            $video[0].play();
+            currentLessonID = lessonID;
+
+            if (questions && questions.length > 0) {
+                currentQuestions = questions;
+            } else {
+                currentQuestions = [];
+            }
+
+            currentQuestionIndex = 0;
+            $video.on('timeupdate', checkQuestionTime);
+        } catch (error) {
+            console.error("Lỗi khi tải video: ", error);
+        }
+    }
+
+    function checkQuestionTime() {
+        const video = $('#lesson-video')[0];
+        const currentTime = video.currentTime;
+        if (currentQuestionIndex < currentQuestions.length || currentQuestionIndex > currentQuestions.length) {
+            const question = currentQuestions[currentQuestionIndex];
+            if (Math.abs(currentTime - question.ShowTime) <= 0.1) {
+                showQuestion(question);
+                video.pause();
+            }
+        }
+    }
+
+    function showQuestion(question) {
+        const $overlay = $('#question-overlay');
+        const $questionContent = $('#question-content');
+        const $answerOptions = $('#answer-options');
+
+        // Hiển thị nội dung câu hỏi
+        $questionContent.text(question.Content);
+
+        // Xóa các lựa chọn cũ
+        $answerOptions.empty();
+
+        // Kiểm tra loại câu hỏi và hiển thị các lựa chọn
+        if (question.QuestionType === "Single Choice") {
+            question.Options.forEach((choice, index) => {
+                const optionId = `option-${index}`;
+                const $option = $(`
+                    <div>
+                        <input type="radio" id="${optionId}" name="answer" value="${choice.Content}">
+                        <label for="${optionId}">${choice.Content}</label>
+                    </div>
+                `);
+                $answerOptions.append($option);
+            });
+        } else if (question.QuestionType === "Multiple Choice") {
+            question.Options.forEach((choice, index) => {
+                const optionId = `option-${index}`;
+                const $option = $(`
+                    <div>
+                        <input type="checkbox" id="${optionId}" name="answer" value="${choice.Content}">
+                        <label for="${optionId}">${choice.Content}</label>
+                    </div>
+                `);
+                $answerOptions.append($option);
+            });
+        } else if (question.QuestionType === "Keyword") {
+            $answerOptions.html('<input type="text" id="keyword-answer" class="form-control" placeholder="Nhập từ khóa">');
+        }
+
+        // Hiển thị overlay của câu hỏi
+        $overlay.css('display', 'flex');
+    }
+
+
+    function submitAnswer() {
+        const question = currentQuestions[currentQuestionIndex];
+        let userAnswer = '';
+
+        // Kiểm tra loại câu hỏi và lấy câu trả lời của người dùng
+        if (question.QuestionType === "Single Choice" || question.QuestionType === "Multiple Choice") {
+            const selectedOption = $('input[name="answer"]:checked').val();
+            if (selectedOption) {
+                userAnswer = selectedOption;
+            }
+        } else if (question.QuestionType === "Keyword") {
+            userAnswer = $('#keyword-answer').val();
+        }
+
+        // Kiểm tra đáp án với câu trả lời đúng trong question.Options
+        let isCorrect = false;
+
+        if (question.QuestionType === "Single Choice" || question.QuestionType === "Multiple Choice") {
+            // Lặp qua các lựa chọn trong question.Options để tìm đáp án đúng
+            question.Options.forEach(option => {
+                if (option.Content === userAnswer && option.IsCorrect) {
+                    isCorrect = true;
+                }
+            });
+        } else if (question.QuestionType === "Keyword") {
+            if (userAnswer === question.CorrectAnswer) {
+                isCorrect = true;
+            }
+        }
+
+        // Nếu câu trả lời đúng, tiếp tục video, nếu không, hiển thị cảnh báo
+        if (isCorrect) {
+            $('#question-overlay').css('display', 'none');
+            $('#lesson-video')[0].play();
+            currentQuestionIndex++;
+        } else {
+            alert('Đáp án không chính xác. Vui lòng thử lại!');
+        }
+    }
+
+    $(document).ready(function () {
+    });
+</script>

@@ -13,7 +13,9 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>Course List - Dashboard</title>
+    <title>
+        LotusAcademy
+    </title>
     <link rel="stylesheet" href="~/admin/assets/css/output.css" />
     <link href="~/admin/assets/css/quill.snow.css" rel="stylesheet" />
 </head>
@@ -25,10 +27,10 @@
             <!-- Large Sidebar -->
             <aside class="block xl:block sm:hidden overflow-style-none overflow-y-auto sidebar-wrapper w-[264px] fixed top-0 bg-white h-full z-30">
                 <div class="sidebar-header sticky top-0 w-full h-[92px] flex items-center pl-[50px] z-30 bg-white border-b border-violet-50">
-                    <a href="index-2.html">
-                        <img src="~/admin/assets/img/logo/logo-full.svg"
+                    <a href="/admin">
+                        <img src="~/Lotus.png" width="100" height="44"
                              class="block"
-                             alt="logo" />
+                            alt="logo" />
                     </a>
                     <button type="button"
                             title="Ctrl+b"
@@ -51,7 +53,7 @@
                             </h4>
                             <ul class="mt-2.5">
                                 <li class="space-y-1 item">
-                                    <button class="p-2.5 gap-2 w-full flex items-center rounded-lg hover:bg-violet-50 transition text-base font-medium cursor-pointer text-mainblue">
+                                    <a href="/admin/dashboard" class="p-2.5 gap-2 w-full flex items-center rounded-lg hover:bg-violet-50 transition text-base font-medium cursor-pointer text-mainblue">
                                         <svg class="item-ico"
                                              width="20"
                                              height="20"
@@ -70,16 +72,29 @@
                                                   fill="#7C3AED" />
                                         </svg>
                                         <span class="item-text">Dashboard</span>
-                                        <svg class="ml-auto"
+                                    </a>
+                                </li>
+                                <li class="space-y-1 item">
+                                    <a href="/" class="p-2.5 gap-2 w-full flex items-center rounded-lg hover:bg-violet-50 transition text-base font-medium cursor-pointer text-mainblue">
+                                        <svg class="item-ico"
                                              width="20"
                                              height="20"
                                              viewBox="0 0 20 20"
                                              fill="none"
                                              xmlns="http://www.w3.org/2000/svg">
-                                            <path d="M15.5917 6.8422C15.5142 6.76409 15.422 6.7021 15.3205 6.65979C15.2189 6.61748 15.11 6.5957 15 6.5957C14.89 6.5957 14.7811 6.61748 14.6795 6.65979C14.578 6.7021 14.4858 6.76409 14.4083 6.8422L10.5917 10.6589C10.5142 10.737 10.422 10.799 10.3205 10.8413C10.2189 10.8836 10.11 10.9054 10 10.9054C9.89 10.9054 9.78108 10.8836 9.67953 10.8413C9.57798 10.799 9.48581 10.737 9.40834 10.6589L5.59168 6.8422C5.51421 6.76409 5.42204 6.7021 5.32049 6.65979C5.21894 6.61748 5.11002 6.5957 5.00001 6.5957C4.89 6.5957 4.78108 6.61748 4.67953 6.65979C4.57798 6.7021 4.48581 6.76409 4.40834 6.8422C4.25313 6.99834 4.16602 7.20955 4.16602 7.4297C4.16602 7.64986 4.25313 7.86107 4.40834 8.0172L8.23334 11.8422C8.70209 12.3104 9.33751 12.5733 10 12.5733C10.6625 12.5733 11.2979 12.3104 11.7667 11.8422L15.5917 8.0172C15.7469 7.86107 15.834 7.64986 15.834 7.4297C15.834 7.20955 15.7469 6.99834 15.5917 6.8422Z"
-                                                  fill="#8247FF" />
+                                            <path d="M1.66663 3.66602C1.66663 2.56145 2.56206 1.66602 3.66663 1.66602H7.16663C8.2712 1.66602 9.16663 2.56145 9.16663 3.66602V5.49935C9.16663 6.60392 8.2712 7.49935 7.16663 7.49935H3.66663C2.56206 7.49935 1.66663 6.60392 1.66663 5.49935V3.66602Z"
+                                                  fill="#7C3AED" />
+                                            <path opacity="0.4"
+                                                  d="M1.66663 11.166C1.66663 10.0614 2.56206 9.16602 3.66663 9.16602H7.16663C8.2712 9.16602 9.16663 10.0614 9.16663 11.166V16.3327C9.16663 17.4373 8.2712 18.3327 7.16663 18.3327H3.66663C2.56206 18.3327 1.66663 17.4373 1.66663 16.3327V11.166Z"
+                                                  fill="#7C3AED" />
+                                            <path opacity="0.4"
+                                                  d="M10.8333 3.66602C10.8333 2.56145 11.7287 1.66602 12.8333 1.66602H16.3333C17.4378 1.66602 18.3333 2.56145 18.3333 3.66602V8.83268C18.3333 9.93725 17.4378 10.8327 16.3333 10.8327H12.8333C11.7287 10.8327 10.8333 9.93725 10.8333 8.83268V3.66602Z"
+                                                  fill="#7C3AED" />
+                                            <path d="M10.8333 14.5C10.8333 13.3954 11.7287 12.5 12.8333 12.5H16.3333C17.4378 12.5 18.3333 13.3954 18.3333 14.5V16.3333C18.3333 17.4379 17.4378 18.3333 16.3333 18.3333H12.8333C11.7287 18.3333 10.8333 17.4379 10.8333 16.3333V14.5Z"
+                                                  fill="#7C3AED" />
                                         </svg>
-                                    </button>
+                                        <span class="item-text">Trang người dùng</span>
+                                    </a>
                                 </li>
                                 <li class="item">
                                     <a href="teachers-list.html"
@@ -114,7 +129,7 @@
                                     </a>
                                 </li>
                                 <li class="item">
-                                    <a href="students-list.html"
+                                    <a href="/admin/student"
                                        class="flex items-center gap-2 p-2.5 rounded-lg bg-transparent hover:bg-violet-50 transition text-base font-medium text-mainblue cursor-pointer">
                                         <svg class="item-ico"
                                              width="20"
@@ -145,6 +160,30 @@
                                                   fill="#8247FF" />
                                         </svg>
                                         Học sinh
+                                    </a>
+                                </li>
+                                <li class="item">
+                                    <a href="/Admin/Category" class="p-2.5 gap-2 w-full flex items-center rounded-lg hover:bg-violet-50 transition text-base font-medium text-mainblue cursor-pointer">
+                                        <svg class="item-ico"
+                                             width="20"
+                                             height="20"
+                                             viewBox="0 0 20 20"
+                                             fill="none"
+                                             xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M1.66663 4.99935C1.66663 3.1584 3.15901 1.66602 4.99996 1.66602H9.99996V9.99935L1.66663 9.99935V4.99935Z"
+                                                  fill="#8247FF" />
+                                            <path opacity="0.4"
+                                                  d="M1.66663 14.9987C1.66663 16.8396 3.15901 18.332 4.99996 18.332H9.99996V9.9987L1.66663 9.9987V14.9987Z"
+                                                  fill="#8247FF" />
+                                            <path opacity="0.4"
+                                                  d="M18.3333 4.99935C18.3333 3.1584 16.8409 1.66602 14.9999 1.66602H9.99992V9.99935L18.3333 9.99935V4.99935Z"
+                                                  fill="#8247FF" />
+                                            <path fill-rule="evenodd"
+                                                  clip-rule="evenodd"
+                                                  d="M18.3333 15C18.3333 16.841 16.8409 18.3333 15 18.3333H10V10H18.3333V15ZM16.4583 12.9167C16.4583 13.2618 16.1785 13.5417 15.8333 13.5417L12.5 13.5417C12.1548 13.5417 11.875 13.2618 11.875 12.9167C11.875 12.5715 12.1548 12.2917 12.5 12.2917L15.8333 12.2917C16.1785 12.2917 16.4583 12.5715 16.4583 12.9167ZM15.8333 16.0417C16.1785 16.0417 16.4583 15.7618 16.4583 15.4167C16.4583 15.0715 16.1785 14.7917 15.8333 14.7917L12.5 14.7917C12.1548 14.7917 11.875 15.0715 11.875 15.4167C11.875 15.7618 12.1548 16.0417 12.5 16.0417H15.8333Z"
+                                                  fill="#8247FF" />
+                                        </svg>
+                                        <span class="item-text"> Quản lý danh mục</span>
                                     </a>
                                 </li>
                                 <li class="item">
@@ -201,7 +240,7 @@
                                             </a>
                                         </li>
                                         <li>
-                                            <a href="resource-ebook.html"
+                                            <a href="/Admin/Exam/Index"
                                                class="p-2.5 gap-2 w-full flex items-center rounded-lg bg-transparent hover:bg-violet-50 transition text-base font-medium text-mainblue cursor-pointer">
                                                 Đề thi
                                             </a>
@@ -262,7 +301,7 @@
                 <div class="relative top-0 z-30 w-full sidebar-wrapper-collapse">
                     <div class="sidebar-header bg-slate-50 sticky top-0 w-full h-[92px] flex items-center justify-center z-20">
                         <a href="index-2.html">
-                            <img src="~/admin/assets/img/logo/logo-icon.svg"
+                            <img src="~/Lotus.png" width="88" height="44"
                                  class="block"
                                  alt="logo" />
                         </a>
@@ -286,7 +325,7 @@
                                     <ul class="mt-2.5 space-y-2 flex justify-center items-center flex-col">
                                         <!-- Dashboard Home -->
                                         <li class="px-7 item">
-                                            <a href="index-2.html" class="block">
+                                            <a href="/admin/dashboard" class="block">
                                                 <span class="flex items-center justify-center w-10 h-10 transition rounded-lg hover:bg-violet-50 item-ico">
                                                     <svg class="item-ico"
                                                          width="20"
@@ -307,20 +346,10 @@
                                                     </svg>
                                                 </span>
                                             </a>
-                                            <ul class="sub-menu bg-white px-5 py-2 rounded-lg shadow-lg min-w-[200px]">
-                                                <li>
-                                                    <a href="index-2.html"
-                                                       class="text-md font-medium text-bgray-600 py-1.5 inline-block hover:text-bgray-800">Dashboard One</a>
-                                                </li>
-                                                <li>
-                                                    <a href="index-3.html"
-                                                       class="text-md font-medium text-bgray-600 py-1.5 inline-block hover:text-bgray-800">Dashboard Two</a>
-                                                </li>
-                                            </ul>
                                         </li>
                                         <!-- Teacher -->
                                         <li class="item px-7">
-                                            <a href="teachers-list.html">
+                                            <a href="/admin/teacher">
                                                 <span class="flex items-center justify-center w-10 h-10 rounded-lg item-ico hover:bg-violet-50">
                                                     <svg class="item-ico"
                                                          width="20"
@@ -352,7 +381,7 @@
                                             </a>
                                         </li>
                                         <li class="item px-7">
-                                            <a href="students-list.html">
+                                            <a href="/admin/student">
                                                 <span class="flex items-center justify-center w-10 h-10 rounded-lg item-ico hover:bg-violet-50">
                                                     <svg class="item-ico"
                                                          width="20"
@@ -386,7 +415,7 @@
                                             </a>
                                         </li>
                                         <li class="item px-7">
-                                            <a href="course-list.html">
+                                            <a href="/admin/course">
                                                 <span class="flex items-center justify-center w-10 h-10 rounded-lg item-ico hover:bg-violet-50">
                                                     <svg class="item-ico"
                                                          width="20"
@@ -406,7 +435,7 @@
                                             </a>
                                         </li>
                                         <li class="item px-7">
-                                            <a href="index-2.html">
+                                            <a>
                                                 <span class="flex items-center justify-center w-10 h-10 rounded-lg item-ico hover:bg-violet-50">
                                                     <svg class="item-ico"
                                                          width="20"
@@ -426,217 +455,16 @@
                                             </a>
                                             <ul class="sub-menu border-l border-success-100 bg-white px-5 py-2 rounded-lg shadow-lg min-w-[200px]">
                                                 <li>
-                                                    <a href="resource-blog.html"
-                                                       class="text-md font-medium text-bgray-600 py-1.5 inline-block hover:text-bgray-800">Blog</a>
+                                                    <a href="/admin/question"
+                                                       class="text-md font-medium text-bgray-600 py-1.5 inline-block hover:text-bgray-800">Câu hỏi</a>
                                                 </li>
                                                 <li>
-                                                    <a href="resource-ebook.html"
-                                                       class="text-md font-medium text-bgray-600 py-1.5 inline-block hover:text-bgray-800">Ebook</a>
-                                                </li>
-                                            </ul>
-                                        </li>
-                                        <li class="item px-7">
-                                            <a href="certificate-list.html">
-                                                <span class="flex items-center justify-center w-10 h-10 rounded-lg item-ico hover:bg-violet-50">
-                                                    <svg class="item-ico"
-                                                         width="20"
-                                                         height="20"
-                                                         viewBox="0 0 20 20"
-                                                         fill="none"
-                                                         xmlns="http://www.w3.org/2000/svg">
-                                                        <path opacity="0.4"
-                                                              d="M10.8334 17.4993V12.916H14.1667V17.4993L12.5 16.666L10.8334 17.4993Z"
-                                                              fill="#8247FF" />
-                                                        <path opacity="0.4"
-                                                              d="M18.3334 12.5L18.3334 4.16667C18.3334 3.24619 17.5872 2.5 16.6667 2.5L3.33337 2.5C2.4129 2.5 1.66671 3.24619 1.66671 4.16667L1.66671 12.5C1.66671 13.4205 2.4129 14.1667 3.33337 14.1667L7.91671 14.1667L16.6667 14.1667C17.5872 14.1667 18.3334 13.4205 18.3334 12.5Z"
-                                                              fill="#8247FF" />
-                                                        <path d="M15 12.5C15 13.8807 13.8807 15 12.5 15C11.1193 15 10 13.8807 10 12.5C10 11.1193 11.1193 10 12.5 10C13.8807 10 15 11.1193 15 12.5Z"
-                                                              fill="#8247FF" />
-                                                        <path fill-rule="evenodd"
-                                                              clip-rule="evenodd"
-                                                              d="M4.375 5.83398C4.375 5.48881 4.65482 5.20898 5 5.20898H15C15.3452 5.20898 15.625 5.48881 15.625 5.83398C15.625 6.17916 15.3452 6.45898 15 6.45898H5C4.65482 6.45898 4.375 6.17916 4.375 5.83398Z"
-                                                              fill="#8247FF" />
-                                                        <path fill-rule="evenodd"
-                                                              clip-rule="evenodd"
-                                                              d="M4.375 9.16602C4.375 8.82084 4.65482 8.54102 5 8.54102H8.33333C8.67851 8.54102 8.95833 8.82084 8.95833 9.16602C8.95833 9.51119 8.67851 9.79102 8.33333 9.79102H5C4.65482 9.79102 4.375 9.51119 4.375 9.16602Z"
-                                                              fill="#8247FF" />
-                                                    </svg>
-                                                </span>
-                                            </a>
-                                        </li>
-                                        <li class="item px-7">
-                                            <a href="messages.html">
-                                                <span class="flex items-center justify-center w-10 h-10 rounded-lg item-ico hover:bg-violet-50">
-                                                    <svg class="item-ico"
-                                                         width="20"
-                                                         height="20"
-                                                         viewBox="0 0 20 20"
-                                                         fill="none"
-                                                         xmlns="http://www.w3.org/2000/svg">
-                                                        <path opacity="0.4"
-                                                              d="M10.8333 3.33203H9.16663C5.02449 3.33203 1.66663 6.6899 1.66663 10.832V14.9987C1.66663 16.8396 3.15901 18.332 4.99996 18.332H10.8333C14.9754 18.332 18.3333 14.9742 18.3333 10.832C18.3333 6.6899 14.9754 3.33203 10.8333 3.33203Z"
-                                                              fill="#8247FF" />
-                                                        <path d="M18.3333 4.99935C18.3333 6.8403 16.8409 8.33268 15 8.33268C13.159 8.33268 11.6666 6.8403 11.6666 4.99935C11.6666 3.1584 13.159 1.66602 15 1.66602C16.8409 1.66602 18.3333 3.1584 18.3333 4.99935Z"
-                                                              fill="#8247FF" />
-                                                        <path fill-rule="evenodd"
-                                                              clip-rule="evenodd"
-                                                              d="M6.04163 9.16602C6.04163 8.82084 6.32145 8.54102 6.66663 8.54102H9.99996C10.3451 8.54102 10.625 8.82084 10.625 9.16602C10.625 9.51119 10.3451 9.79102 9.99996 9.79102H6.66663C6.32145 9.79102 6.04163 9.51119 6.04163 9.16602ZM6.04163 12.4993C6.04163 12.1542 6.32145 11.8743 6.66663 11.8743H13.3333C13.6785 11.8743 13.9583 12.1542 13.9583 12.4993C13.9583 12.8445 13.6785 13.1243 13.3333 13.1243H6.66663C6.32145 13.1243 6.04163 12.8445 6.04163 12.4993Z"
-                                                              fill="#8247FF" />
-                                                    </svg>
-                                                </span>
-                                            </a>
-                                        </li>
-                                        <li class="item px-7">
-                                            <a href="#">
-                                                <span class="flex items-center justify-center w-10 h-10 rounded-lg item-ico hover:bg-violet-50">
-                                                    <svg class="item-ico"
-                                                         width="20"
-                                                         height="20"
-                                                         viewBox="0 0 20 20"
-                                                         fill="none"
-                                                         xmlns="http://www.w3.org/2000/svg">
-                                                        <path d="M1.66663 4.99935C1.66663 3.1584 3.15901 1.66602 4.99996 1.66602H9.99996V9.99935L1.66663 9.99935V4.99935Z"
-                                                              fill="#8247FF" />
-                                                        <path opacity="0.4"
-                                                              d="M1.66663 14.9987C1.66663 16.8396 3.15901 18.332 4.99996 18.332H9.99996V9.9987L1.66663 9.9987V14.9987Z"
-                                                              fill="#8247FF" />
-                                                        <path opacity="0.4"
-                                                              d="M18.3333 4.99935C18.3333 3.1584 16.8409 1.66602 14.9999 1.66602H9.99992V9.99935L18.3333 9.99935V4.99935Z"
-                                                              fill="#8247FF" />
-                                                        <path fill-rule="evenodd"
-                                                              clip-rule="evenodd"
-                                                              d="M18.3333 15C18.3333 16.841 16.8409 18.3333 15 18.3333H10V10H18.3333V15ZM16.4583 12.9167C16.4583 13.2618 16.1785 13.5417 15.8333 13.5417L12.5 13.5417C12.1548 13.5417 11.875 13.2618 11.875 12.9167C11.875 12.5715 12.1548 12.2917 12.5 12.2917L15.8333 12.2917C16.1785 12.2917 16.4583 12.5715 16.4583 12.9167ZM15.8333 16.0417C16.1785 16.0417 16.4583 15.7618 16.4583 15.4167C16.4583 15.0715 16.1785 14.7917 15.8333 14.7917L12.5 14.7917C12.1548 14.7917 11.875 15.0715 11.875 15.4167C11.875 15.7618 12.1548 16.0417 12.5 16.0417H15.8333Z"
-                                                              fill="#8247FF" />
-                                                    </svg>
-                                                </span>
-                                            </a>
-                                            <ul class="sub-menu border-l border-success-100 bg-white px-5 py-2 rounded-lg shadow-lg min-w-[200px]">
-                                                <li>
-                                                    <a href="integrations.html"
-                                                       class="text-md font-medium text-bgray-600 py-1.5 inline-block hover:text-bgray-800">Integrations</a>
+                                                    <a href="/admin/exam"
+                                                       class="text-md font-medium text-bgray-600 py-1.5 inline-block hover:text-bgray-800">Đề thi</a>
                                                 </li>
                                                 <li>
-                                                    <a href="projects.html"
-                                                       class="text-md font-medium text-bgray-600 py-1.5 inline-block hover:text-bgray-800">Projects</a>
-                                                </li>
-                                                <li>
-                                                    <a href="transaction-list.html"
-                                                       class="text-md font-medium text-bgray-600 py-1.5 inline-block hover:text-bgray-800">Transaction</a>
-                                                </li>
-                                                <li>
-                                                    <a href="calenders-month-events.html"
-                                                       class="text-md font-medium text-bgray-600 py-1.5 inline-block hover:text-bgray-800">
-                                                        Calender Events
-                                                    </a>
-                                                </li>
-                                            </ul>
-                                        </li>
-                                        <li class="item px-7">
-                                            <a href="#">
-                                                <span class="flex items-center justify-center w-10 h-10 rounded-lg item-ico hover:bg-violet-50">
-                                                    <svg class="item-ico"
-                                                         width="20"
-                                                         height="20"
-                                                         viewBox="0 0 20 20"
-                                                         fill="none"
-                                                         xmlns="http://www.w3.org/2000/svg">
-                                                        <path fill-rule="evenodd"
-                                                              clip-rule="evenodd"
-                                                              d="M10.625 15.8262V17.7077H12.5C12.8452 17.7077 13.125 17.9875 13.125 18.3327C13.125 18.6779 12.8452 18.9577 12.5 18.9577H7.5C7.15482 18.9577 6.875 18.6779 6.875 18.3327C6.875 17.9875 7.15482 17.7077 7.5 17.7077H9.375V15.8262H10.625Z"
-                                                              fill="#8247FF" />
-                                                        <path opacity="0.4"
-                                                              d="M1.66663 4.99935C1.66663 3.1584 3.15901 1.66602 4.99996 1.66602H15C16.8409 1.66602 18.3333 3.1584 18.3333 4.99935V12.4993C18.3333 14.3403 16.8409 15.8327 15 15.8327H4.99996C3.15901 15.8327 1.66663 14.3403 1.66663 12.4993V4.99935Z"
-                                                              fill="#8247FF" />
-                                                        <ellipse cx="1.66667"
-                                                                 cy="1.66667"
-                                                                 rx="1.66667"
-                                                                 ry="1.66667"
-                                                                 transform="matrix(1 0 0 -1 8.33325 8.33203)"
-                                                                 fill="#8247FF" />
-                                                        <rect x="6.66663"
-                                                              y="9.16602"
-                                                              width="6.66667"
-                                                              height="3.33333"
-                                                              rx="1.66667"
-                                                              fill="#8247FF" />
-                                                    </svg>
-                                                </span>
-                                            </a>
-                                            <ul class="sub-menu border-l border-success-100 bg-white px-5 py-2 rounded-lg shadow-lg min-w-[200px]">
-                                                <li>
-                                                    <a href="sign-in.html"
-                                                       class="text-md font-medium text-bgray-600 py-1.5 inline-block hover:text-bgray-800">Sign In</a>
-                                                </li>
-                                                <li>
-                                                    <a href="sign-up.html"
-                                                       class="text-md font-medium text-bgray-600 py-1.5 inline-block hover:text-bgray-800">Sign Up</a>
-                                                </li>
-                                                <li>
-                                                    <a href="forgot-pass.html"
-                                                       class="text-md font-medium text-bgray-600 py-1.5 inline-block hover:text-bgray-800">Forgot Password</a>
-                                                </li>
-                                                <li>
-                                                    <a href="otp.html"
-                                                       class="text-md font-medium text-bgray-600 py-1.5 inline-block hover:text-bgray-800">OTP</a>
-                                                </li>
-                                                <li>
-                                                    <a href="new-password.html"
-                                                       class="text-md font-medium text-bgray-600 py-1.5 inline-block hover:text-bgray-800">New Password</a>
-                                                </li>
-                                            </ul>
-                                        </li>
-                                        <li class="item px-7">
-                                            <a href="settings.html">
-                                                <span class="flex items-center justify-center w-10 h-10 rounded-lg item-ico hover:bg-violet-50">
-                                                    <svg class="item-ico"
-                                                         width="20"
-                                                         height="20"
-                                                         viewBox="0 0 20 20"
-                                                         fill="none"
-                                                         xmlns="http://www.w3.org/2000/svg">
-                                                        <path opacity="0.4"
-                                                              d="M10.7955 2.5H9.20454C8.3259 2.5 7.61363 3.17157 7.61363 4C7.61363 4.94801 6.5993 5.55073 5.76667 5.09747L5.6821 5.05144C4.92117 4.63722 3.94819 4.88304 3.50887 5.60048L2.71341 6.89951C2.27409 7.61695 2.5348 8.53434 3.29572 8.94855C4.12876 9.40202 4.12876 10.598 3.29572 11.0514C2.5348 11.4657 2.27409 12.383 2.71341 13.1005L3.50887 14.3995C3.94818 15.117 4.92117 15.3628 5.6821 14.9486L5.76667 14.9025C6.5993 14.4493 7.61363 15.052 7.61363 16C7.61363 16.8284 8.3259 17.5 9.20454 17.5H10.7955C11.6741 17.5 12.3864 16.8284 12.3864 16C12.3864 15.052 13.4007 14.4493 14.2333 14.9025L14.3179 14.9486C15.0788 15.3628 16.0518 15.117 16.4911 14.3995L17.2866 13.1005C17.7259 12.383 17.4652 11.4657 16.7043 11.0514C15.8712 10.598 15.8712 9.40203 16.7043 8.94856C17.4652 8.53435 17.7259 7.61696 17.2866 6.89952L16.4911 5.60049C16.0518 4.88305 15.0788 4.63723 14.3179 5.05145L14.2333 5.09748C13.4007 5.55074 12.3864 4.94801 12.3864 4C12.3864 3.17157 11.6741 2.5 10.7955 2.5Z"
-                                                              fill="#8247FF" />
-                                                        <circle cx="10" cy="10" r="2.5" fill="#8247FF" />
-                                                    </svg>
-                                                </span>
-                                            </a>
-                                        </li>
-                                        <li class="item px-7">
-                                            <a href="#">
-                                                <span class="flex items-center justify-center w-10 h-10 rounded-lg item-ico hover:bg-violet-50">
-                                                    <svg class="item-ico"
-                                                         width="20"
-                                                         height="20"
-                                                         viewBox="0 0 20 20"
-                                                         fill="none"
-                                                         xmlns="http://www.w3.org/2000/svg">
-                                                        <path opacity="0.4"
-                                                              d="M17.2368 8.22704L7.87794 3.55044C6.21339 2.71867 4.42235 4.42912 5.17818 6.1287L6.54182 9.19503C6.76977 9.70761 6.76977 10.2927 6.54182 10.8053L5.17818 13.8716C4.42235 15.5712 6.21339 17.2817 7.87793 16.4499L17.2368 11.7733C18.6988 11.0427 18.6988 8.9576 17.2368 8.22704Z"
-                                                              fill="#8247FF" />
-                                                        <path fill-rule="evenodd"
-                                                              clip-rule="evenodd"
-                                                              d="M6.45829 10.0002C6.45829 9.65498 6.73811 9.37516 7.08329 9.37516H9.99996C10.3451 9.37516 10.625 9.65498 10.625 10.0002C10.625 10.3453 10.3451 10.6252 9.99996 10.6252H7.08329C6.73811 10.6252 6.45829 10.3453 6.45829 10.0002Z"
-                                                              fill="#8247FF" />
-                                                        <path fill-rule="evenodd"
-                                                              clip-rule="evenodd"
-                                                              d="M1.04163 8.3335C1.04163 7.98832 1.32145 7.7085 1.66663 7.7085H3.33329C3.67847 7.7085 3.95829 7.98832 3.95829 8.3335C3.95829 8.67867 3.67847 8.9585 3.33329 8.9585H1.66663C1.32145 8.9585 1.04163 8.67867 1.04163 8.3335Z"
-                                                              fill="#8247FF" />
-                                                        <path fill-rule="evenodd"
-                                                              clip-rule="evenodd"
-                                                              d="M1.04163 11.6668C1.04163 11.3217 1.32145 11.0418 1.66663 11.0418H3.33329C3.67847 11.0418 3.95829 11.3217 3.95829 11.6668C3.95829 12.012 3.67847 12.2918 3.33329 12.2918H1.66663C1.32145 12.2918 1.04163 12.012 1.04163 11.6668Z"
-                                                              fill="#8247FF" />
-                                                    </svg>
-                                                </span>
-                                            </a>
-                                            <ul class="sub-menu border-l border-success-100 bg-white px-5 py-2 rounded-lg shadow-lg min-w-[200px]">
-                                                <li>
-                                                    <a href="support-ticket-list.html"
-                                                       class="text-md font-medium text-bgray-600 py-1.5 inline-block hover:text-bgray-800">Support Ticket</a>
-                                                </li>
-                                                <li>
-                                                    <a href="support-ticket.html"
-                                                       class="text-md font-medium text-bgray-600 py-1.5 inline-block hover:text-bgray-800">Support Details</a>
+                                                    <a href="/admin/exam"
+                                                       class="text-md font-medium text-bgray-600 py-1.5 inline-block hover:text-bgray-800">Cuộc thi</a>
                                                 </li>
                                             </ul>
                                         </li>
@@ -761,38 +589,6 @@
                                           fill="#8247FF" />
                                 </svg>
                                 <span class="w-3.5 h-3.5 inline-flex justify-center items-center text-white rounded-full text-center absolute top-0 right-0 bg-red-500 text-[10px] font-medium">2</span>
-                            </button>
-                            <!-- Heart -->
-                            <button onclick="wishlistAction()"
-                                    type="button"
-                                    id="message-btn"
-                                    class="inline-flex items-center justify-center border rounded-full w-11 h-11 border-violet-200">
-                                <svg width="24"
-                                     height="24"
-                                     viewBox="0 0 24 24"
-                                     fill="none"
-                                     xmlns="http://www.w3.org/2000/svg">
-                                    <path opacity="0.4"
-                                          d="M13 3H11C6.02944 3 2 7.02944 2 12V17C2 19.2091 3.79086 21 6 21H13C17.9706 21 22 16.9706 22 12C22 7.02944 17.9706 3 13 3Z"
-                                          fill="#8247FF" />
-                                    <circle cx="12" cy="12" r="1" fill="#8247FF" />
-                                    <circle cx="16" cy="12" r="1" fill="#8247FF" />
-                                    <circle cx="8" cy="12" r="1" fill="#8247FF" />
-                                </svg>
-                            </button>
-                            <!-- Gift -->
-                            <button onclick="storeAction()"
-                                    class="inline-flex items-center justify-center border rounded-full w-11 h-11 border-violet-200">
-                                <svg width="24"
-                                     height="24"
-                                     viewBox="0 0 24 24"
-                                     fill="none"
-                                     xmlns="http://www.w3.org/2000/svg">
-                                    <path opacity="0.4"
-                                          d="M12.9545 3H11.0455C9.99109 3 9.13635 3.80589 9.13635 4.8C9.13635 5.93761 7.91917 6.66087 6.92 6.11697L6.81852 6.06172C5.90541 5.56467 4.73782 5.85964 4.21064 6.72057L3.25609 8.27942C2.72891 9.14034 3.04176 10.2412 3.95487 10.7383C4.95451 11.2824 4.95451 12.7176 3.95487 13.2617C3.04176 13.7588 2.72891 14.8597 3.25609 15.7206L4.21064 17.2794C4.73782 18.1404 5.90541 18.4353 6.81851 17.9383L6.92 17.883C7.91917 17.3391 9.13635 18.0624 9.13635 19.2C9.13635 20.1941 9.99109 21 11.0455 21H12.9545C14.0089 21 14.8636 20.1941 14.8636 19.2C14.8636 18.0624 16.0808 17.3391 17.08 17.883L17.1815 17.9383C18.0946 18.4353 19.2622 18.1403 19.7894 17.2794L20.7439 15.7206C21.2711 14.8596 20.9582 13.7588 20.0451 13.2617C19.0455 12.7176 19.0455 11.2824 20.0451 10.7383C20.9582 10.2412 21.2711 9.14036 20.7439 8.27943L19.7894 6.72058C19.2622 5.85966 18.0946 5.56468 17.1815 6.06174L17.08 6.11698C16.0808 6.66088 14.8636 5.93762 14.8636 4.8C14.8636 3.80589 14.0089 3 12.9545 3Z"
-                                          fill="#8247FF" />
-                                    <circle cx="12" cy="12" r="3" fill="#8247FF" />
-                                </svg>
                             </button>
                             <!-- Notification -->
                             <div class="notification-popup-wrapper">

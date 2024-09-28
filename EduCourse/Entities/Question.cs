@@ -1,4 +1,6 @@
-﻿namespace EduCourse.Entities
+﻿using Newtonsoft.Json;
+
+namespace EduCourse.Entities
 {
     public class Question
     {
@@ -13,6 +15,8 @@
         public string? Keyword { get; set; }  // Để hỗ trợ cho câu hỏi dạng từ khóa
 
         public int? LessonID { get; set; }
+
+        [JsonIgnore]
         public Lesson? Lesson { get; set; }
 
         public ICollection<Option>? Options { get; set; } = new List<Option>();

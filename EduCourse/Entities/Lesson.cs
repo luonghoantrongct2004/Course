@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Newtonsoft.Json;
+using System.ComponentModel.DataAnnotations;
 
 namespace EduCourse.Entities;
 
@@ -16,7 +17,7 @@ public class Lesson
     public DateTime CreatedDate { get; set; }
     public DateTime UpdatedDate { get; set; } = DateTime.Now;
 
-    // Navigation properties
+    [JsonIgnore]
     public Chapter? Chapter { get; set; }
 
     public List<Question>? Questions { get; set; }

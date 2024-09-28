@@ -5,6 +5,10 @@
       "PackagePath": "staticwebassets\\EduCourse.bundle.scp.css"
     },
     {
+      "Id": "C:\\Users\\PREDATOR\\OneDrive\\Tài liệu\\EduCourse\\EduCourse\\wwwroot\\Lotus.png",
+      "PackagePath": "staticwebassets\\Lotus.png"
+    },
+    {
       "Id": "C:\\Users\\PREDATOR\\OneDrive\\Tài liệu\\EduCourse\\EduCourse\\wwwroot\\admin\\assets\\css\\output.css",
       "PackagePath": "staticwebassets\\admin\\assets\\css\\output.css"
     },
@@ -5701,6 +5705,10 @@
       "PackagePath": "staticwebassets\\uploads\\16309643-0d0a-41da-875d-61e73651c873.mp4"
     },
     {
+      "Id": "C:\\Users\\PREDATOR\\OneDrive\\Tài liệu\\EduCourse\\EduCourse\\wwwroot\\uploads\\1659744e-8241-45c4-bd86-a21a303353c7.jpg",
+      "PackagePath": "staticwebassets\\uploads\\1659744e-8241-45c4-bd86-a21a303353c7.jpg"
+    },
+    {
       "Id": "C:\\Users\\PREDATOR\\OneDrive\\Tài liệu\\EduCourse\\EduCourse\\wwwroot\\uploads\\2c3c2f2a-2163-4b18-a2e1-906d8e860321.jpg",
       "PackagePath": "staticwebassets\\uploads\\2c3c2f2a-2163-4b18-a2e1-906d8e860321.jpg"
     },
@@ -5713,6 +5721,10 @@
       "PackagePath": "staticwebassets\\uploads\\4bb6e8ff-209f-4ab9-8ff4-10a53447723a.jpg"
     },
     {
+      "Id": "C:\\Users\\PREDATOR\\OneDrive\\Tài liệu\\EduCourse\\EduCourse\\wwwroot\\uploads\\4bb8cfd8-b6bc-4f99-a7d3-c9331abe6b96.jpg",
+      "PackagePath": "staticwebassets\\uploads\\4bb8cfd8-b6bc-4f99-a7d3-c9331abe6b96.jpg"
+    },
+    {
       "Id": "C:\\Users\\PREDATOR\\OneDrive\\Tài liệu\\EduCourse\\EduCourse\\wwwroot\\uploads\\636d1100-c7b1-4090-b5df-7b400fd4b2b7.jpg",
       "PackagePath": "staticwebassets\\uploads\\636d1100-c7b1-4090-b5df-7b400fd4b2b7.jpg"
     },
@@ -5723,6 +5735,10 @@
     {
       "Id": "C:\\Users\\PREDATOR\\OneDrive\\Tài liệu\\EduCourse\\EduCourse\\wwwroot\\uploads\\666ea69f-a034-43d4-8009-a60734de6ca3.mp4",
       "PackagePath": "staticwebassets\\uploads\\666ea69f-a034-43d4-8009-a60734de6ca3.mp4"
+    },
+    {
+      "Id": "C:\\Users\\PREDATOR\\OneDrive\\Tài liệu\\EduCourse\\EduCourse\\wwwroot\\uploads\\6ddb1059-f3f5-4921-9bba-0a38dbe63e0f.mp4",
+      "PackagePath": "staticwebassets\\uploads\\6ddb1059-f3f5-4921-9bba-0a38dbe63e0f.mp4"
     },
     {
       "Id": "C:\\Users\\PREDATOR\\OneDrive\\Tài liệu\\EduCourse\\EduCourse\\wwwroot\\uploads\\755d90fd-fd84-4714-9ca8-4c24f6474123.mp4",
@@ -5745,6 +5761,14 @@
       "PackagePath": "staticwebassets\\uploads\\cbff6462-708c-4a26-8a25-0a397100bcc0.mp4"
     },
     {
+      "Id": "C:\\Users\\PREDATOR\\OneDrive\\Tài liệu\\EduCourse\\EduCourse\\wwwroot\\uploads\\cd9c13c6-4d67-4752-90e3-dd8149a73be4.mp4",
+      "PackagePath": "staticwebassets\\uploads\\cd9c13c6-4d67-4752-90e3-dd8149a73be4.mp4"
+    },
+    {
+      "Id": "C:\\Users\\PREDATOR\\OneDrive\\Tài liệu\\EduCourse\\EduCourse\\wwwroot\\uploads\\d7053b2a-4d0d-4395-9147-1b3709d47942.jpg",
+      "PackagePath": "staticwebassets\\uploads\\d7053b2a-4d0d-4395-9147-1b3709d47942.jpg"
+    },
+    {
       "Id": "C:\\Users\\PREDATOR\\OneDrive\\Tài liệu\\EduCourse\\EduCourse\\wwwroot\\uploads\\da9a4518-0b13-4983-ae0b-48e2ae009f80.mp4",
       "PackagePath": "staticwebassets\\uploads\\da9a4518-0b13-4983-ae0b-48e2ae009f80.mp4"
     },
@@ -5763,6 +5787,10 @@
     {
       "Id": "C:\\Users\\PREDATOR\\OneDrive\\Tài liệu\\EduCourse\\EduCourse\\wwwroot\\uploads\\fbf8871a-da05-4e5c-86bb-057ddefcf285.jpg",
       "PackagePath": "staticwebassets\\uploads\\fbf8871a-da05-4e5c-86bb-057ddefcf285.jpg"
+    },
+    {
+      "Id": "C:\\Users\\PREDATOR\\OneDrive\\Tài liệu\\EduCourse\\EduCourse\\wwwroot\\uploads\\ff7591ac-806a-4502-978e-ad30dae81dc9.mp4",
+      "PackagePath": "staticwebassets\\uploads\\ff7591ac-806a-4502-978e-ad30dae81dc9.mp4"
     },
     {
       "Id": "C:\\Users\\PREDATOR\\OneDrive\\Tài liệu\\EduCourse\\EduCourse\\wwwroot\\videos\\0e1ab361-a147-4b2f-9cbf-739864209a8b.mp4",

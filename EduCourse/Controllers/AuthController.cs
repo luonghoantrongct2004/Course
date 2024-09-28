@@ -11,11 +11,13 @@ namespace EduCourse.Controllers
     {
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
+        private readonly RoleManager<IdentityRole> _roleManager;
 
-        public AuthController(UserManager<User> userManager, SignInManager<User> signInManager)
+        public AuthController(UserManager<User> userManager, SignInManager<User> signInManager, RoleManager<IdentityRole> roleManager)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            _roleManager = roleManager;
         }
 
         // GET: /Auth/Login
@@ -34,10 +36,8 @@ namespace EduCourse.Controllers
 
                 if (result.Succeeded)
                 {
-                    // Lấy thông tin người dùng sau khi đăng nhập thành công
                     var user = await _userManager.FindByEmailAsync(model.Email);
 
-                    // Kiểm tra và thêm các claim nếu cần
                     var existingClaims = await _userManager.GetClaimsAsync(user);
                     var claimsToAdd = new List<Claim>
             {
@@ -45,7 +45,6 @@ namespace EduCourse.Controllers
                 new Claim(ClaimTypes.NameIdentifier, user.Id.ToString())
             };
 
-                    // So sánh và thêm các claim còn thiếu
                     foreach (var claim in claimsToAdd)
                     {
                         if (!existingClaims.Any(c => c.Type == claim.Type && c.Value == claim.Value))
@@ -87,12 +86,17 @@ namespace EduCourse.Controllers
 
                 if (result.Succeeded)
                 {
-                    // Thêm claims cho người dùng sau khi tạo thành công
+                    if (!await _roleManager.RoleExistsAsync("Student"))
+                    {
+                        await _roleManager.CreateAsync(new IdentityRole("Student"));
+                    }
+
+                    await _userManager.AddToRoleAsync(user, "Student");
                     var claims = new List<Claim>
-            {
-                new Claim(ClaimTypes.Name, user.FullName),
-                new Claim(ClaimTypes.NameIdentifier, user.Id.ToString())
-            };
+                    {
+                        new Claim(ClaimTypes.Name, user.FullName),
+                        new Claim(ClaimTypes.NameIdentifier, user.Id.ToString())
+                    };
 
                     var claimResult = await _userManager.AddClaimsAsync(user, claims);
 
@@ -103,7 +107,6 @@ namespace EduCourse.Controllers
                     }
                     else
                     {
-                        // Xử lý lỗi khi thêm claims
                         foreach (var error in claimResult.Errors)
                         {
                             ModelState.AddModelError(string.Empty, error.Description);

@@ -1,0 +1,517 @@
+﻿@model Course
+<script src="~/assets/js/theme-script.js" type="b36d43511b1d467e6b338c09-text/javascript"></script>
+@{
+    var isPurchased = ViewBag.PurchasedCourses.Contains(Model.CourseID);
+}
+<link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+
+<script>
+    AOS.init();
+</script>
+
+<div class="inner-banner" style="margin-top: 70px;">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8">
+                <div class="instructor-wrap border-bottom-0 m-0">
+                    <div class="about-instructor align-items-center">
+                        <div class="abt-instructor-img">
+                            <a href="instructor-profile.html"><img src="~/assets/img/user/user1.jpg" alt="img" class="img-fluid"></a>
+                        </div>
+                        <div class="instructor-detail me-3">
+                            <h5><a href="instructor-profile.html">@Model.Author?.FullName</a></h5>
+                            <p>UX/UI Designer</p>
+                        </div>
+                        @*<div class="rating mb-0">
+                            <i class="fas fa-star filled"></i>
+                            <i class="fas fa-star filled"></i>
+                            <i class="fas fa-star filled"></i>
+                            <i class="fas fa-star filled"></i>
+                            <i class="fas fa-star"></i>
+                            <span class="d-inline-block average-rating"><span>4.5</span> (15)</span>
+                        </div>*@
+                    </div>
+                    <span class="web-badge mb-3">@Model.Category?.Name</span>
+                </div>
+                <h2>@Model.Title</h2>
+                <p>@Model.Description</p>
+                <div class="course-info d-flex align-items-center border-bottom-0 m-0 p-0">
+                    <div class="cou-info">
+                        <img src="~/assets/img/icon/icon-01.svg" alt="Img">
+                        <p>
+                            @Model.Chapters.Sum(chapter => chapter.Lessons.Count())
+                        </p>
+                    </div>
+                    <div class="cou-info">
+                        <img src="~/assets/img/icon/timer-icon.svg" alt="Img">
+                        @{
+                            var chapters = Model.Chapters?.ToList();
+                            double totalCourseDuration = chapters?
+                            .Sum(chapter => chapter.Lessons.Sum(lesson => lesson.Duration)) ?? 0;
+
+                            int hours = (int)(totalCourseDuration / 3600);
+                            int minutes = (int)((totalCourseDuration % 3600) / 60);
+                            int seconds = (int)(totalCourseDuration % 60);
+                        }
+                        <p>
+                            @if (hours > 0)
+                            {
+                                @($"{hours} giờ{(hours > 1 ? "" : "")} ")
+                            }
+                            @if (minutes > 0)
+                            {
+                                @($"{minutes} phút{(minutes > 1 ? "" : "")} ")
+                            }
+                            @if (seconds > 0)
+                            {
+                                @($"{seconds} giây{(seconds > 1 ? "" : "")}")
+                            }
+                            @if (hours == 0 && minutes == 0 && seconds == 0)
+                            {
+                                @("0 giây")
+                            }
+                        </p>
+                    </div>
+                    <div class="cou-info">
+                        <img src="~/assets/img/icon/people.svg" alt="Img">
+                        <p>32 students enrolled</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<section class="page-content course-sec">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8">
+
+                <div class="card overview-sec">
+                    <div class="card-body">
+                        <h5 class="subs-title">Tổng quan</h5>
+                        <h6>@Model.Title</h6>
+                        <p>@Model.Description</p>
+                        @*<h6>What you'll learn</h6>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <ul>
+                                    <li>Become a UX designer.</li>
+                                    <li>You will be able to add UX designer to your CV</li>
+                                    <li>Become a UI designer.</li>
+                                    <li>Build & test a full website design.</li>
+                                    <li>Build & test a full mobile app.</li>
+                                </ul>
+                            </div>
+                        </div>*@
+                    </div>
+                </div>
+
+
+                <div class="card content-sec">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <h5 class="subs-title">Nội dung khóa học</h5>
+                            </div>
+                            <div class="col-sm-6 text-sm-end">
+                                <h6>
+                                    @Model.Chapters?.Count() Chương - @Model.Chapters?.Sum(chapter => chapter.Lessons.Count()) Bài học -  @if (hours > 0)
+                                    {
+                                        @($"{hours} giờ{(hours > 1 ? "" : "")} ")
+                                    }
+                                    @if (minutes > 0)
+                                    {
+                                        @($"{minutes} phút{(minutes > 1 ? "" : "")} ")
+                                    }
+                                    @if (seconds > 0)
+                                    {
+                                        @($"{seconds} giây{(seconds > 1 ? "" : "")}")
+                                    }
+                                    @if (hours == 0 && minutes == 0 && seconds == 0)
+                                    {
+                                        @("0 giây")
+                                    }
+                                </h6>
+                            </div>
+                        </div>
+                        @if(Model.Chapters != null && Model.Chapters.Any()){
+                        @foreach(var chapter in Model.Chapters){
+                        <div class="course-card">
+                            <h6 class="cou-title">
+                                <a class="collapsed" data-bs-toggle="collapse" href="#collapseOne" aria-expanded="false">@chapter.Title</a>
+                            </h6>
+                            <div id="collapseOne" class="card-collapse collapse">
+                                <ul>
+                                    @foreach(var lesson in chapter.Lessons){
+                                                <li>
+                                                    <p><img src="~/assets/img/icon/play.svg" alt="Img" class="me-2">@lesson.Title</p>
+                                                    <div>
+                                                        <a href="javascript:void(0);">Preview</a>
+                                                        @{
+                                                            int hourL = (int)(lesson.Duration / 3600);
+                                                            int minuteL = (int)((lesson.Duration % 3600) / 60);
+                                                            int secondL = (int)(lesson.Duration % 60);
+                                                        }
+                                                        <span>
+                                                            @if (hourL > 0)
+                                                            {
+                                                                @($"{hourL} giờ ")
+                                                            }
+                                                            @if (minuteL > 0 || hourL > 0)
+                                                            {
+                                                                @($"{minuteL} phút ")
+                                                            }
+                                                            @if (secondL > 0 || (hourL == 0 && minuteL == 0))
+                                                            {
+                                                                @($"{secondL} giây")
+                                                            }
+                                                        </span>
+                                                    </div>
+                                                </li>
+                                    }
+                                </ul>
+                            </div>
+                        </div>
+                        }
+                        }
+                    </div>
+                </div>
+
+
+                @* <div class="card instructor-sec">
+                    <div class="card-body">
+                        <h5 class="subs-title">About the instructor</h5>
+                        <div class="instructor-wrap">
+                            <div class="about-instructor">
+                                <div class="abt-instructor-img">
+                                    <a href="instructor-profile.html"><img src="~/assets/img/user/user1.jpg" alt="img" class="img-fluid"></a>
+                                </div>
+                                <div class="instructor-detail">
+                                    <h5><a href="instructor-profile.html">Nicole Brown</a></h5>
+                                    <p>UX/UI Designer</p>
+                                </div>
+                            </div>
+                            <div class="rating">
+                                <i class="fas fa-star filled"></i>
+                                <i class="fas fa-star filled"></i>
+                                <i class="fas fa-star filled"></i>
+                                <i class="fas fa-star filled"></i>
+                                <i class="fas fa-star"></i>
+                                <span class="d-inline-block average-rating">4.5 Instructor Rating</span>
+                            </div>
+                        </div>
+                        <div class="course-info d-flex align-items-center">
+                            <div class="cou-info">
+                                <img src="~/assets/img/icon/play.svg" alt="Img">
+                                <p>5 Courses</p>
+                            </div>
+                            <div class="cou-info">
+                                <img src="~/assets/img/icon/icon-01.svg" alt="Img">
+                                <p>12+ Lesson</p>
+                            </div>
+                            <div class="cou-info">
+                                <img src="~/assets/img/icon/icon-02.svg" alt="Img">
+                                <p>9hr 30min</p>
+                            </div>
+                            <div class="cou-info">
+                                <img src="~/assets/img/icon/people.svg" alt="Img">
+                                <p>270,866 students enrolled</p>
+                            </div>
+                        </div>
+                        <p>UI/UX Designer, with 7+ Years Experience. Guarantee of High Quality Work.</p>
+                        <p>Skills: Web Design, UI Design, UX/UI Design, Mobile Design, User Interface Design, Sketch, Photoshop, GUI, Html, Css, Grid Systems, Typography, Minimal, Template, English, Bootstrap, Responsive Web Design, Pixel Perfect, Graphic Design, Corporate, Creative, Flat, Luxury and much more.</p>
+                        <p>Available for:</p>
+                        <ul>
+                            <li>1. Full Time Office Work</li>
+                            <li>2. Remote Work</li>
+                            <li>3. Freelance</li>
+                            <li>4. Contract</li>
+                            <li>5. Worldwide</li>
+                        </ul>
+                    </div>
+                </div>
+
+
+                <div class="card review-sec">
+                    <div class="card-body">
+                        <h5 class="subs-title">Reviews</h5>
+                        <div class="instructor-wrap">
+                            <div class="about-instructor">
+                                <div class="abt-instructor-img">
+                                    <a href="instructor-profile.html"><img src="~/assets/img/user/user1.jpg" alt="img" class="img-fluid"></a>
+                                </div>
+                                <div class="instructor-detail">
+                                    <h5><a href="instructor-profile.html">Nicole Brown</a></h5>
+                                    <p>UX/UI Designer</p>
+                                </div>
+                            </div>
+                            <div class="rating">
+                                <i class="fas fa-star filled"></i>
+                                <i class="fas fa-star filled"></i>
+                                <i class="fas fa-star filled"></i>
+                                <i class="fas fa-star filled"></i>
+                                <i class="fas fa-star"></i>
+                                <span class="d-inline-block average-rating">4.5 Instructor Rating</span>
+                            </div>
+                        </div>
+                        <p class="rev-info">“ This is the second Photoshop course I have completed with Cristian. Worth every penny and recommend it highly. To get the most out of this course, its best to to take the Beginner to Advanced course first. The sound and video quality is of a good standard. Thank you Cristian. “</p>
+                        <a href="javascript:void(0);" class="btn btn-reply"><i class="feather-corner-up-left"></i> Reply</a>
+                    </div>
+                </div>
+
+
+                <div class="card comment-sec">
+                    <div class="card-body">
+                        <h5 class="subs-title">Post A comment</h5>
+                        <form>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="input-block">
+                                        <input type="text" class="form-control" placeholder="Full Name">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="input-block">
+                                        <input type="email" class="form-control" placeholder="Email">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="input-block">
+                                <input type="email" class="form-control" placeholder="Subject">
+                            </div>
+                            <div class="input-block">
+<textarea rows="4" class="form-control" placeholder="Your Comments"></textarea>
+                            </div>
+                            <div class="submit-section">
+                                <button class="btn submit-btn" type="submit">Submit</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>*@
+
+            </div>
+            <div class="col-lg-4">
+                <div class="sidebar-sec">
+
+                    <div class="video-sec vid-bg">
+                        <div class="card">
+                            <div class="card-body">
+                                @if (isPurchased)
+                                {
+                                    <a href="/Course/Index?id=@Model.CourseID" class="video-thumbnail" data-fancybox>
+                                        <div class="play-icon">
+                                            <i class="fa-solid fa-play"></i>
+                                        </div>
+                                        <img src="@Model.Image" alt="Img">
+                                    </a>
+                                }else{
+                                    <a class="video-thumbnail" data-fancybox>
+                                        <div class="play-icon">
+                                            <i class="fa-solid fa-play"></i>
+                                        </div>
+                                        <img src="@Model.Image" alt="Img">
+                                    </a>
+                                }
+                                <div class="video-details">
+                                        <div class="course-fee">
+                                            @{
+                                                var price = Model.Price * (1 - Model.Discount / 100.0M);
+                                            }
+                                            @if (price <= 0)
+                                            {
+                                                <h2>Miễn phí</h2>
+                                            }else{
+                                                <h2>
+                                                        @price.ToString("N0") VND
+                                                </h2>
+                                            }
+                                        <p>
+                                            <span>
+                                                @Model.Price.ToString("N0")
+                                            </span> @Model.Discount%
+                                        </p>
+                                    </div>
+                                    @if (isPurchased)
+                                    {
+                                    <div class="row gx-2">
+                                        <div class="col-md-6">
+                                            <a href="javascript:void(0);" class="btn btn-wish w-100">
+                                                <i class="feather-shopping-cart"></i> Đã mua
+                                            </a>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <a href="javascript:void(0);" class="btn btn-wish w-100"><i class="feather-share-2"></i> Share</a>
+                                        </div>
+                                    </div>
+                                    }
+                                    else
+                                    {
+                                        <div class="row gx-2">
+                                            <div class="col-md-6">
+                                                <a href="javascript:void(0);" class="btn btn-wish w-100" onclick="addToCart(@Model.CourseID)">
+                                                    <i class="feather-shopping-cart"></i> Thêm vào giỏ
+                                                </a>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <a href="javascript:void(0);" class="btn btn-wish w-100"><i class="feather-share-2"></i> Share</a>
+                                            </div>
+                                        </div>
+                                        <a href="javascript:void(0);" class="btn btn-enroll w-100" onclick="checkoutSingleCourse(@Model.CourseID)">
+                                            Thanh toán
+                                        </a>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                   @* <div class="card include-sec">
+                        <div class="card-body">
+                            <div class="cat-title">
+                                <h4>Includes</h4>
+                            </div>
+                            <ul>
+                                <li><img src="~/assets/img/icon/import.svg" class="me-2" alt="Img"> 11 hours on-demand video</li>
+                                <li><img src="~/assets/img/icon/play.svg" class="me-2" alt="Img"> 69 downloadable resources</li>
+                                <li><img src="~/assets/img/icon/key.svg" class="me-2" alt="Img"> Full lifetime access</li>
+                                <li><img src="~/assets/img/icon/mobile.svg" class="me-2" alt="Img"> Access on mobile and TV</li>
+                                <li><img src="~/assets/img/icon/cloud.svg" class="me-2" alt="Img"> Assignments</li>
+                                <li><img src="~/assets/img/icon/teacher.svg" class="me-2" alt="Img"> Certificate of Completion</li>
+                            </ul>
+                        </div>
+                    </div>
+                    *@
+
+                    <div class="card feature-sec">
+                        <div class="card-body">
+                            <div class="cat-title">
+                                <h4>Khóa gồm:</h4>
+                            </div>
+                            <ul>
+                                <li><img src="~/assets/img/icon/users.svg" class="me-2" alt="Img"> Đã đăng kí: <span>@Model.UserCourses?.Count()</span></li>
+                                <li>
+                                    <img src="~/assets/img/icon/timer.svg" class="me-2" alt="Img"> Thời gian: <span>
+                                        @if (hours > 0)
+                                        {
+                                            @($"{hours} giờ{(hours > 1 ? "" : "")} ")
+                                        }
+                                        @if (minutes > 0)
+                                        {
+                                            @($"{minutes} phút{(minutes > 1 ? "" : "")} ")
+                                        }
+                                        @if (seconds > 0)
+                                        {
+                                            @($"{seconds} giây{(seconds > 1 ? "" : "")}")
+                                        }
+                                        @if (hours == 0 && minutes == 0 && seconds == 0)
+                                        {
+                                            @("0 giây")
+                                        }
+                                    </span>
+                                </li>
+                                <li><img src="~/assets/img/icon/chapter.svg" class="me-2" alt="Img"> Chương: <span>15</span></li>
+                                <li><img src="~/assets/img/icon/video.svg" class="me-2" alt="Img"> Video:<span>
+                                        @foreach (var chapter in Model.Chapters)
+                                        {
+                                            @foreach (var lesson in chapter.Lessons)
+                                            {
+                                                    int hourL = (int)(lesson.Duration / 3600);
+                                                    int minuteL = (int)((lesson.Duration % 3600) / 60);
+                                                    int secondL = (int)(lesson.Duration % 60);
+                                                
+                                                    @if (hourL > 0)
+                                                    {
+                                                        @($"{hourL} giờ ")
+                                                    }
+                                                    @if (minuteL > 0 || hourL > 0)
+                                                    {
+                                                        @($"{minuteL} phút ")
+                                                    }
+                                                    @if (secondL > 0 || (hourL == 0 && minuteL == 0))
+                                                    {
+                                                        @($"{secondL} giây")
+                                                    }
+                                            }
+                                        }
+                                    </span></li>
+                                <!--<li><img src="~/assets/img/icon/chart.svg" class="me-2" alt="Img"> Level: <span>Beginner</span></li>-->
+                            </ul>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<link href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="~/assets/js/script.js" type="b36d43511b1d467e6b338c09-text/javascript"></script>
+<script src="~/cdn-cgi/scripts/7d0fa10a/cloudflare-static/rocket-loader.min.js" data-cf-settings="b36d43511b1d467e6b338c09-|49" defer></script>
+<script>
+    function checkoutSingleCourse(courseId) {
+        console.log(courseId);
+
+        document.getElementById('loading-overlay').style.display = 'block';
+        $.ajax({
+            url: '/Cart/CheckoutSingleCourse',
+            type: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify(courseId),
+            success: function (response) {
+                var stripe = Stripe('pk_test_51P7bRY1vJ264C6HKaJUP0nrssbUv01bbiRYNuUhbQTM2TOZEZsF6fApNwxnuylG7VYnphnJlksYfpt4y64pX7AWA002OEkCN6X');
+                stripe.redirectToCheckout({ sessionId: response.sessionId });
+            },
+            error: function () {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Lỗi',
+                    text: 'Có lỗi xảy ra khi thanh toán. Vui lòng thử lại.'
+                });
+
+                document.getElementById('loading-overlay').style.display = 'none';
+            }
+        });
+    }
+</script>
+
+<script>
+    function addToCart(courseId) {
+        $.ajax({
+            url: '/Cart/AddToCart',
+            type: 'POST',
+            data: {
+                courseId: courseId
+            },
+            success: function (response) {
+                if (response.success) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Thành công',
+                        text: response.message,
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Lỗi',
+                        text: response.message
+                    });
+                }
+            },
+            error: function () {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Lỗi',
+                    text: 'Đã xảy ra lỗi. Vui lòng thử lại sau.'
+                });
+            }
+        });
+    }
+</script>

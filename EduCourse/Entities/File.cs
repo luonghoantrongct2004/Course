@@ -7,9 +7,9 @@
         public string FilePath { get; set; }
         public string ContentType { get; set; }
         public DateTime UploadedDate { get; set; }
-        public int UploadedByID { get; set; }
+        public string UploadedByID { get; set; }
 
         // Navigation properties
-        public User UploadedBy { get; set; }
+        public User User { get; set; }
     }
 }

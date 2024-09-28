@@ -1,4 +1,6 @@
-﻿namespace EduCourse.Entities
+﻿using Newtonsoft.Json;
+
+namespace EduCourse.Entities
 {
     public class Option
     {
@@ -7,6 +9,7 @@
         public bool? IsCorrect { get; set; } // Indicates if this option is correct
 
         public int QuestionID { get; set; }
+        [JsonIgnore]
         public Question? Question { get; set; }
     }
 }

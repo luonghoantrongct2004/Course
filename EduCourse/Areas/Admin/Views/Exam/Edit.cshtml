@@ -140,6 +140,8 @@
     </div>
     <div class="p-5 bg-white rounded-lg">
         <form id="courseForm">
+            <input type="hidden" name="id" value="@Model.ExamID" />
+            <input type="hidden" asp-for="ExamID" />
             <input type="hidden" asp-for="AuthorID" value="@user.Id" />
             <div style="display: block;" class="form-step">
                 <div class="grid grid-cols-1 gap-5 lg:grid-cols-2">
@@ -185,7 +187,7 @@
                                             <span>Đáp án:</span>
                                             @foreach (var option in question.Options)
                                             {
-                                                <li>@option.Content - @(option.IsCorrect ?? false ? "<b>Đúng</b>" : "Sai")</li>
+                                                <li>@option.Content - @(option.IsCorrect ?? false ? "Đúng" : "Sai")</li>
                                             }
                                         </ul>
                                     </label>
@@ -229,58 +231,73 @@
                     });
                 </script>
             <script>
-                document.getElementById('courseForm').addEventListener('submit', function (e) {
-                    e.preventDefault();
+                    document.getElementById('courseForm').addEventListener('submit', function (e) {
+                        e.preventDefault();
 
-                    const formData = new FormData(this);
+                        const formData = new FormData(this);
 
-                    // Collect selected question IDs into an array
-                    const selectedQuestions = [];
-                    document.querySelectorAll('input[name="selectedQuestions"]:checked').forEach((checkbox) => {
-                        selectedQuestions.push(checkbox.value); // Add question ID to the array
-                    });
+                        // Collect selected question IDs into an array
+                        const selectedQuestions = [];
+                        document.querySelectorAll('input[name="selectedQuestions"]:checked').forEach((checkbox) => {
+                            selectedQuestions.push(parseInt(checkbox.value)); // Convert to integer if needed
+                        });
 
-                    // Append the array as a single form entry
-                    formData.append('SelectedQuestions', selectedQuestions);
+                        // Append the array as individual entries
+                        selectedQuestions.forEach(questionId => {
+                            formData.append('SelectedQuestionIDs', questionId); // Append each ID separately
+                        });
 
-                    Swal.fire({
-                        title: 'Bạn có chắc chắn muốn tạo đề thi?',
-                        icon: 'warning',
-                        showCancelButton: true,
-                        confirmButtonText: 'Có, tạo nó!',
-                        cancelButtonText: 'Không, hủy!',
-                        reverseButtons: true,
-                        customClass: {
-                            popup: 'swal-custom-popup',
-                            title: 'swal-custom-title',
-                            confirmButton: 'swal-custom-confirm',
-                            cancelButton: 'swal-custom-cancel'
-                        }
-                    }).then((result) => {
-                        if (result.isConfirmed) {
-                            fetch('/Admin/Exam/Create', {
-                                method: 'POST',
-                                body: formData
-                            })
-                                .then(response => response.json())
-                                .then(data => {
-                                    if (data.success) {
-                                        Swal.fire({
-                                            title: 'Thành công!',
-                                            text: data.message,
-                                            icon: 'success',
-                                            customClass: {
-                                                popup: 'swal-custom-popup',
-                                                title: 'swal-custom-title',
-                                                confirmButton: 'swal-custom-confirm'
-                                            }
-                                        }).then(() => {
-                                            window.location.href = '/Admin/Exam';
-                                        });
-                                    } else {
+                        Swal.fire({
+                            title: 'Bạn có chắc chắn muốn sửa đề thi?',
+                            icon: 'warning',
+                            showCancelButton: true,
+                            confirmButtonText: 'Có, sửa nó!',
+                            cancelButtonText: 'Không, hủy!',
+                            reverseButtons: true,
+                            customClass: {
+                                popup: 'swal-custom-popup',
+                                title: 'swal-custom-title',
+                                confirmButton: 'swal-custom-confirm',
+                                cancelButton: 'swal-custom-cancel'
+                            }
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                fetch('/Admin/Exam/Edit', {
+                                    method: 'POST',
+                                    body: formData
+                                })
+                                    .then(response => response.json())
+                                    .then(data => {
+                                        if (data.success) {
+                                            Swal.fire({
+                                                title: 'Thành công!',
+                                                text: data.message,
+                                                icon: 'success',
+                                                customClass: {
+                                                    popup: 'swal-custom-popup',
+                                                    title: 'swal-custom-title',
+                                                    confirmButton: 'swal-custom-confirm'
+                                                }
+                                            }).then(() => {
+                                                window.location.href = '/Admin/Exam';
+                                            });
+                                        } else {
+                                            Swal.fire({
+                                                title: 'Lỗi!',
+                                                text: data.message,
+                                                icon: 'error',
+                                                customClass: {
+                                                    popup: 'swal-custom-popup',
+                                                    title: 'swal-custom-title',
+                                                    confirmButton: 'swal-custom-confirm'
+                                                }
+                                            });
+                                        }
+                                    })
+                                    .catch(error => {
                                         Swal.fire({
                                             title: 'Lỗi!',
-                                            text: data.message,
+                                            text: 'Đã xảy ra lỗi bất ngờ.',
                                             icon: 'error',
                                             customClass: {
                                                 popup: 'swal-custom-popup',
@@ -288,25 +305,14 @@
                                                 confirmButton: 'swal-custom-confirm'
                                             }
                                         });
-                                    }
-                                })
-                                .catch(error => {
-                                    Swal.fire({
-                                        title: 'Lỗi!',
-                                        text: 'Đã xảy ra lỗi bất ngờ.',
-                                        icon: 'error',
-                                        customClass: {
-                                            popup: 'swal-custom-popup',
-                                            title: 'swal-custom-title',
-                                            confirmButton: 'swal-custom-confirm'
-                                        }
                                     });
-                                });
-                        }
+                            }
+                        });
                     });
-                });
 
             </script>
+        
+            </div>
         </form>
 
     </div>

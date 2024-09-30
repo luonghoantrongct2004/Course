@@ -1,0 +1,221 @@
+﻿@model EduCourse.Models.SearchViewModel
+
+<section class="course-content">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-9">
+
+                <div class="showing-list">
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="d-flex align-items-center">
+                                <div class="view-icons">
+                                    <a href="course-grid.html" class="grid-view">
+                                        <i class="feather-grid"></i>
+                                    </a>
+                                    <a href="course-list.html" class="list-view active">
+                                        <i class="feather-list"></i>
+                                    </a>
+                                </div>
+                                <div class="show-result">
+                                    <h4>Showing @Model.CurrentPage-1 to @Model.CurrentPage of @Model.TotalResults results</h4>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="show-filter add-course-info ">
+                                <form method="get" action="@Url.Action("Search", "Home")">
+                                    <div class="row gx-2 align-items-center">
+                                        <div class="col-md-12 col-item">
+                                            <div class="search-group">
+                                                <i class="feather-search"></i>
+                                                <input type="text" class="form-control" name="courseName" placeholder="Search our courses" value="@Model.CourseName">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row list-view">
+                    @if (Model.Courses != null && Model.Courses.Count > 0)
+                    {
+                        foreach (var course in Model.Courses)
+                        {
+                            <div class="col-lg-12 col-md-12 d-flex">
+                                <div class="course-box course-design list-course d-flex">
+                                    <div class="product">
+                                        <div class="product-img">
+                                            <a href="@Url.Action("Details", "Courses", new { id = course.CourseID })">
+                                                <img class="img-fluid" alt="Img" src="@course.Image">
+                                            </a>
+
+                                            <div class="price">
+                                            @{
+                                                var price = course.Price * (1 - course.Discount / 100.0M);
+                                            }
+                                            @if (price <= 0)
+                                            {
+                                                <h3>Miễn phí</h3>
+                                            }
+                                            else
+                                            {
+                                                <h3>@price.ToString("N0") VND<span>@course.Discount</span></h3>
+                                            }
+                                            </div>
+                                        </div>
+                                        <div class="product-content">
+                                            <div class="head-course-title">
+                                                <h3 class="title">
+                                                    <a href="@Url.Action("Detail", "Home", new { id = course.CourseID })">
+                                                        @course.Title
+                                                    </a>
+                                                </h3>
+                                                <div class="all-btn all-category d-flex align-items-center">
+                                                    <a href="@Url.Action("Checkout", "Home", new { id = course.CourseID })" class="btn btn-primary">BUY NOW</a>
+                                                </div>
+                                            </div>
+                                            <div class="course-info border-bottom-0 pb-0 d-flex align-items-center">
+                                                <div class="rating-img d-flex align-items-center">
+                                                    <img src="assets/img/icon/icon-01.svg" alt="Img">
+                                                    <p>@course?.Chapters?.Sum(l => l.Lessons.Count()) bài học</p>
+                                                </div>
+                                                <div class="course-view d-flex align-items-center">
+                                                    <img src="assets/img/icon/icon-02.svg" alt="Img">
+                                                    @{
+                                                        var chapters = course?.Chapters?.ToList();
+                                                        double totalCourseDuration = chapters?
+                                                        .Sum(chapter => chapter.Lessons.Sum(lesson => lesson.Duration)) ?? 0;
+
+                                                        int hours = (int)(totalCourseDuration / 3600);
+                                                        int minutes = (int)((totalCourseDuration % 3600) / 60);
+                                                        int seconds = (int)(totalCourseDuration % 60);
+                                                    }
+                                                    <p>
+                                                        @if (hours > 0)
+                                                        {
+                                                            @($"{hours} giờ{(hours > 1 ? "" : "")} ")
+                                                        }
+                                                        @if (minutes > 0)
+                                                        {
+                                                            @($"{minutes} phút{(minutes > 1 ? "" : "")} ")
+                                                        }
+                                                        @if (seconds > 0)
+                                                        {
+                                                            @($"{seconds} giây{(seconds > 1 ? "" : "")}")
+                                                        }
+                                                        @if (hours == 0 && minutes == 0 && seconds == 0)
+                                                        {
+                                                            @("0 giây")
+                                                        }
+                                                    </p>
+                                                </div>
+                                            </div>
+                                            <div class="course-group d-flex mb-0">
+                                                <div class="course-group-img d-flex">
+                                                    <a href="@Url.Action("Profile", "Instructors", new { id = course.Author.Id })">
+                                                        <img src="/Lotus.png" alt="Img" class="img-fluid">
+                                                    </a>
+                                                    <div class="course-name">
+                                                        <h4><a href="@Url.Action("Profile", "Instructors", new { id = course.Author.Id })">@course.Author.FullName</a></h4>
+                                                        <p>Instructor</p>
+                                                    </div>
+                                                </div>
+                                                <div class="course-share d-flex align-items-center justify-content-center">
+                                                    <a href="#rate"><i class="fa-regular fa-heart"></i></a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    }
+                    else
+                    {
+                        <div class="col-lg-12">
+                            <p>No courses found.</p>
+                        </div>
+                    }
+                </div>
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <ul class="pagination lms-page">
+                            <li class="page-item @(Model.CurrentPage == 1 ? "disabled" : "") prev">
+                                <a class="page-link" href="@Url.Action("Search", new { courseName = Model.CourseName, currentPage = Model.CurrentPage - 1 })" tabindex="-1">
+                                    <i class="fas fa-angle-left"></i>
+                                </a>
+                            </li>
+                            @for (int i = 1; i <= Model.TotalPages; i++)
+                            {
+                                <li class="page-item @(Model.CurrentPage == i ? "active" : "")">
+                                    <a class="page-link" href="@Url.Action("Search", new { courseName = Model.CourseName, currentPage = i })">@i</a>
+                                </li>
+                            }
+                            <li class="page-item @(Model.CurrentPage == Model.TotalPages ? "disabled" : "") next">
+                                <a class="page-link" href="@Url.Action("Search", new { courseName = Model.CourseName, currentPage = Model.CurrentPage + 1 })">
+                                    <i class="fas fa-angle-right"></i>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="col-lg-3 theiaStickySidebar">
+                <div class="filter-clear">
+                    <div class="clear-filter d-flex align-items-center">
+                        <h4><i class="feather-filter"></i>Filters</h4>
+                        <div class="clear-text">
+                            <p><a href="@Url.Action("Search", new { courseName = "", categoryName = "", instructorName = "", price = "" })">CLEAR</a></p>
+                        </div>
+                    </div>
+
+                    <div class="card search-filter categories-filter-blk">
+                        <div class="card-body">
+                            <div class="filter-widget mb-0">
+                                <div class="categories-head d-flex align-items-center">
+                                    <h4>Course categories</h4>
+                                    <i class="fas fa-angle-down"></i>
+                                </div>
+                                <div>
+                                    @foreach (var category in Model.Categories)
+                                    {
+                                        <label class="custom_check">
+                                            <input type="checkbox" name="category" value="@category.Name" @(Model.CategoryName.Contains(category.Name) ? "checked" : "")>
+                                            <span class="checkmark"></span> @category.Name
+                                        </label>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card search-filter">
+                        <div class="card-body">
+                            <div class="filter-widget mb-0">
+                                <div class="categories-head d-flex align-items-center">
+                                    <h4>Instructors</h4>
+                                    <i class="fas fa-angle-down"></i>
+                                </div>
+                                <div>
+                                    @foreach (var instructor in Model.Instructors)
+                                    {
+                                        <label class="custom_check">
+                                            <input type="checkbox" name="instructor" value="@instructor.FullName" @(Model.InstructorName.Contains(instructor.FullName) ? "checked" : "")>
+                                            <span class="checkmark"></span> @instructor.FullName
+                                        </label>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

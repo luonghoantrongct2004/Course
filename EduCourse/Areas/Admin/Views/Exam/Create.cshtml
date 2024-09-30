@@ -88,9 +88,7 @@
         border: 1px solid #ccc;
         border-radius: 4px;
     }
-</style>
 
-<style>
     .swal-custom-popup {
         background-color: #a52effa3;
         color: black;
@@ -112,7 +110,7 @@
 
 </style>
 @{
-    var questions = ViewData["Questions"] as List<Question>;
+    var questions = ViewData["Questions"] as List<Question> ?? new List<Question>();
 }
 <!-- write your code here-->
 <div class="p-6">
@@ -163,8 +161,6 @@
                         <div id="question-list" class="grid grid-cols-1 lg:grid-cols-2 gap-4">
                             @foreach (var question in questions)
                             {
-                                var isChecked = Model.ExamQuestions.Any(eq => eq.QuestionID == question.QuestionID); // Kiểm tra nếu câu hỏi đã thuộc về đề thi
-
                                 <!-- Make the entire card clickable and apply class changes dynamically -->
                                 <label class="border border-slate-200 p-4 rounded-lg shadow-sm block cursor-pointer transition-colors duration-300"
                                        for="question-@question.QuestionID"
@@ -176,7 +172,7 @@
 
                                     <div class="flex items-center mb-4">
                                         <input type="checkbox" id="question-@question.QuestionID" name="selectedQuestions" value="@question.QuestionID"
-                                        @(isChecked ? "checked" : "") />
+                                       />
                                         <span class="text-sm font-semibold text-mainblack">@question.Content</span>
                                     </div>
 

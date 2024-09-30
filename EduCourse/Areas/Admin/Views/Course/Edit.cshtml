@@ -326,7 +326,7 @@
                                                                 var question = lesson.Questions.ElementAt(k);
                                                                 <div class="question-form" id="question-form-@(i)-@(j)-@(k)">
                                                                     <div class="flex justify-between items-center">
-                                                                        <label for="QuestionContent-@(i)-@(j)-@(k)" class="block mb-2 text-sm font-medium leading-6 text-mainblack">Nội dung câu hỏi</label>
+                                                                        <label for="QuestionContent-@(i)-@(j)-@(k)" class="block mb-2 text-sm font-medium leading-6 text-mainblack">Nội dung câu hỏi </label>
                                                                         <div>
                                                                             <button type="button" onclick="toggleQuestion(@i, @j, @k)" class="ml-2">
                                                                                 <i id="question-icon-@(i)-@(j)-@(k)" class="fas fa-chevron-up"></i>
@@ -338,49 +338,46 @@
                                                                     </div>
                                                                     <div id="question-@(i)-@(j)-@(k)" style="display: block;">
                                                                         <input type="hidden" name="Chapters[@i].Lessons[@j].Questions[@k].QuestionID" value="@question.QuestionID" />
-                                                                        <input type="text" id="QuestionContent-@(i)-@(j)-@(k)" name="Chapters[@i].Lessons[@j].Questions[@k].Content" value="@question.Content"
+                                                                        <input type="text"
                                                                                class="w-full px-4 py-2 text-sm border rounded-lg text-mainblack placeholder:text-sm focus:ring-0 focus:border-primary h-11 border-slate-200 placeholder:text-slate-600"
-                                                                               placeholder="Nội dung câu hỏi" />
+                                                                            id="QuestionContent-@(i)-@(j)-@(k)" name="Chapters[@i].Lessons[@j].Questions[@k].Content" value="@question.Content" class="..." placeholder="Nội dung câu hỏi" />
                                                                         <label for="QuestionShowTime-@(i)-@(j)-@(k)" class="block mt-4 mb-2 text-sm font-medium leading-6 text-mainblack">Thời gian hiển thị (giây)</label>
                                                                         <input type="number" id="QuestionShowTime-@(i)-@(j)-@(k)" name="Chapters[@i].Lessons[@j].Questions[@k].ShowTime" value="@question.ShowTime"
-                                                                               class="w-full px-4 py-2 text-sm border rounded-lg text-mainblack placeholder:text-sm focus:ring-0 focus:border-primary h-11 border-slate-200 placeholder:text-slate-600" placeholder="Nhập số giây" />
+                                                                               class="w-full px-4 py-2 text-sm border rounded-lg text-mainblack placeholder:text-sm focus:ring-0 focus:border-primary h-11 border-slate-200 placeholder:text-slate-600" id="QuestionShowTime-@(i)-@(j)-@(k)" name="Chapters[@i].Lessons[@j].Questions[@k].ShowTime" value="@question.ShowTime" class="..." placeholder="Nhập số giây" />
                                                                         <label for="QuestionType-@(i)-@(j)-@(k)" class="block mt-4 mb-2 text-sm font-medium leading-6 text-mainblack">Loại câu hỏi</label>
-                                                                        <select id="QuestionType-@(i)-@(j)-@(k)" name="Chapters[@i].Lessons[@j].Questions[@k].QuestionType"
-                                                                                class="w-full px-4 py-2 text-sm border rounded-lg text-mainblack placeholder:text-sm focus:ring-0 focus:border-primary h-11 border-slate-200 placeholder:text-slate-600"
-                                                                                onchange="updateAnswerType(@i, @j, @k)">
-                                                                            <option value="Single Choice" selected="@(question.QuestionType == "Single Choice" ? "selected" : null)">1 đáp án đúng</option>
-                                                                            <option value="Multiple Choice" selected="@(question.QuestionType == "Multiple Choice" ? "selected" : null)">Nhiều đáp án đúng</option>
-                                                                            <option value="Keyword" selected="@(question.QuestionType == "Keyword" ? "selected" : null)">Từ khóa đúng</option>
-                                                                        </select>
+                                                                        <input type="text" id="QuestionType-@(i)-@(j)-@(k)" name="Chapters[@i].Lessons[@j].Questions[@k].QuestionType" value="@question.QuestionType" class="w-full px-4 py-2 text-sm border rounded-lg text-mainblack placeholder:text-sm focus:ring-0 focus:border-primary h-11 border-slate-200 placeholder:text-slate-600" readonly />
 
-                                                                        <!-- Container for answer options -->
+
                                                                         <div id="answersContainer-@(i)-@(j)-@(k)" class="answers-container mt-4">
-                                                                            @foreach (var option in question.Options)
+                                                                            @for (int l = 0; l < question.Options.Count; l++)
                                                                             {
-                                                                                <div class="flex items-center" id="answer-option-@(i)-@(j)-@(k)-@(option.OptionID)">
-                                                                                    <input type="text" id="AnswerContent-@(i)-@(j)-@(k)-@(option.OptionID)" name="Chapters[@i].Lessons[@j].Questions[@k].Options[@option.OptionID].Content" value="@option.Content"
-                                                                                           class="w-full px-4 py-2 text-sm border rounded-lg text-mainblack placeholder:text-sm focus:ring-0 focus:border-primary h-11 border-slate-200 placeholder:text-slate-600" placeholder="Nhập đáp án" />
+                                                                                var option = question.Options.ElementAt(l);
+                                                                                <div class="flex items-center" id="answer-option-@(i)-@(j)-@(k)-@(l)">
+                                                                                    <input type="hidden" name="Chapters[@i].Lessons[@j].Questions[@k].Options[@l].OptionID" value="@option.OptionID" />
 
-                                                                                    @if (question.QuestionType == "Single Choice")
-                                                                                    {
-                                                                                        <input type="hidden" name="Chapters[@i].Lessons[@j].Questions[@k].Options[@option.OptionID].IsCorrect" value="false" />
-                                                                                        <input type="radio" name="Chapters[@i].Lessons[@j].Questions[@k].CorrectAnswer" value="@option.OptionID" @(option.IsCorrect == true ? "checked" : "") class="ml-2">
-                                                                                    }
-                                                                                    else if (question.QuestionType == "Multiple Choice")
-                                                                                    {
-                                                                                        <input type="hidden" name="Chapters[@i].Lessons[@j].Questions[@k].Options[@option.OptionID].IsCorrect" value="false" />
-                                                                                        <input type="checkbox" name="Chapters[@i].Lessons[@j].Questions[@k].Options[@option.OptionID].IsCorrect" value="true" @(option.IsCorrect == true ? "checked" : "") class="ml-2">
-                                                                                    }
+                                                                                    <input type="text" id="AnswerContent-@(i)-@(j)-@(k)-@(l)"
+                                                                                           name="Chapters[@i].Lessons[@j].Questions[@k].Options[@l].Content"
+                                                                                           value="@option.Content"
+                                                                                           class="w-full px-4 py-2 text-sm border rounded-lg text-mainblack placeholder:text-sm focus:ring-0 focus:border-primary h-11 border-slate-200 placeholder:text-slate-600"
+                                                                                           placeholder="Nhập đáp án" />
 
-                                                                                    <button type="button" onclick="deleteAnswerOption(@i, @j, @k, @option.OptionID)" class="ml-2 text-red-600">
+                                                                                    <input type="checkbox"
+                                                                                           name="Chapters[@i].Lessons[@j].Questions[@k].Options[@l].IsCorrect"
+                                                                                           value="true"
+                                                                                    @(option.IsCorrect == true ? "checked" : "")
+                                                                                           class="ml-2" />
+
+
+                                                                                    <button type="button" onclick="deleteAnswerOption(@i, @j, @k, @l)" class="ml-2 text-red-600">
                                                                                         <i class="fas fa-trash-alt"></i>
                                                                                     </button>
                                                                                 </div>
                                                                             }
                                                                         </div>
-                                                                        <button type="button" style="margin-bottom: 15px;" onclick="addAnswerOption(@i, @j, @k)" class="mt-2 px-4 py-2 text-sm font-medium leading-6 text-center text-white transition border rounded-lg hover:bg-opacity-80 bg-primary sm:text-base">
+                                                                        <button type="button" onclick="addAnswerOption(@i, @j, @k)" class="mt-2 px-4 py-2 text-sm font-medium leading-6 text-center text-white transition border rounded-lg hover:bg-opacity-80 bg-primary sm:text-base">
                                                                             Thêm đáp án
                                                                         </button>
+
                                                                     </div>
                                                                 </div>
                                                             }
@@ -411,6 +408,53 @@
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
 
+        <script>
+            function setCorrectAnswer(chapterIndex, lessonIndex, questionIndex, answerIndex, questionType) {
+                console.log(`Correct answer set for question ${questionIndex} in lesson ${lessonIndex}`);
+                if (questionType === 'Single Choice') {
+                    const radioButtons = document.getElementsByName(`Chapters[${chapterIndex}].Lessons[${lessonIndex}].Questions[${questionIndex}].CorrectAnswer`);
+
+                    for (let i = 0; i < radioButtons.length; i++) {
+                        radioButtons[i].checked = false;
+                    }
+
+                    radioButtons[answerIndex].checked = true;
+                }
+            }
+
+            function addAnswerOption(chapterIndex, lessonIndex, questionIndex) {
+                const answersContainer = document.getElementById(`answersContainer-${chapterIndex}-${lessonIndex}-${questionIndex}`);
+                const answerIndex = answersContainer.children.length; // Get the current count of answer options
+
+                const answerOption = document.createElement('div');
+                answerOption.classList.add('flex', 'items-center');
+                answerOption.setAttribute('id', `answer-option-${chapterIndex}-${lessonIndex}-${questionIndex}-${answerIndex}`);
+
+                answerOption.innerHTML = `
+                    <input type="hidden" name="Chapters[${chapterIndex}].Lessons[${lessonIndex}].Questions[${questionIndex}].Options[${answerIndex}].OptionID" value="0" />
+
+                    <input type="text" id="AnswerContent-${chapterIndex}-${lessonIndex}-${questionIndex}-${answerIndex}"
+                           name="Chapters[${chapterIndex}].Lessons[${lessonIndex}].Questions[${questionIndex}].Options[${answerIndex}].Content"
+                                          class="w-full px-4 py-2 text-sm border rounded-lg text-mainblack placeholder:text-sm focus:ring-0 focus:border-primary h-11 border-slate-200 placeholder:text-slate-600"
+                           placeholder="Nhập đáp án" />
+
+                    <input type="hidden" name="Chapters[${chapterIndex}].Lessons[${lessonIndex}].Questions[${questionIndex}].Options[${answerIndex}].IsCorrect" value="false" />
+                    <input type="checkbox"
+                           name="Chapters[${chapterIndex}].Lessons[${lessonIndex}].Questions[${questionIndex}].Options[${answerIndex}].IsCorrect"
+                           class="ml-2"
+                           onchange="this.previousElementSibling.value = this.checked ? 'true' : 'false'" />
+
+                    <button type="button" onclick="deleteAnswerOption(${chapterIndex}, ${lessonIndex}, ${questionIndex}, ${answerIndex})"
+                            class="ml-2 text-red-600">
+                        <i class="fas fa-trash-alt"></i>
+                    </button>
+                `;
+
+                answersContainer.appendChild(answerOption);
+            }
+
+
+        </script>
         <script>
             function toggleChapter(index) {
                 const chapterDiv = document.getElementById(`chapter-${index}`);
@@ -684,7 +728,6 @@
                 questionsContainer.appendChild(questionCard);
             }
 
-
             function handleQuestionTypeChange(chapterIndex, lessonIndex, questionIndex) {
                 const questionType = document.getElementById(`QuestionType-${chapterIndex}-${lessonIndex}-${questionIndex}`).value;
                 const answersContainer = document.getElementById(`answersContainer-${chapterIndex}-${lessonIndex}-${questionIndex}`);
@@ -698,55 +741,6 @@
                     addKeywordField(chapterIndex, lessonIndex, questionIndex);
                 }
             }
-            function addAnswerOption(chapterIndex, lessonIndex, questionIndex, questionType = 'Single Choice') {
-                const answersContainer = document.getElementById(`answersContainer-${chapterIndex}-${lessonIndex}-${questionIndex}`);
-                const answerIndex = answersContainer.children.length;
-
-                // Tùy theo loại câu hỏi mà quyết định kiểu input là radio hay checkbox
-                const inputType = questionType === 'Single Choice' ? 'radio' : 'checkbox';
-
-                const answerOption = document.createElement('div');
-                answerOption.classList.add('answer-option');
-                answerOption.setAttribute('id', `answer-option-${chapterIndex}-${lessonIndex}-${questionIndex}-${answerIndex}`);
-                answerOption.innerHTML = `
-                    <div class="flex items-center">
-                        <input type="text" id="AnswerContent-${chapterIndex}-${lessonIndex}-${questionIndex}-${answerIndex}"
-                               name="Chapters[${chapterIndex}].Lessons[${lessonIndex}].Questions[${questionIndex}].Options[${answerIndex}].Content"
-                               class="w-full px-4 py-2 text-sm border rounded-lg text-mainblack placeholder:text-sm focus:ring-0 focus:border-primary h-11 border-slate-200 placeholder:text-slate-600"
-                               placeholder="Nhập đáp án" />
-
-                                   <input type="${inputType}"
-                   name="Chapters[${chapterIndex}].Lessons[${lessonIndex}].Questions[${questionIndex}].Options[${answerIndex}].IsCorrect"
-                   value="true"
-                   class="ml-2"
-                   ${inputType === 'radio' ? `onclick="setCorrectAnswer(${chapterIndex}, ${lessonIndex}, ${questionIndex}, ${answerIndex})"` : ''}>
-
-
-                        <button type="button" onclick="deleteAnswerOptionClient(${chapterIndex}, ${lessonIndex}, ${questionIndex}, ${answerIndex})"
-                                class="ml-2 text-red-600">
-                            <i class="fas fa-trash-alt"></i>
-                        </button>
-                    </div>
-                `;
-
-                answersContainer.appendChild(answerOption);
-            }
-            function setCorrectAnswer(chapterIndex, lessonIndex, questionIndex, answerIndex, questionType) {
-                if (questionType === 'Single Choice') {
-                    // Đối với Single Choice, chỉ cho phép chọn một đáp án đúng
-                    const radioButtons = document.getElementsByName(`Chapters[${chapterIndex}].Lessons[${lessonIndex}].Questions[${questionIndex}].CorrectAnswer`);
-
-                    // Bỏ chọn tất cả các radio buttons
-                    for (let i = 0; i < radioButtons.length; i++) {
-                        radioButtons[i].checked = false;
-                    }
-
-                    // Chọn radio button đúng
-                    radioButtons[answerIndex].checked = true;
-                }
-                // Đối với Multiple Choice, không cần xử lý thêm vì có thể chọn nhiều đáp án
-            }
-
 
             function deleteAnswerOptionClient(chapterIndex, lessonIndex, questionIndex, answerIndex) {
                 Swal.fire({

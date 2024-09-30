@@ -93,15 +93,19 @@
 
                             <div class="wishlist-tab order-tab">
                                 <ul class="nav">
-                                    <li class="nav-item">
-                                        <a href="javascript:void(0);" class="active" data-bs-toggle="tab" data-bs-target="#today">Today</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="javascript:void(0);" data-bs-toggle="tab" data-bs-target="#month">Monthly</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="javascript:void(0);" data-bs-toggle="tab" data-bs-target="#year">Yearly</a>
-                                    </li>
+                                    <div class="wishlist-tab order-tab">
+                                        <ul class="nav">
+                                            <li class="nav-item">
+                                                <a href="@Url.Action("HistoryOrder", new { timeFrame = "today", page = Model.CurrentPage })" class="@(Model.TimeFrame == "today" ? "active" : "")">Today</a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a href="@Url.Action("HistoryOrder", new { timeFrame = "month", page = Model.CurrentPage })" class="@(Model.TimeFrame == "month" ? "active" : "")">Monthly</a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a href="@Url.Action("HistoryOrder", new { timeFrame = "year", page = Model.CurrentPage })" class="@(Model.TimeFrame == "year" ? "active" : "")">Yearly</a>
+                                            </li>
+                                        </ul>
+                                    </div>
                                 </ul>
                             </div>
 
@@ -111,9 +115,6 @@
                                 }
                             </style>
                             <div class="tab-content">
-                                <div>
-                                    <a href="javascript:void(0);" class="action-icon"><i class="bx bxs-download"></i></a>
-                                </div>
                                 <div class="tab-pane show active" id="today">
                                     <div class="table-responsive custom-table">
                                         <table class="table table-nowrap mb-0">
@@ -152,102 +153,78 @@
 
 
                                 <div class="tab-pane fade" id="month">
-                                    <div class="table-responsive custom-table">
-                                        <table class="table table-nowrap mb-0">
-                                            <thead>
-                                                <tr>
-                                                    <th>Order ID</th>
-                                                    <th>Course Name</th>
-                                                    <th>Date</th>
-                                                    <th>Price</th>
-                                                    <th>Status</th>
-                                                    <th></th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr>
-                                                    <td>#2643</td>
-                                                    <td><span class="title-course">Build Responsive Real World Websites with HTML5 and CSS3</span></td>
-                                                    <td>March 24, 2024</td>
-                                                    <td>$34</td>
-                                                    <td>On Hold</td>
-                                                    <td>
-                                                        <a href="javascript:void(0);" class="action-icon"><i class="bx bxs-download"></i></a>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>#2644</td>
-                                                    <td><span class="title-course">Sketch from A to Z (2024): Become an app designer</span></td>
-                                                    <td>March 26, 2024</td>
-                                                    <td>$40</td>
-                                                    <td>On Hold</td>
-                                                    <td>
-                                                        <a href="javascript:void(0);" class="action-icon"><i class="bx bxs-download"></i></a>
-                                                    </td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
+
+                                    <table class="table table-nowrap mb-0">
+                                        <thead>
+                                            <tr>
+                                                <th>Order ID</th>
+                                                <th>Tên khóa học</th>
+                                                <th>Ngày mua</th>
+                                                <th>Giá</th>
+                                                <th>Phương thức thanh toán</th>
+                                                <th>Trạng thái</th>
+                                                <th></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach (var item in Model.Orders)
+                                            {
+                                                if (item.OrderDetails != null && item.OrderDetails.Any())
+                                                {
+                                                    foreach (var detail in item.OrderDetails)
+                                                    {
+                                                        <tr>
+                                                            <td>@item.OrderID</td>
+                                                            <td><span class="title-course">@detail.Course.Title</span></td>
+                                                            <td>@item.OrderDate.ToString("dd/MM/yyyy hh:mm")</td>
+                                                            <td>@detail.CoursePrice</td>
+                                                            <td>@item.PaymentMethod</td>
+                                                            <td>@item.PaymentStatus</td>
+
+                                                        </tr>
+                                                    }
+                                                }
+                                            }
+                                        </tbody>
+                                    </table>
                                 </div>
 
 
                                 <div class="tab-pane fade" id="year">
-                                    <div class="table-responsive custom-table">
-                                        <table class="table table-nowrap mb-0">
-                                            <thead>
-                                                <tr>
-                                                    <th>Order ID</th>
-                                                    <th>Course Name</th>
-                                                    <th>Date</th>
-                                                    <th>Price</th>
-                                                    <th>Status</th>
-                                                    <th></th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr>
-                                                    <td>#2643</td>
-                                                    <td><span class="title-course">Build Responsive Real World Websites with HTML5 and CSS3</span></td>
-                                                    <td>March 24, 2024</td>
-                                                    <td>$34</td>
-                                                    <td>On Hold</td>
-                                                    <td>
-                                                        <a href="javascript:void(0);" class="action-icon"><i class="bx bxs-download"></i></a>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>#2644</td>
-                                                    <td><span class="title-course">Sketch from A to Z (2024): Become an app designer</span></td>
-                                                    <td>March 26, 2024</td>
-                                                    <td>$40</td>
-                                                    <td>On Hold</td>
-                                                    <td>
-                                                        <a href="javascript:void(0);" class="action-icon"><i class="bx bxs-download"></i></a>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>#2645</td>
-                                                    <td><span class="title-course">Learn Angular Fundamentals Beginners Guide</span></td>
-                                                    <td>April 12, 2024</td>
-                                                    <td>$25</td>
-                                                    <td>Completed</td>
-                                                    <td>
-                                                        <a href="javascript:void(0);" class="action-icon"><i class="bx bxs-download"></i></a>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>#2646</td>
-                                                    <td><span class="title-course">Build Responsive Real World Websites with HTML5 and CSS3</span></td>
-                                                    <td>April 16, 2024</td>
-                                                    <td>$35</td>
-                                                    <td>On Hold</td>
-                                                    <td>
-                                                        <a href="javascript:void(0);" class="action-icon"><i class="bx bxs-download"></i></a>
-                                                    </td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
+
+                                    <table class="table table-nowrap mb-0">
+                                        <thead>
+                                            <tr>
+                                                <th>Order ID</th>
+                                                <th>Tên khóa học</th>
+                                                <th>Ngày mua</th>
+                                                <th>Giá</th>
+                                                <th>Phương thức thanh toán</th>
+                                                <th>Trạng thái</th>
+                                                <th></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach (var item in Model.Orders)
+                                            {
+                                                if (item.OrderDetails != null && item.OrderDetails.Any())
+                                                {
+                                                    foreach (var detail in item.OrderDetails)
+                                                    {
+                                                        <tr>
+                                                            <td>@item.OrderID</td>
+                                                            <td><span class="title-course">@detail.Course.Title</span></td>
+                                                            <td>@item.OrderDate.ToString("dd/MM/yyyy hh:mm")</td>
+                                                            <td>@detail.CoursePrice</td>
+                                                            <td>@item.PaymentMethod</td>
+                                                            <td>@item.PaymentStatus</td>
+
+                                                        </tr>
+                                                    }
+                                                }
+                                            }
+                                        </tbody>
+                                    </table>
                                 </div>
 
                             </div>
@@ -258,23 +235,29 @@
                 <div class="dash-pagination">
                     <div class="row align-items-center">
                         <div class="col-6">
-                            <p>Page 1 of 2</p>
+                            <p>Page @Model.CurrentPage of @Math.Ceiling((double)Model.TotalOrders / Model.PageSize)</p>
                         </div>
                         <div class="col-6">
                             <ul class="pagination">
-                                <li class="active">
-                                    <a href="#">1</a>
-                                </li>
-                                <li>
-                                    <a href="#">2</a>
-                                </li>
-                                <li>
-                                    <a href="#"><i class="bx bx-chevron-right"></i></a>
-                                </li>
+                                @for (var i = 1; i <= Math.Ceiling((double)Model.TotalOrders / Model.PageSize); i++)
+                                {
+                                    <li class="@(i == Model.CurrentPage ? "active" : "")">
+                                        <a href="@Url.Action("HistoryOrder", new { page = i })">@i</a>
+                                    </li>
+                                }
+                                @if (Model.CurrentPage < Math.Ceiling((double)Model.TotalOrders / Model.PageSize))
+                                {
+                                    <li>
+                                        <a href="@Url.Action("HistoryOrder", new { page = Model.CurrentPage + 1 })">
+                                            <i class="bx bx-chevron-right"></i>
+                                        </a>
+                                    </li>
+                                }
                             </ul>
                         </div>
                     </div>
                 </div>
+
             </div>
 
         </div>

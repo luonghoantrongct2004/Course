@@ -278,7 +278,7 @@
                             <div class="product-item-two">
                                 <div class="product-img-two">
                                     <a href="/home/detail?id=@course.CourseID">
-                                        <img class="img-fluid" alt="Img" src="@course.Image">
+                                        <img class="img-fluid" alt="Img" src="@course.Image" style="max-height: 328px;">
                                     </a>
                                     <div class="price-text">
                                         <h4><span>@course.Category?.Name</span></h4>
@@ -286,7 +286,7 @@
                                 </div>
                                 <div class="course-details-content">
                                     <div class="image-info">
-                                        <img class="img-fluid" alt="Img" src="~/assets/img/profiles/avatar-01.jpg">
+                                        <img class="img-fluid" alt="Img" src="~/Lotus.png">
                                     </div>
                                     @*  <div class="rating">
                                     <i class="fas fa-star filled"></i>
@@ -340,7 +340,12 @@
                                         </div>
                                         <div class="course-view d-inline-flex align-items-center">
                                             <div class="course-price">
-                                                <h3>@(course.Price * (1 - course.Discount / 100M)) <span>@course.Price</span></h3>
+                                                <h3>@{
+                                                        var price = course.Price * (1 - course.Discount / 100M);
+                                                    }
+                                                    @price.ToString("N0") đ
+                                                    <span>@course.Price.ToString("N0") đ </span>
+                                                </h3>
                                             </div>
                                         </div>
                                     </div>

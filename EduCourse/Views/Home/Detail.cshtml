@@ -1,7 +1,7 @@
 ﻿@model Course
 <script src="~/assets/js/theme-script.js" type="b36d43511b1d467e6b338c09-text/javascript"></script>
 @{
-    var isPurchased = ViewBag.PurchasedCourses.Contains(Model.CourseID);
+    bool isPurchased = ViewBag.PurchasedCourses.Contains(Model.CourseID);
 }
 <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
@@ -149,7 +149,7 @@
                                                 <li>
                                                     <p><img src="~/assets/img/icon/play.svg" alt="Img" class="me-2">@lesson.Title</p>
                                                     <div>
-                                                        <a href="javascript:void(0);">Preview</a>
+                                                        <!--<a href="javascript:void(0);">Preview</a>-->
                                                         @{
                                                             int hourL = (int)(lesson.Duration / 3600);
                                                             int minuteL = (int)((lesson.Duration % 3600) / 60);

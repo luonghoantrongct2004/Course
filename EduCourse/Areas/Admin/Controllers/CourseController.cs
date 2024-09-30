@@ -512,6 +512,7 @@ public class CourseController : Controller
         var course = await _context.Courses
             .Include(c => c.Chapters)
                 .ThenInclude(ch => ch.Lessons)
+                    .ThenInclude(l => l.Questions) // Include Questions
             .FirstOrDefaultAsync(c => c.CourseID == id);
 
         if (course == null)
@@ -521,17 +522,25 @@ public class CourseController : Controller
 
         foreach (var chapter in course.Chapters)
         {
+            foreach (var lesson in chapter.Lessons)
+            {
+                // Remove related questions before deleting the lesson
+                _context.Questions.RemoveRange(lesson.Questions);
+            }
+
+            // Now remove the lessons after questions are deleted
             _context.Lessons.RemoveRange(chapter.Lessons);
         }
 
+        // Now remove the chapters and the course
         _context.Chapters.RemoveRange(course.Chapters);
-
         _context.Courses.Remove(course);
 
         await _context.SaveChangesAsync();
 
         return Ok();
     }
+
 
     [HttpDelete]
     public async Task<IActionResult> DeleteChapter(int id)

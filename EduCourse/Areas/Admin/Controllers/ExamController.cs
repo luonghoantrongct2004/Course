@@ -1,4 +1,5 @@
-﻿using EduCourse.Data;
+﻿using EduCourse.Areas.Admin.Models;
+using EduCourse.Data;
 using EduCourse.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -53,6 +54,7 @@ public class ExamController : Controller
     {
         var questions = _context.Questions
             .Include(o => o.Options)
+            .Include(eq => eq.ExamQuestions)
             .ToList();
         ViewData["Questions"] = questions;
 
@@ -63,56 +65,50 @@ public class ExamController : Controller
     [HttpPost]
     public IActionResult Create([FromForm] Exam newExam, [FromForm] List<int> SelectedQuestions)
     {
-        // Check if exam data or selected questions are null or empty
         if (newExam == null || SelectedQuestions == null || !SelectedQuestions.Any())
             return Json(new { success = false, message = "Dữ liệu chưa được chọn" });
 
-        using (var transaction = _context.Database.BeginTransaction()) // Start a database transaction
+        using (var transaction = _context.Database.BeginTransaction())
         {
             try
             {
-                // Create a new Exam object and save it to the database
                 var exam = new Exam
                 {
                     Title = newExam.Title,
                     AuthorID = newExam.AuthorID,
                     CreatedDate = DateTime.Now,
-                    ExamQuestions = new List<ExamQuestion>()  // Initialize the exam's ExamQuestions list
+                    ExamQuestions = new List<ExamQuestion>()
                 };
 
-                _context.Exams.Add(exam); // Add the exam to the database
-                _context.SaveChanges(); // Save changes to generate the ExamID
+                _context.Exams.Add(exam);
+                _context.SaveChanges();
 
-                // Loop through each selected question
                 foreach (var questionId in SelectedQuestions)
                 {
-                    // Check if the ExamQuestion already exists (i.e., if the question is already linked to the exam)
                     var existingExamQuestion = _context.ExamQuestions
-                        .AsNoTracking() // Avoid tracking conflicts
+                        .AsNoTracking()
                         .FirstOrDefault(eq => eq.ExamID == exam.ExamID && eq.QuestionID == questionId);
 
                     if (existingExamQuestion == null)
                     {
-                        // If the question is not yet linked to the exam, create and add a new ExamQuestion
                         var examQuestion = new ExamQuestion
                         {
-                            ExamID = exam.ExamID,   // Link to the current exam
-                            QuestionID = questionId // Link to the selected question
+                            ExamID = exam.ExamID, 
+                            QuestionID = questionId 
                         };
-                        _context.ExamQuestions.Add(examQuestion); // Add the exam-question relationship
+                        _context.ExamQuestions.Add(examQuestion); 
                     }
                 }
 
-                _context.SaveChanges(); // Save all changes to the database
-                transaction.Commit();   // Commit the transaction if everything is successful
+                _context.SaveChanges(); 
+                transaction.Commit();  
 
-                return Json(new { success = true, message = "Đã tạo thành công bài thi" }); // Success response
+                return Json(new { success = true, message = "Đã tạo thành công bài thi" }); 
             }
             catch (Exception ex)
             {
-                // Rollback the transaction in case of any errors
                 transaction.Rollback();
-                return Json(new { success = false, message = ex.Message }); // Error response
+                return Json(new { success = false, message = ex.Message });
             }
         }
     }
@@ -142,22 +138,45 @@ public class ExamController : Controller
         return View(exam); // Truyền trực tiếp đối tượng Exam vào View
     }
 
-    // POST: Cập nhật đề thi
     [HttpPost]
-    public IActionResult Edit(int id, [FromBody] Exam updatedExam)
+    public IActionResult Edit(int id, ExamEditViewModel model)
     {
-        var exam = _context.Exams.FirstOrDefault(e => e.ExamID == id);
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(new { success = false, message = "Invalid model state." });
+        }
+
+        var exam = _context.Exams
+            .Include(e => e.ExamQuestions) // Include existing ExamQuestions
+            .FirstOrDefault(e => e.ExamID == id);
 
         if (exam == null)
             return NotFound();
 
-        exam.Title = updatedExam.Title;
-        exam.AuthorID = updatedExam.AuthorID;
-        exam.ExamQuestions = updatedExam.ExamQuestions;
+        // Update basic exam properties
+        exam.Title = model.Title;
+        exam.AuthorID = model.AuthorID;
+
+        // Clear existing ExamQuestions
+        exam.ExamQuestions.Clear();
+
+        // Add new ExamQuestions based on SelectedQuestionIDs
+        if (model.SelectedQuestionIDs != null)
+        {
+            foreach (var questionId in model.SelectedQuestionIDs)
+            {
+                exam.ExamQuestions.Add(new ExamQuestion
+                {
+                    ExamID = exam.ExamID,
+                    QuestionID = questionId
+                });
+            }
+        }
 
         _context.SaveChanges();
-        return Redirect("/Admin/Exam");
+        return Json(new { success = true, message = "Exam updated successfully." });
     }
+
 
     [HttpDelete]
     public IActionResult DeleteExam(int id)

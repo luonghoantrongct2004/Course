@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "ugRwSLFgEKg1ix4w1/ruN5HfB5NMgvWxTek/aWwlskA=",
+  "Hash": "BBxMV1U2bQRr778a5gOEGHZvEFSagNDTxCY1U7+3h2o=",
   "Source": "EduCourse",
   "BasePath": "_content/EduCourse",
   "Mode": "Default",
@@ -27168,6 +27168,25 @@
       "OriginalItemSpec": "wwwroot\\uploads\\2c3c2f2a-2163-4b18-a2e1-906d8e860321.jpg"
     },
     {
+      "Identity": "C:\\Users\\PREDATOR\\OneDrive\\Tài liệu\\EduCourse\\EduCourse\\wwwroot\\uploads\\3342cc46-a2e4-4665-8b82-e118f47a73de.mp4",
+      "SourceId": "EduCourse",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\PREDATOR\\OneDrive\\Tài liệu\\EduCourse\\EduCourse\\wwwroot\\",
+      "BasePath": "_content/EduCourse",
+      "RelativePath": "uploads/3342cc46-a2e4-4665-8b82-e118f47a73de.mp4",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\uploads\\3342cc46-a2e4-4665-8b82-e118f47a73de.mp4"
+    },
+    {
       "Identity": "C:\\Users\\PREDATOR\\OneDrive\\Tài liệu\\EduCourse\\EduCourse\\wwwroot\\uploads\\34cfac4b-81e6-44d1-a1ad-8e17fd9c173b.jpg",
       "SourceId": "EduCourse",
       "SourceType": "Discovered",
@@ -27375,6 +27394,25 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\uploads\\a02c8b43-204f-4908-958e-0a8ab10ef22d.mp4"
+    },
+    {
+      "Identity": "C:\\Users\\PREDATOR\\OneDrive\\Tài liệu\\EduCourse\\EduCourse\\wwwroot\\uploads\\c486b661-c7bc-4e92-8818-61cbcc1af207.jpg",
+      "SourceId": "EduCourse",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\PREDATOR\\OneDrive\\Tài liệu\\EduCourse\\EduCourse\\wwwroot\\",
+      "BasePath": "_content/EduCourse",
+      "RelativePath": "uploads/c486b661-c7bc-4e92-8818-61cbcc1af207.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\uploads\\c486b661-c7bc-4e92-8818-61cbcc1af207.jpg"
     },
     {
       "Identity": "C:\\Users\\PREDATOR\\OneDrive\\Tài liệu\\EduCourse\\EduCourse\\wwwroot\\uploads\\cbff6462-708c-4a26-8a25-0a397100bcc0.mp4",

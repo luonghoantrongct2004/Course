@@ -62,7 +62,7 @@
                                             }
                                             else
                                             {
-                                                <h3>@price.ToString("N0") VND<span>@course.Discount</span></h3>
+                                                    <h3>@price.ToString("N0")đ <span>@course.Price.ToString("N0")đ</span></h3>
                                             }
                                             </div>
                                         </div>
@@ -74,16 +74,37 @@
                                                     </a>
                                                 </h3>
                                                 <div class="all-btn all-category d-flex align-items-center">
-                                                    <a href="@Url.Action("Checkout", "Home", new { id = course.CourseID })" class="btn btn-primary">BUY NOW</a>
+                                                    @{
+                                                        bool isPurchased = ViewBag.PurchasedCourses.Contains(course.CourseID);
+                                                    }
+                                                    @if (isPurchased)
+                                                    {
+                                                      <a href="javascript:void(0);" class="btn btn-enroll w-100">
+                                                                    <i class="feather-shopping-cart"></i> Đã mua
+                                                        </a>
+                                                    }
+                                                    else
+                                                    {
+                                                        if (User.Identity.IsAuthenticated)
+                                                        {
+                                                            <a href="javascript:void(0);" class="btn btn-enroll w-100" onclick="checkoutSingleCourse(@course.CourseID)">
+                                                                Thanh toán
+                                                            </a>
+                                                        }else{
+                                                            <a href="/auth/login" class="btn btn-enroll w-100">
+                                                                Thanh toán
+                                                            </a>
+                                                        }
+                                                    }
                                                 </div>
                                             </div>
                                             <div class="course-info border-bottom-0 pb-0 d-flex align-items-center">
                                                 <div class="rating-img d-flex align-items-center">
-                                                    <img src="assets/img/icon/icon-01.svg" alt="Img">
+                                                    <img src="~/assets/img/icon/icon-01.svg" alt="Img">
                                                     <p>@course?.Chapters?.Sum(l => l.Lessons.Count()) bài học</p>
                                                 </div>
                                                 <div class="course-view d-flex align-items-center">
-                                                    <img src="assets/img/icon/icon-02.svg" alt="Img">
+                                                    <img src="~/assets/img/icon/icon-02.svg" alt="Img">
                                                     @{
                                                         var chapters = course?.Chapters?.ToList();
                                                         double totalCourseDuration = chapters?
@@ -115,16 +136,25 @@
                                             </div>
                                             <div class="course-group d-flex mb-0">
                                                 <div class="course-group-img d-flex">
-                                                    <a href="@Url.Action("Profile", "Instructors", new { id = course.Author.Id })">
+                                                    <a >
                                                         <img src="/Lotus.png" alt="Img" class="img-fluid">
                                                     </a>
-                                                    <div class="course-name">
-                                                        <h4><a href="@Url.Action("Profile", "Instructors", new { id = course.Author.Id })">@course.Author.FullName</a></h4>
-                                                        <p>Instructor</p>
+                                                    <div class="">
+                                                        <h4><a >@course.Author.FullName</a></h4>
                                                     </div>
                                                 </div>
                                                 <div class="course-share d-flex align-items-center justify-content-center">
-                                                    <a href="#rate"><i class="fa-regular fa-heart"></i></a>
+                                                    @if (User.Identity.IsAuthenticated)
+                                                    {
+                                                        <a href="javascript:void(0);" class="btn btn-wish w-100" onclick="addToCart(@course.CourseID)">
+                                                        Thêm vào giỏ
+                                                    </a>
+                                                    }else{
+                                                        <a href="/auth/login" class="btn btn-wish w-100">
+                                                            Thêm vào giỏ
+                                                        </a>
+                                                    }
+                                                   
                                                 </div>
                                             </div>
                                         </div>
@@ -183,12 +213,15 @@
                                     <i class="fas fa-angle-down"></i>
                                 </div>
                                 <div>
-                                    @foreach (var category in Model.Categories)
+                                    @if (Model.Categories != null && Model.Categories.Any() && Model.CategoryName != null)
                                     {
-                                        <label class="custom_check">
-                                            <input type="checkbox" name="category" value="@category.Name" @(Model.CategoryName.Contains(category.Name) ? "checked" : "")>
-                                            <span class="checkmark"></span> @category.Name
-                                        </label>
+                                        foreach (var category in Model.Categories)
+                                        {
+                                            <label class="custom_check">
+                                                <input type="checkbox" name="category" value="@category.Name" @(Model.CategoryName.Contains(category.Name) ? "checked" : "")>
+                                                <span class="checkmark"></span> @category.Name
+                                            </label>
+                                        }
                                     }
                                 </div>
                             </div>
@@ -203,7 +236,8 @@
                                     <i class="fas fa-angle-down"></i>
                                 </div>
                                 <div>
-                                    @foreach (var instructor in Model.Instructors)
+                                    @if (Model.Instructors != null && Model.Instructors.Any() && Model.InstructorName != null)
+                                    foreach (var instructor in Model.Instructors)
                                     {
                                         <label class="custom_check">
                                             <input type="checkbox" name="instructor" value="@instructor.FullName" @(Model.InstructorName.Contains(instructor.FullName) ? "checked" : "")>
@@ -219,3 +253,70 @@
         </div>
     </div>
 </section>
+<link href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="~/assets/js/script.js" type="b36d43511b1d467e6b338c09-text/javascript"></script>
+<script src="~/cdn-cgi/scripts/7d0fa10a/cloudflare-static/rocket-loader.min.js" data-cf-settings="b36d43511b1d467e6b338c09-|49" defer></script>
+<script>
+    function checkoutSingleCourse(courseId) {
+        console.log(courseId);
+
+        document.getElementById('loading-overlay').style.display = 'block';
+        $.ajax({
+            url: '/Cart/CheckoutSingleCourse',
+            type: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify(courseId),
+            success: function (response) {
+                var stripe = Stripe('pk_test_51P7bRY1vJ264C6HKaJUP0nrssbUv01bbiRYNuUhbQTM2TOZEZsF6fApNwxnuylG7VYnphnJlksYfpt4y64pX7AWA002OEkCN6X');
+                stripe.redirectToCheckout({ sessionId: response.sessionId });
+            },
+            error: function () {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Lỗi',
+                    text: 'Có lỗi xảy ra khi thanh toán. Vui lòng thử lại.'
+                });
+
+                document.getElementById('loading-overlay').style.display = 'none';
+            }
+        });
+    }
+</script>
+
+<script>
+    function addToCart(courseId) {
+        $.ajax({
+            url: '/Cart/AddToCart',
+            type: 'POST',
+            data: {
+                courseId: courseId
+            },
+            success: function (response) {
+                if (response.success) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Thành công',
+                        text: response.message,
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Lỗi',
+                        text: response.message
+                    });
+                }
+            },
+            error: function () {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Lỗi',
+                    text: 'Đã xảy ra lỗi. Vui lòng thử lại sau.'
+                });
+            }
+        });
+    }
+</script>
+

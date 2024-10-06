@@ -1,6 +1,7 @@
 ﻿using EduCourse.Data;
 using EduCourse.Entities;
 using EduCourse.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
@@ -10,10 +11,14 @@ namespace EduCourse.Controllers;
 public class ProfileController : Controller
 {
     private readonly AppDbContext _context;
+    private readonly UserManager<User> _userManager;
+    private readonly SignInManager<User> _signInManager;
 
-    public ProfileController(AppDbContext context)
+    public ProfileController(AppDbContext context, UserManager<User> userManager, SignInManager<User> signInManager)
     {
         _context = context;
+        _userManager = userManager;
+        _signInManager = signInManager;
     }
 
     public IActionResult Index()
@@ -86,5 +91,78 @@ public class ProfileController : Controller
 
         return View(viewModel);
     }
+    public async Task<IActionResult> Account()
+    {
+        if (!User.Identity.IsAuthenticated)
+        {
+            return Redirect("/Auth/Login");
+        }
 
+        var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+        var user = await _context.Users.FindAsync(userId);
+        return View(user);
+    }
+    [HttpPost]
+    public async Task<IActionResult> UpdatePassword(string Password, string NewPassword, string ConfirmPassword)
+    {
+        var user = await _userManager.GetUserAsync(User);
+        if (user == null)
+        {
+            return RedirectToAction("Login", "Account");
+        }
+
+        if (NewPassword != ConfirmPassword)
+        {
+            ModelState.AddModelError("", "Mật khẩu mới và xác nhận mật khẩu không khớp.");
+            return View();
+        }
+
+        var changePasswordResult = await _userManager.ChangePasswordAsync(user, Password, NewPassword);
+        if (!changePasswordResult.Succeeded)
+        {
+            foreach (var error in changePasswordResult.Errors)
+            {
+                ModelState.AddModelError("", error.Description);
+            }
+            return View();
+        }
+
+        await _signInManager.RefreshSignInAsync(user);
+        TempData["SuccessMessage"] = "Mật khẩu của bạn đã được cập nhật thành công.";
+        return RedirectToAction("Index", "Profile");
+    }
+    [HttpPost]
+    public async Task<IActionResult> UpdateProfile(User model)
+    {
+        // Lấy thông tin người dùng hiện tại
+        var user = await _userManager.GetUserAsync(User);
+        if (user == null)
+        {
+            return RedirectToAction("Login", "Account");
+        }
+
+        // Cập nhật thông tin từ form vào người dùng hiện tại
+        user.FullName = model.FullName;
+        user.DateJoined = model.DateJoined;
+        user.Email = model.Email;
+        user.PhoneNumber = model.PhoneNumber;
+
+        // Thực hiện cập nhật thông tin
+        var result = await _userManager.UpdateAsync(user);
+        if (result.Succeeded)
+        {
+            // Nếu cập nhật thành công, chuyển hướng đến trang hồ sơ
+            TempData["SuccessMessage"] = "Cập nhật hồ sơ thành công!";
+            return RedirectToAction("Index", "Profile");
+        }
+
+        // Nếu có lỗi, hiển thị thông báo lỗi
+        foreach (var error in result.Errors)
+        {
+            ModelState.AddModelError("", error.Description);
+        }
+
+        // Trả về view với model chứa thông tin lỗi
+        return View(user);
+    }
 }

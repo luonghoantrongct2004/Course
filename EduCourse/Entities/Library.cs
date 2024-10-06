@@ -8,8 +8,8 @@
         public bool IsArchived { get; set; }
 
         // Navigation properties
-        public Course Course { get; set; }
+        public Course? Course { get; set; }
 
-        public File File { get; set; }
+        public File? File { get; set; }
     }
 }

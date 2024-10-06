@@ -1,5 +1,6 @@
 ﻿using EduCourse.Data;
 using EduCourse.Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Stripe.Checkout;
@@ -7,6 +8,7 @@ using System.Security.Claims;
 
 namespace EduCourse.Controllers;
 
+[Authorize]
 public class CartController : Controller
 {
     private readonly AppDbContext _context;

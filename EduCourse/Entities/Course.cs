@@ -16,7 +16,7 @@ public class Course
     public DateTime UpdatedDate { get; set; } = DateTime.Now;
     public int Discount { get; set; }
     public string? Image { get; set; }
-    public string AuthorID { get; set; }
+    public string? AuthorID { get; set; }
     [Required(ErrorMessage = "Thể loại là bắt buộc.")]
     public int CategoryID { get; set; }
     public User? Author { get; set; }

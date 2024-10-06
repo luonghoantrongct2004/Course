@@ -1,0 +1,121 @@
+﻿@model List<EduCourse.Entities.ExamQuestion> 
+
+@{
+    int questionIndex = 1; // Đếm số thứ tự câu hỏi
+}
+
+<style>
+    /* Tùy chỉnh checkbox hình tròn lớn */
+    .circle-checkbox {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 35px; /* Đường kính hình tròn */
+        height: 35px;
+        background-color: #f8f8f8;
+        border: 2px solid #007bff; /* Màu viền của hình tròn */
+        border-radius: 50%; /* Tạo hình tròn */
+        font-size: 15px; /* Cỡ chữ */
+        font-weight: bold;
+        color: #007bff; /* Màu chữ */
+        text-align: center;
+        margin-bottom: 10px;
+        transition: background-color 0.3s, border-color 0.3s, color 0.3s; /* Thêm hiệu ứng chuyển */
+    }
+
+    /* Khi câu hỏi đã được trả lời - đổi màu */
+    .circle-checkbox.answered {
+        background-color: #28a745; /* Màu nền xanh */
+        border-color: #28a745; /* Màu viền xanh */
+        color: white; /* Màu chữ */
+    }
+</style>
+
+<div class="container" style="padding-top:70px;">
+    <div class="row">
+        <!-- Cột bên trái chứa câu hỏi -->
+        <div class="col-md-8">
+            <!-- Tiêu đề kỳ thi -->
+            <h2 class="mb-4 text-center">@Model.FirstOrDefault()?.Exam?.Title</h2> <!-- Lấy tiêu đề từ kỳ thi đầu tiên -->
+
+            <!-- Hiển thị từng câu hỏi -->
+            @foreach (var examQuestion in Model) 
+            {
+                <div class="card p-4 mb-4 question-container" id="question_@examQuestion.QuestionID" style="background-color: #f8f8f8;">
+                    <p class="mb-3">
+                        <strong>Câu hỏi @questionIndex:</strong> @examQuestion.Question?.Content
+                    </p>
+
+                    <!-- Nếu câu hỏi có dạng Multiple Choice hoặc Single Choice -->
+                    @if (examQuestion.Question?.QuestionType == "Multiple Choice" || examQuestion.Question?.QuestionType == "Single Choice")
+                    {
+                        <ul class="ps-0">
+                            @foreach (var option in examQuestion.Question.Options)
+                            {
+                                <li class="mb-2">
+                                    @if (examQuestion.Question.QuestionType == "Single Choice")
+                                    {
+                                        <!-- Radio button cho dạng Single Choice -->
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="option_@examQuestion.QuestionID" value="@option.OptionID" id="option_@option.OptionID" onclick="markAnswered(@examQuestion.QuestionID)">
+                                            <label class="form-check-label" for="option_@option.OptionID">
+                                                @option.Content
+                                            </label>
+                                        </div>
+                                    }
+                                    else if (examQuestion.Question.QuestionType == "Multiple Choice")
+                                    {
+                                        <!-- Checkbox cho dạng Multiple Choice -->
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" name="option_@examQuestion.QuestionID" value="@option.OptionID" id="option_@option.OptionID" onclick="markAnswered(@examQuestion.QuestionID)">
+                                            <label class="form-check-label" for="option_@option.OptionID">
+                                                @option.Content
+                                            </label>
+                                        </div>
+                                    }
+                                </li>
+                            }
+                        </ul>
+                    }
+                    else if (examQuestion.Question?.QuestionType == "Keyword")
+                    {
+                        <input type="text" name="keyword_@examQuestion.QuestionID" class="form-control" placeholder="Nhập từ khóa tại đây..." oninput="markAnswered(@examQuestion.QuestionID)" />
+                    }
+                </div>
+                questionIndex++; <!-- Tăng số thứ tự câu hỏi -->
+            }
+        </div>
+
+        <!-- Cột bên phải chứa danh sách các câu hỏi dưới dạng checkbox hình tròn -->
+        <div class="col-md-4">
+            <h4 class="text-center mb-4">Danh sách câu hỏi</h4>
+            <div class="list-group">
+                <!-- Hiển thị từng câu hỏi dưới dạng checkbox -->
+                @for (int i = 0; i < Model.Count(); i++)
+                {
+                    <div id="circle_question_@Model[i].QuestionID" class="circle-checkbox">
+                        @(i + 1) <!-- Hiển thị số thứ tự câu hỏi -->
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- JavaScript để thay đổi màu hình tròn khi chọn đáp án -->
+<script>
+    function markAnswered(questionId) {
+        var circle = document.getElementById('circle_question_' + questionId);
+        if (circle) {
+            circle.classList.add('answered'); // Thêm lớp 'answered' để đổi màu hình tròn
+        }
+    }
+
+    // Thêm sự kiện cho radio và checkbox
+    document.querySelectorAll('input[type="radio"], input[type="checkbox"]').forEach(function (input) {
+        input.addEventListener('change', function () {
+            var questionId = this.getAttribute('name').split('_')[1]; // Lấy ID của câu hỏi từ name attribute
+            markAnswered(questionId);
+        });
+    });
+</script>

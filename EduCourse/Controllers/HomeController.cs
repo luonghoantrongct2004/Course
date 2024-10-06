@@ -3,6 +3,9 @@ using EduCourse.Entities;
 using EduCourse.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Caching.Memory;
+using Newtonsoft.Json;
+using Stripe;
 using System.Diagnostics;
 using System.Security.Claims;
 
@@ -12,56 +15,50 @@ namespace EduCourse.Controllers
     {
         private readonly AppDbContext _context;
         private readonly ILogger<HomeController> _logger;
+        private readonly IMemoryCache _cache;
 
-        public HomeController(ILogger<HomeController> logger, AppDbContext context)
+        public HomeController(ILogger<HomeController> logger, AppDbContext context, IMemoryCache cache)
         {
             _logger = logger;
             _context = context;
+            _cache = cache;
         }
-        public async Task<IActionResult> Search(string courseName, string categoryName, string instructorName, decimal? price, int currentPage = 1)
+        public async Task<IActionResult> Search(string name, int currentPage = 1)
         {
             const int pageSize = 10;
-
             var query = _context.Courses
-                .Include(c => c.Chapters)
+                .Include(c => c.Chapters).ThenInclude(l => l.Lessons)
                 .AsQueryable();
 
-            // Lọc theo tên khóa học
-            if (!string.IsNullOrWhiteSpace(courseName))
+            // Check if 'name' is provided
+            if (!string.IsNullOrWhiteSpace(name))
             {
-                query = query.Where(c => c.Title.Contains(courseName));
+                // Try parsing the input as a price (decimal)
+                if (decimal.TryParse(name, out decimal price))
+                {
+                    // If parsing is successful, filter by price
+                    query = query.Where(c => c.Price <= price);
+                }
+                else
+                {
+                    // Otherwise, search by course name, category name, or instructor name
+                    query = query.Where(c => c.Title.Contains(name)
+                                          || c.Category.Name.Contains(name)
+                                          || c.Author.FullName.Contains(name));
+                }
             }
 
-            // Lọc theo tên danh mục
-            if (!string.IsNullOrWhiteSpace(categoryName))
-            {
-                query = query.Where(c => c.Category.Name.Contains(categoryName));
-            }
-
-            // Lọc theo tên giảng viên
-            if (!string.IsNullOrWhiteSpace(instructorName))
-            {
-                query = query.Where(c => c.Author.FullName.Contains(instructorName));
-            }
-
-            // Lọc theo giá
-            if (price.HasValue)
-            {
-                query = query.Where(c => c.Price <= price);
-            }
-
-            // Tính tổng số kết quả
+            // Calculate total results and total pages
             var totalResults = await query.CountAsync();
-
-            // Tính tổng số trang
             var totalPages = (int)Math.Ceiling(totalResults / (double)pageSize);
 
-            // Lấy danh sách khóa học cho trang hiện tại
+            // Get the courses for the current page
             var courses = await query
                 .Skip((currentPage - 1) * pageSize)
                 .Take(pageSize)
                 .ToListAsync();
 
+            // Create a view model
             var viewModel = new SearchViewModel
             {
                 Courses = courses,
@@ -70,17 +67,25 @@ namespace EduCourse.Controllers
                 CurrentPage = currentPage,
                 TotalPages = totalPages,
                 TotalResults = totalResults,
-                CourseName = courseName,
-                CategoryName = categoryName,
-                InstructorName = instructorName,
-                Price = price
+                CourseName = name,
+                CategoryName = name,
+                InstructorName = name,
+                Price = decimal.TryParse(name, out _) ? (decimal?)Convert.ToDecimal(name) : null
             };
-
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            var purchasedCourses = _context.Orders
+                .Where(o => o.UserID == userId && o.PaymentStatus == "Completed")
+                .SelectMany(o => o.OrderDetails.Select(od => od.CourseID))
+                .ToList();
+            ViewBag.PurchasedCourses = purchasedCourses;
             return View(viewModel);
         }
 
+
         public async Task<IActionResult> Index(string paymentMessage)
         {
+            var categoryList = _context.Categories.ToList();
+            HttpContext.Session.SetString("CategoryList", JsonConvert.SerializeObject(categoryList));
             if (!string.IsNullOrEmpty(paymentMessage))
             {
                 ViewData["PaymentMessage"] = paymentMessage;

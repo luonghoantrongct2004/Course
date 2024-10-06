@@ -1,7 +1,10 @@
 ﻿@model HomeViewModel
+
 <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
-
+<script>
+    AOS.init();
+</script>
 <section class="home-two-slide d-flex align-items-center">
     <div class="container">
         <div class="row ">
@@ -12,32 +15,16 @@
                         <h1>Engaging & Accessible Online Courses For All</h1>
                     </div>
                     <div class="banner-content">
-                        <form class="form" name="store" id="store" method="post" action="https://dreamslms.dreamstechnologies.com/html/course-list.html">
+                        <form class="form" name="store" id="store" method="get" action="/home/search">
                             <div class="form-inner">
+                                <!-- Flexible Search Input -->
                                 <div class="input-group">
-                                    <span class="drop-detail">
-                                        <select class="form-control select" name="storeID">
-                                            <option value="0">Select Category</option>
-                                            <option value="1">Category One</option>
-                                            <option value="1">Category Two</option>
-                                        </select>
-                                    </span>
-                                    <input type="email" class="form-control" placeholder="Search School, Online eductional centers, etc">
-                                    <button class="btn btn-primary sub-btn" type="submit">Search</button>
+                                    <input type="text" name="name" class="form-control" placeholder="Tìm kiếm theo tên khóa học, thể loại, tên người dạy hoặc giá...">
+                                    <button class="btn btn-primary sub-btn" type="submit">Tìm kiếm</button>
                                 </div>
                             </div>
                         </form>
-                    </div>
-                    <div class="trust-user-two">
-                        <p>Trusted by over 15K Users worldwide since 2024</p>
-                        <div class="rating-two">
-                            <span>4.4</span>
-                            <i class="fas fa-star filled"></i>
-                            <i class="fas fa-star filled"></i>
-                            <i class="fas fa-star filled"></i>
-                            <i class="fas fa-star filled"></i>
-                            <i class="fas fa-star filled"></i>
-                        </div>
+
                     </div>
                 </div>
             </div>
@@ -54,7 +41,7 @@
 </section>
 
 
-<section class="about-section">
+<!--<section class="about-section">
     <div class="container">
         <div class="row">
             <div class="col-lg-6 wow fadeInLeft order-lg-1 order-xs-2 order-sm-2" data-aos="fade-up">
@@ -136,117 +123,40 @@
             </div>
         </div>
     </div>
-</section>
+</section>-->
 
 
 <section class="topcategory-sec">
     <div class="container">
         <div class="header-two-title text-center" data-aos="fade-up">
-            <p class="tagline">Favourite Course</p>
-            <h2>Top Category</h2>
+            <p class="tagline">Thể Loại</p>
+            <h2>Top Thể Loại</h2>
             <div class="header-two-text">
                 <p class="mb-0">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Eget aenean accumsan
-                    bibendum gravida maecenas augue elementum et neque. Suspendisse imperdiet.
+                    Những thể loại có trong Lotus Academy<br/>
+                    mà bạn không thể bỏ qua
                 </p>
             </div>
         </div>
         <div class="top-category-group">
             <div class="row">
-                <div class="col-xl-3 col-lg-6 col-md-6 col-sm-12 d-flex" data-aos="fade-down">
-                    <div class="categories-item flex-fill">
-                        <div class="categories-icon">
-                            <img src="~/assets/img/category/category-1.svg" alt="Angular Development">
+                @if (Model.Categories != null && Model.Categories.Any())
+                {
+                    foreach (var cate in Model.Categories)
+                    {
+                        <div class="col-xl-3 col-lg-6 col-md-6 col-sm-12 d-flex" data-aos="fade-down">
+                            <div class="categories-item flex-fill">
+                                <div class="categories-icon">
+                                    <img src="~/assets/img/category/category-1.svg" alt="@cate.Name">
+                                </div>
+                                <div class="categories-content">
+                                    <h3>@cate.Name</h3>
+                                    <!--<p>40 Instructors</p>-->
+                                </div>
+                            </div>
                         </div>
-                        <div class="categories-content">
-                            <h3>Angular Development</h3>
-                            <p>40 Instructors</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-xl-3 col-lg-6 col-md-6 col-sm-12 d-flex" data-aos="fade-down">
-                    <div class="categories-item flex-fill">
-                        <div class="categories-icon">
-                            <img src="~/assets/img/category/category-2.svg" alt="Python Development">
-                        </div>
-                        <div class="categories-content">
-                            <h3>Python Development</h3>
-                            <p>20 Instructors</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-xl-3 col-lg-6 col-md-6 col-sm-12 d-flex" data-aos="fade-down">
-                    <div class="categories-item flex-fill">
-                        <div class="categories-icon">
-                            <img src="~/assets/img/category/category-3.svg" alt="Node Js Development">
-                        </div>
-                        <div class="categories-content">
-                            <h3>Node Js Development</h3>
-                            <p>120 Instructors</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-xl-3 col-lg-6 col-md-6 col-sm-12 d-flex" data-aos="fade-down">
-                    <div class="categories-item flex-fill">
-                        <div class="categories-icon">
-                            <img src="~/assets/img/category/category-4.svg" alt="PHP Development">
-                        </div>
-                        <div class="categories-content">
-                            <h3>PHP Development</h3>
-                            <p>40 Instructors</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-xl-3 col-lg-6 col-md-6 col-sm-12 d-flex" data-aos="fade-down">
-                    <div class="categories-item flex-fill">
-                        <div class="categories-icon">
-                            <img src="~/assets/img/category/category-5.svg" alt="Docker Development">
-                        </div>
-                        <div class="categories-content">
-                            <h3>Docker Development</h3>
-                            <p>40 Instructors</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-xl-3 col-lg-6 col-md-6 col-sm-12 d-flex" data-aos="fade-down">
-                    <div class="categories-item  flex-fill">
-                        <div class="categories-icon">
-                            <img src="~/assets/img/category/category-6.svg" alt="Swift Development">
-                        </div>
-                        <div class="categories-content">
-                            <h3>Swift Development</h3>
-                            <p>40 Instructors</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-xl-3 col-lg-6 col-md-6 col-sm-12 d-flex" data-aos="fade-down">
-                    <div class="categories-item  flex-fill">
-                        <div class="categories-icon">
-                            <img src="~/assets/img/category/category-7.svg" alt="Photography">
-                        </div>
-                        <div class="categories-content">
-                            <h3>Photography</h3>
-                            <p>40 Instructors</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-xl-3 col-lg-6 col-md-6 col-sm-12 d-flex">
-                    <div class="categories-item  flex-fill" data-aos="fade-up">
-                        <div class="categories-icon">
-                            <img src="~/assets/img/category/category-8.svg" alt="Business">
-                        </div>
-                        <div class="categories-content">
-                            <h3>Business</h3>
-                            <p>40 Instructors</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-lg-12">
-            <div class="more-details text-center" data-aos="fade-down">
-                <a href="job-category.html" class="discover-btn">View all Category <i class="fas fa-arrow-right ms-2"></i></a>
+                    }
+                }
             </div>
         </div>
 
@@ -260,18 +170,19 @@
     </div>
     <div class="container">
         <div class="header-two-title text-center" data-aos="fade-up">
-            <p class="tagline">What’s New</p>
-            <h2>Featured Courses</h2>
+            <p class="tagline">Khóa học</p>
+            <h2>Khóa học chất lượng</h2>
             <div class="header-two-text m-auto text-center d-block">
                 <p class="mb-0">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Eget aenean accumsan
-                    bibendum gravida maecenas augue elementum et neque. Suspendisse imperdiet.
+                   Những khóa học của Lotus Academy <br/>
+                   có chất lượng tốt nhất
                 </p>
             </div>
         </div>
         <div class="featured-courses-two">
             <div class="row">
-                @foreach (var course in Model.Courses.Take(6))
+                @if (Model.Courses != null && Model.Courses.Any()){
+                foreach (var course in Model.Courses.Take(6))
                 {
                     <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12 d-flex" data-aos="fade-down">
                         <div class="featured-details-two">
@@ -354,13 +265,13 @@
                         </div>
                     </div>
                 }
-
+                }
             </div>
         </div>
 
         <div class="col-lg-12" data-aos="fade-up">
             <div class="more-details text-center">
-                <a href="course-details.html" class="discover-btn">View all Courses <i class="fas fa-arrow-right ms-2"></i></a>
+                <a href="/home/search" class="discover-btn">Xem tất cả khóa học <i class="fas fa-arrow-right ms-2"></i></a>
             </div>
         </div>
 
@@ -514,42 +425,6 @@
         <div class="testimonial-two-img">
             <img src="~/assets/img/bg/map-user.png" alt="Img" class="img-fluid">
         </div>
-        <div class="testimonial-subhead-two">
-            <div class="col-xl-8 col-lg-10 col-md-10 mx-auto" data-aos="fade-down">
-                <div class="testimonial-inner">
-                    <div class="header-two-title testimonial-head-two text-center">
-                        <h2 data-aos="fade-down">Join over <span>5 Million</span> Students</h2>
-                        <div class="header-two-text text-center">
-                            <p>
-                                Get certified, master modern tech skills, and level up your career — whether
-                                you’re starting out or a seasoned pro. 95% of eLearning learners report our
-                                hands-on content directly helped their careers.
-                            </p>
-                        </div>
-                    </div>
-                    <div class="row text-center">
-                        <div class="col-md-4 col-sm-12" data-aos="fade-up">
-                            <div class="course-count-two course-count">
-                                <h4><span class="counterUp text-orange">253,085</span></h4>
-                                <h5>Students Enrolled</h5>
-                            </div>
-                        </div>
-                        <div class="col-md-4 col-sm-12" data-aos="fade-up">
-                            <div class="course-count-two  course-count">
-                                <h4><span class="counterUp text-green">1,205</span></h4>
-                                <h5>Total Courses</h5>
-                            </div>
-                        </div>
-                        <div class="col-md-4 col-sm-12" data-aos="fade-up">
-                            <div class="course-count-two  course-count">
-                                <h4><span class="counterUp text-blue">253,085</span></h4>
-                                <h5>Students Worldwide</h5>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
     </div>
 </section>
 
@@ -557,454 +432,112 @@
 <section class="trending-course-sec">
     <div class="container">
         <div class="header-two-title text-center" data-aos="fade-up">
-            <p class="tagline">New Courses</p>
-            <h2>Trending Courses</h2>
+            <p class="tagline">Khóa học</p>
+            <h2>Khóa học mới nhất</h2>
             <div class="header-two-text m-auto text-center d-block">
                 <p class="mb-0">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Eget aenean accumsan
-                    bibendum gravida maecenas augue elementum et neque. Suspendisse imperdiet.
+                    Những khóa học mới nhất <br />
+                    do Lotus Academy bình chọn
                 </p>
             </div>
         </div>
 
         <div class="trending-course-main">
             <div class="row">
-                <div class="col-xl-6 col-lg-12 col-md-12" data-aos="fade-down">
-                    <div class="trending-courses-group">
-                        <div class="trending-courses-two">
-                            <div class="product-img course-column-img">
-                                <a href="instructor-profile.html">
-                                    <img class="img-fluid" alt="Img" src="~/assets/img/skills/skill-01.jpg">
-                                </a>
-                                <div class="trending-price">
-                                    <h4><span>Node Js</span></h4>
-                                </div>
-                            </div>
-                            <div class="course-content-column">
-                                <div class="trending-two-rating align-items-center">
-                                    <i class="fas fa-star filled"></i>
-                                    <i class="fas fa-star filled"></i>
-                                    <i class="fas fa-star filled"></i>
-                                    <i class="fas fa-star filled"></i>
-                                    <i class="fas fa-star filled"></i>
-                                    <span class="ms-2">243 reviews</span>
-                                </div>
-                                <div class="name-text featured-info-two">
-                                    <h3 class="title instructor-text">
-                                        <a href="course-details.html">
-                                            Wordpress
-                                            for Beginners - Master Wordpress Quickly
+                @if (Model.Courses != null && Model.Courses.Any())
+                {
+                    foreach (var newCourse in Model.Courses.OrderByDescending(c => c.CreatedDate))
+                    {
+                          
+                                                var chapters = newCourse.Chapters?.ToList();
+                                                double totalCourseDuration = chapters?
+                                                .Sum(chapter => chapter.Lessons.Sum(lesson => lesson.Duration)) ?? 0;
+
+                                                int hours = (int)(totalCourseDuration / 3600);
+                                                int minutes = (int)((totalCourseDuration % 3600) / 60);
+                                                int seconds = (int)(totalCourseDuration % 60);
+                                            
+                        <div class="col-xl-6 col-lg-12 col-md-12" data-aos="fade-down">
+                            <div class="trending-courses-group">
+                                <div class="trending-courses-two">
+                                    <div class="product-img course-column-img">
+                                        <a href="instructor-profile.html">
+                                            <img class="img-fluid" alt="Img" src="@newCourse.Image" style="max-height:176px;">
                                         </a>
-                                    </h3>
-                                    <div class="time-hours-two">
-                                        <span><i class="fa-regular fa-clock me-2"></i></span>
-                                        <p>6hr 30min</p>
+                                        <div class="trending-price">
+                                            <h4><span>@newCourse.Category?.Name</span></h4>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="d-flex align-items-center">
-                                    <div class="rating-price-two d-flex align-items-center">
-                                        <p>Cristofer Nolen</p>
-                                    </div>
-                                    <div class="course-view d-inline-flex align-items-center">
-                                        <div class="course-price-two">
-                                            <h3>$300</h3>
+                                    <div class="course-content-column">
+                                        <div class="trending-two-rating align-items-center">
+                                            <i class="fas fa-star filled"></i>
+                                            <i class="fas fa-star filled"></i>
+                                            <i class="fas fa-star filled"></i>
+                                            <i class="fas fa-star filled"></i>
+                                            <i class="fas fa-star filled"></i>
+                                        </div>
+                                        <div class="name-text featured-info-two">
+                                            <h3 class="title instructor-text">
+                                                <a href="course-details.html">
+                                                    @newCourse.Title
+                                                </a>
+                                            </h3>
+                                            <div class="time-hours-two">
+                                                <span><i class="fa-regular fa-clock me-2"></i></span>
+                                                <p>
+                                                    @if (hours > 0)
+                                                    {
+                                                        @($"{hours} giờ{(hours > 1 ? "" : "")} ")
+                                                    }
+                                                    @if (minutes > 0)
+                                                    {
+                                                        @($"{minutes} phút{(minutes > 1 ? "" : "")} ")
+                                                    }
+                                                    @if (seconds > 0)
+                                                    {
+                                                        @($"{seconds} giây{(seconds > 1 ? "" : "")}")
+                                                    }
+                                                    @if (hours == 0 && minutes == 0 && seconds == 0)
+                                                    {
+                                                        @("0 giây")
+                                                    }
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <div class="d-flex align-items-center">
+                                            <div class="rating-price-two d-flex align-items-center">
+                                                <p>@newCourse.Author?.FullName</p>
+                                            </div>
+                                            <div class="course-view d-inline-flex align-items-center">
+                                                <div class="course-price-two">
+                                                    <h3>
+                                                        @{
+                                                            var price = newCourse.Price * (1 - newCourse.Discount / 100M);
+                                                        }
+
+                                                        <h3>@price.ToString("N0") đ</h3>
+                                                    </h3>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </div>
-                <div class="col-xl-6 col-lg-12 col-md-12" data-aos="fade-down">
-                    <div class="trending-courses-group">
-                        <div class="trending-courses-two">
-                            <div class="product-img course-column-img">
-                                <a href="instructor-profile.html">
-                                    <img class="img-fluid" alt="Img" src="~/assets/img/skills/skill-02.jpg">
-                                </a>
-                                <div class="trending-price">
-                                    <h4><span>C#</span></h4>
-                                </div>
-                            </div>
-                            <div class="course-content-column">
-                                <div class="trending-two-rating align-items-center">
-                                    <i class="fas fa-star filled"></i>
-                                    <i class="fas fa-star filled"></i>
-                                    <i class="fas fa-star filled"></i>
-                                    <i class="fas fa-star filled"></i>
-                                    <i class="fas fa-star filled"></i>
-                                    <span class="ms-2">243 reviews</span>
-                                </div>
-                                <div class="name-text featured-info-two">
-                                    <h3 class="title instructor-text">
-                                        <a href="course-details.html">
-                                            C#
-                                            Developers Double Your Coding Speed with Visual Studio
-                                        </a>
-                                    </h3>
-                                    <div class="time-hours-two">
-                                        <span><i class="fa-regular fa-clock me-2"></i></span>
-                                        <p>6hr 30min</p>
-                                    </div>
-                                </div>
-                                <div class="d-flex align-items-center">
-                                    <div class="rating-price-two d-flex align-items-center">
-                                        <p>Cristofer Nolen</p>
-                                    </div>
-                                    <div class="course-view d-inline-flex align-items-center">
-                                        <div class="course-price-two">
-                                            <h3>$300</h3>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-xl-6 col-lg-12 col-md-12" data-aos="fade-down">
-                    <div class="trending-courses-group">
-                        <div class="trending-courses-two">
-                            <div class="product-img course-column-img">
-                                <a href="instructor-profile.html">
-                                    <img class="img-fluid" alt="Img" src="~/assets/img/skills/skill-03.jpg">
-                                </a>
-                                <div class="trending-price">
-                                    <h4><span>Angular</span></h4>
-                                </div>
-                            </div>
-                            <div class="course-content-column">
-                                <div class="trending-two-rating align-items-center">
-                                    <i class="fas fa-star filled"></i>
-                                    <i class="fas fa-star filled"></i>
-                                    <i class="fas fa-star filled"></i>
-                                    <i class="fas fa-star filled"></i>
-                                    <i class="fas fa-star filled"></i>
-                                    <span class="ms-2">243 reviews</span>
-                                </div>
-                                <div class="name-text featured-info-two">
-                                    <h3 class="title instructor-text">
-                                        <a href="course-details.html">
-                                            Learn
-                                            Angular Fundamentals From beginning to advance lavel
-                                        </a>
-                                    </h3>
-                                    <div class="time-hours-two">
-                                        <span><i class="fa-regular fa-clock me-2"></i></span>
-                                        <p>6hr 30min</p>
-                                    </div>
-                                </div>
-                                <div class="d-flex align-items-center">
-                                    <div class="rating-price-two d-flex align-items-center">
-                                        <p>Cristofer Nolen</p>
-                                    </div>
-                                    <div class="course-view d-inline-flex align-items-center">
-                                        <div class="course-price-two">
-                                            <h3>$300</h3>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-xl-6 col-lg-12 col-md-12" data-aos="fade-down">
-                    <div class="trending-courses-group">
-                        <div class="trending-courses-two">
-                            <div class="product-img course-column-img">
-                                <a href="instructor-profile.html">
-                                    <img class="img-fluid" alt="Img" src="~/assets/img/skills/skill-04.jpg">
-                                </a>
-                                <div class="trending-price">
-                                    <h4><span>HTML5</span></h4>
-                                </div>
-                            </div>
-                            <div class="course-content-column">
-                                <div class="trending-two-rating align-items-center">
-                                    <i class="fas fa-star filled"></i>
-                                    <i class="fas fa-star filled"></i>
-                                    <i class="fas fa-star filled"></i>
-                                    <i class="fas fa-star filled"></i>
-                                    <i class="fas fa-star filled"></i>
-                                    <span class="ms-2">243 reviews</span>
-                                </div>
-                                <div class="name-text featured-info-two">
-                                    <h3 class="title instructor-text">
-                                        <a href="course-details.html">
-                                            Build
-                                            Responsive Real World Websites with HTML5 and CSS3
-                                        </a>
-                                    </h3>
-                                    <div class="time-hours-two">
-                                        <span><i class="fa-regular fa-clock me-2"></i></span>
-                                        <p>6hr 30min</p>
-                                    </div>
-                                </div>
-                                <div class="d-flex align-items-center">
-                                    <div class="rating-price-two d-flex align-items-center">
-                                        <p>Cristofer Nolen</p>
-                                    </div>
-                                    <div class="course-view d-inline-flex align-items-center">
-                                        <div class="course-price-two">
-                                            <h3>$300</h3>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                    }
+                }
             </div>
         </div>
 
 
         <div class="col-lg-12" data-aos="fade-up">
             <div class="more-details text-center">
-                <a href="course-details.html" class="discover-btn">View all Courses <i class="fas fa-arrow-right ms-2"></i></a>
+                <a href="/home/search" class="discover-btn">Xem tất cả khóa học <i class="fas fa-arrow-right ms-2"></i></a>
             </div>
         </div>
 
     </div>
 </section>
-
-
-<div class="knowledge-sec">
-    <div class="container-fluid">
-        <div class="row align-items-center">
-            <div class="col-lg-6 col-sm-12 ps-0">
-                <div class="featured-img-1"></div>
-            </div>
-            <div class="col-lg-6 col-sm-12" data-aos="fade-up">
-                <div class="joing-group">
-                    <div class="section-title">
-                        <h2>Want to share your knowledge? Join us a Mentor</h2>
-                        <div class="joing-section-text">
-                            <p class="mb-0">
-                                High-definition video is video of higher resolution and quality than
-                                standard-definition. While there is no standardized meaning for high-definition,
-                                generally any video.
-                            </p>
-                        </div>
-                    </div>
-                    <div class="joing-list">
-                        <ul>
-                            <li data-aos="fade-bottom">
-                                <div class="joing-header">
-                                    <span class="joing-icon bg-blue">
-                                        <img src="~/assets/img/icon/joing-01.svg" alt="Img" class="img-fluid">
-                                    </span>
-                                    <div class="joing-content">
-                                        <h5 class="joing-title">Stay motivated with engaging instructors</h5>
-                                        <div class="joing-para">
-                                            <p>
-                                                High-definition video is video of higher resolution and quality
-                                                than standard-definition.
-                                            </p>
-                                            <p>
-                                                While there is no standardized meaning for high-definition,
-                                                generally any video.
-                                            </p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </li>
-                            <li data-aos="fade-bottom">
-                                <div class="joing-header">
-                                    <span class="joing-icon bg-yellow">
-                                        <img src="~/assets/img/icon/joing-02.svg" alt="Img" class="img-fluid">
-                                    </span>
-                                    <div class="joing-content">
-                                        <h5 class="joing-title">Keep up with in the latest in cloud</h5>
-                                        <div class="joing-para">
-                                            <p>
-                                                High-definition video is video of higher resolution and quality
-                                                than standard-definition.
-                                            </p>
-                                            <p>
-                                                While there is no standardized meaning for high-definition,
-                                                generally any video.
-                                            </p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </li>
-                            <li data-aos="fade-bottom">
-                                <div class="joing-header">
-                                    <span class="joing-icon bg-green">
-                                        <img src="~/assets/img/icon/joing-03.svg" alt="Img" class="img-fluid">
-                                    </span>
-                                    <div class="joing-content aos">
-                                        <h5 class="joing-title">Build skills your way, from labs to courses</h5>
-                                        <div class="joing-para">
-                                            <p>
-                                                High-definition video is video of higher resolution and quality
-                                                than standard-definition.
-                                            </p>
-                                            <p>
-                                                While there is no standardized meaning for high-definition,
-                                                generally any video.
-                                            </p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </li>
-                            <li data-aos="fade-bottom" class="mb-0">
-                                <div class="joing-header">
-                                    <span class="joing-icon bg-orange">
-                                        <img src="~/assets/img/icon/joing-04.svg" alt="Img" class="img-fluid">
-                                    </span>
-                                    <div class="joing-content aos">
-                                        <h5 class="joing-title">
-                                            Get certified with 100+ certification courses
-                                        </h5>
-                                        <div class="joing-para">
-                                            <p>
-                                                High-definition video is video of higher resolution and quality
-                                                than standard-definition.
-                                            </p>
-                                            <p>
-                                                While there is no standardized meaning for high-definition,
-                                                generally any video.
-                                            </p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-
-<div class="feature-instructors-sec">
-    <div class="container">
-        <div class="header-two-title text-center" data-aos="fade-up">
-            <p class="tagline">New Courses</p>
-            <h2>Featured Instructor</h2>
-            <div class="header-two-text aos" data-aos="fade-up">
-                <p class="mb-0">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Eget aenean accumsan
-                    bibendum gravida maecenas augue elementum et neque. Suspendisse imperdiet.
-                </p>
-            </div>
-        </div>
-
-        <div class="featured-instructor-two">
-            <div class="row">
-                <div class="col-xl-3 col-lg-6 col-md-6 col-sm-12" data-aos="fade-up">
-                    <div class="instructors-widget">
-                        <div class="instructors-img">
-                            <a href="instructor-list.html">
-                                <img class="img-fluid" alt="Img" src="~/assets/img/instructor/instructor-01.jpg">
-                            </a>
-                            <div class="featured-border">
-                                <div class="featured-img ">
-                                    <img src="~/assets/img/category/category-1.svg" alt="Img" class="img-fluid">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="course-details-two">
-                            <div class="instructors-content text-center">
-                                <h5><a href="instructor-profile.html">Julian Adrose</a></h5>
-                                <p>Angular Expert</p>
-                            </div>
-                            <div class="course-info"></div>
-                            <div class="student-count d-flex justify-content-center">
-                                <i class="fa-solid fa-user-group"></i>
-                                <span>50 Students</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-xl-3 col-lg-6 col-md-6 col-sm-12" data-aos="fade-up">
-                    <div class="instructors-widget">
-                        <div class="instructors-img">
-                            <a href="instructor-list.html">
-                                <img class="img-fluid" alt="Img" src="~/assets/img/instructor/instructor-02.jpg">
-                            </a>
-                            <div class="featured-border">
-                                <div class="featured-img ">
-                                    <img src="~/assets/img/category/category-2.svg" alt="Img" class="img-fluid">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="course-details-two">
-                            <div class="instructors-content text-center">
-                                <h5><a href="instructor-profile.html">Gallegos</a></h5>
-                                <p>Docker</p>
-                            </div>
-                            <div class="course-info"></div>
-                            <div class="student-count d-flex justify-content-center">
-                                <i class="fa-solid fa-user-group"></i>
-                                <span>70 Students</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-xl-3 col-lg-6 col-md-6 col-sm-12" data-aos="fade-up">
-                    <div class="instructors-widget">
-                        <div class="instructors-img">
-                            <a href="instructor-list.html">
-                                <img class="img-fluid" alt="Img" src="~/assets/img/instructor/instructor-03.jpg">
-                            </a>
-                            <div class="featured-border">
-                                <div class="featured-img ">
-                                    <img src="~/assets/img/category/category-3.svg" alt="Img" class="img-fluid">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="course-details-two">
-                            <div class="instructors-content text-center">
-                                <h5><a href="instructor-profile.html">Kristi</a></h5>
-                                <p>Node Js</p>
-                            </div>
-                            <div class="course-info"></div>
-                            <div class="student-count d-flex justify-content-center">
-                                <i class="fa-solid fa-user-group"></i>
-                                <span>60 Students</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-xl-3 col-lg-6 col-md-6 col-sm-12" data-aos="fade-up">
-                    <div class="instructors-widget">
-                        <div class="instructors-img">
-                            <a href="instructor-list.html">
-                                <img class="img-fluid" alt="Img" src="~/assets/img/instructor/instructor-04.jpg">
-                            </a>
-                            <div class="featured-border">
-                                <div class="featured-img ">
-                                    <img src="~/assets/img/category/category-4.svg" alt="Img" class="img-fluid">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="course-details-two">
-                            <div class="instructors-content text-center">
-                                <h5><a href="instructor-profile.html">Pinero</a></h5>
-                                <p>Python</p>
-                            </div>
-                            <div class="course-info"></div>
-                            <div class="student-count d-flex justify-content-center">
-                                <i class="fa-solid fa-user-group"></i>
-                                <span>80 Students</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-
-        <div class="col-lg-12">
-            <div class="more-details text-center" data-aos="fade-up">
-                <a href="instructor-list.html" class="discover-btn discover-btn">View all Instructors <i class="fas fa-arrow-right ms-2"></i></a>
-            </div>
-        </div>
-
-    </div>
-</div>
 
 
 <section class="real-reviews-sec">
@@ -1174,12 +707,141 @@
     </div>
 </section>
 
+@*
+<div class="feature-instructors-sec">
+    <div class="container">
+        <div class="header-two-title text-center" data-aos="fade-up">
+            <p class="tagline">New Courses</p>
+            <h2>Featured Instructor</h2>
+            <div class="header-two-text aos" data-aos="fade-up">
+                <p class="mb-0">
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Eget aenean accumsan
+                    bibendum gravida maecenas augue elementum et neque. Suspendisse imperdiet.
+                </p>
+            </div>
+        </div>
+
+        <div class="featured-instructor-two">
+            <div class="row">
+                <div class="col-xl-3 col-lg-6 col-md-6 col-sm-12" data-aos="fade-up">
+                    <div class="instructors-widget">
+                        <div class="instructors-img">
+                            <a href="instructor-list.html">
+                                <img class="img-fluid" alt="Img" src="~/assets/img/instructor/instructor-01.jpg">
+                            </a>
+                            <div class="featured-border">
+                                <div class="featured-img ">
+                                    <img src="~/assets/img/category/category-1.svg" alt="Img" class="img-fluid">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="course-details-two">
+                            <div class="instructors-content text-center">
+                                <h5><a href="instructor-profile.html">Julian Adrose</a></h5>
+                                <p>Angular Expert</p>
+                            </div>
+                            <div class="course-info"></div>
+                            <div class="student-count d-flex justify-content-center">
+                                <i class="fa-solid fa-user-group"></i>
+                                <span>50 Students</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-lg-6 col-md-6 col-sm-12" data-aos="fade-up">
+                    <div class="instructors-widget">
+                        <div class="instructors-img">
+                            <a href="instructor-list.html">
+                                <img class="img-fluid" alt="Img" src="~/assets/img/instructor/instructor-02.jpg">
+                            </a>
+                            <div class="featured-border">
+                                <div class="featured-img ">
+                                    <img src="~/assets/img/category/category-2.svg" alt="Img" class="img-fluid">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="course-details-two">
+                            <div class="instructors-content text-center">
+                                <h5><a href="instructor-profile.html">Gallegos</a></h5>
+                                <p>Docker</p>
+                            </div>
+                            <div class="course-info"></div>
+                            <div class="student-count d-flex justify-content-center">
+                                <i class="fa-solid fa-user-group"></i>
+                                <span>70 Students</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-lg-6 col-md-6 col-sm-12" data-aos="fade-up">
+                    <div class="instructors-widget">
+                        <div class="instructors-img">
+                            <a href="instructor-list.html">
+                                <img class="img-fluid" alt="Img" src="~/assets/img/instructor/instructor-03.jpg">
+                            </a>
+                            <div class="featured-border">
+                                <div class="featured-img ">
+                                    <img src="~/assets/img/category/category-3.svg" alt="Img" class="img-fluid">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="course-details-two">
+                            <div class="instructors-content text-center">
+                                <h5><a href="instructor-profile.html">Kristi</a></h5>
+                                <p>Node Js</p>
+                            </div>
+                            <div class="course-info"></div>
+                            <div class="student-count d-flex justify-content-center">
+                                <i class="fa-solid fa-user-group"></i>
+                                <span>60 Students</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-lg-6 col-md-6 col-sm-12" data-aos="fade-up">
+                    <div class="instructors-widget">
+                        <div class="instructors-img">
+                            <a href="instructor-list.html">
+                                <img class="img-fluid" alt="Img" src="~/assets/img/instructor/instructor-04.jpg">
+                            </a>
+                            <div class="featured-border">
+                                <div class="featured-img ">
+                                    <img src="~/assets/img/category/category-4.svg" alt="Img" class="img-fluid">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="course-details-two">
+                            <div class="instructors-content text-center">
+                                <h5><a href="instructor-profile.html">Pinero</a></h5>
+                                <p>Python</p>
+                            </div>
+                            <div class="course-info"></div>
+                            <div class="student-count d-flex justify-content-center">
+                                <i class="fa-solid fa-user-group"></i>
+                                <span>80 Students</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="col-lg-12">
+            <div class="more-details text-center" data-aos="fade-up">
+                <a href="instructor-list.html" class="discover-btn discover-btn">View all Instructors <i class="fas fa-arrow-right ms-2"></i></a>
+            </div>
+        </div>
+
+    </div>
+</div>
+
 
 <section class="latest-blog-sec">
     <div class="container">
         <div class="header-two-title text-center" data-aos="fade-up">
-            <p class="tagline">News & Events</p>
-            <h2>Our Latest Updates</h2>
+            <p class="tagline">Tin tức & Sự kiện</p>
+            <h2>Những tin tin mới</h2>
             <div class="header-two-text text-center aos" data-aos="fade-up">
                 <p>
                     Lorem ipsum dolor sit amet, consectetur adipiscing elit. Eget aenean accumsan bibendum
@@ -1278,6 +940,8 @@
 
     </div>
 </section>
+
+*@
 @if (!string.IsNullOrEmpty(ViewData["PaymentMessage"] as string))
 {
     <script>

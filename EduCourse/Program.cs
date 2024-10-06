@@ -32,7 +32,12 @@ namespace EduCourse
             })
             .AddEntityFrameworkStores<AppDbContext>()
             .AddDefaultTokenProviders();
-
+            builder.Services.AddSession(options =>
+            {
+                options.IdleTimeout = TimeSpan.FromMinutes(30); // Thời gian hết hạn của Session
+                options.Cookie.HttpOnly = true; // Đảm bảo cookie chỉ có thể được truy cập thông qua HTTP
+                options.Cookie.IsEssential = true; // Đánh dấu cookie là cần thiết
+            });
             // Cấu hình Cookie
             builder.Services.ConfigureApplicationCookie(options =>
             {
@@ -47,7 +52,7 @@ namespace EduCourse
             });
             builder.Services.Configure<StripeSettings>(builder.Configuration.GetSection("Stripe"));
             StripeConfiguration.ApiKey = builder.Configuration["Stripe:SecretKey"];
-
+            builder.Services.AddMemoryCache();
             builder.Services.AddControllersWithViews();
 
             var app = builder.Build();
@@ -66,6 +71,7 @@ namespace EduCourse
             app.UseAuthentication(); // Sử dụng Identity cho Authentication
             app.UseAuthorization();  // Sử dụng Identity cho Authorization
 
+            app.UseSession();
             app.MapControllerRoute(
                 name: "default",
                 pattern: "{controller=Home}/{action=Index}/{id?}");

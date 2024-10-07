@@ -4,7 +4,9 @@ using EduCourse.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Drawing.Printing;
 using System.Security.Claims;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace EduCourse.Controllers;
 
@@ -164,5 +166,32 @@ public class ProfileController : Controller
 
         // Trả về view với model chứa thông tin lỗi
         return View(user);
+    }
+    public IActionResult StudentExam(int page = 1, int pageSize = 10)
+    {
+        var studentId = User.Identity.Name;
+        var student = _context.Users.FirstOrDefault(u => u.UserName == studentId);
+
+        if (student == null)
+        {
+            return NotFound("Student not found");
+        }
+        var query = _context.StudentExams
+            .Include(e => e.Exam)
+            .Include(e => e.Student)
+            .OrderByDescending(d => d.ExamDate)
+            .Where(s => s.StudentID == studentId).ToList();
+        var totalExam = query.ToList();
+        var studentExams = totalExam.Skip((page - 1) * pageSize)
+                                .Take(pageSize)
+                                .ToList();
+        var viewModel = new ProfileViewModel
+        {
+            User = student,
+            CurrentPage = page,
+            StudentExams = studentExams,
+            PageSize = pageSize
+        };
+        return View(viewModel);
     }
 }

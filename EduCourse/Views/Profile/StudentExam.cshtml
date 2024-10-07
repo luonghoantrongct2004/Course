@@ -132,18 +132,20 @@
                                             <tbody>
                                                 @foreach (var item in Model.Orders)
                                                 {
-                                                    if (item.OrderDetails != null && item.OrderDetails.Any()){
-                                                    foreach(var detail in item.OrderDetails){
-                                                    <tr>
-                                                        <td>@item.OrderID</td>
-                                                        <td><span class="title-course">@detail.Course.Title</span></td>
-                                                        <td>@item.OrderDate.ToString("dd/MM/yyyy hh:mm")</td>
-                                                        <td>@detail.CoursePrice</td>
-                                                        <td>@item.PaymentMethod</td>
-                                                        <td>@item.PaymentStatus</td>
-                                                     
-                                                    </tr>
-                                                    }
+                                                    if (item.OrderDetails != null && item.OrderDetails.Any())
+                                                    {
+                                                        foreach (var detail in item.OrderDetails)
+                                                        {
+                                                            <tr>
+                                                                <td>@item.OrderID</td>
+                                                                <td><span class="title-course">@detail.Course.Title</span></td>
+                                                                <td>@item.OrderDate.ToString("dd/MM/yyyy hh:mm")</td>
+                                                                <td>@detail.CoursePrice</td>
+                                                                <td>@item.PaymentMethod</td>
+                                                                <td>@item.PaymentStatus</td>
+
+                                                            </tr>
+                                                        }
                                                     }
                                                 }
                                             </tbody>

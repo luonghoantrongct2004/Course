@@ -7,6 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="Views\Profile\StudentExam.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Folder Include="Areas\Admin\Data\" />
     <Folder Include="wwwroot\uploads\" />
     <Folder Include="wwwroot\videos\" />
@@ -15,6 +19,7 @@
   <ItemGroup>
     <None Include="Views\Home\Index.cshtml" />
     <None Include="Views\Home\Privacy.cshtml" />
+    <None Include="Views\Profile\StudentExam.cshtml" />
     <None Include="Views\Shared\Error.cshtml" />
     <None Include="Views\Shared\_Layout.cshtml" />
     <None Include="Views\Shared\_ValidationScriptsPartial.cshtml" />
@@ -232,6 +237,14 @@
     </PackageReference>
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="8.0.5" />
     <PackageReference Include="Stripe.net" Version="45.14.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <UpToDateCheckInput Remove="Views\Profile\StudentExam.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <_ContentIncludedByDefault Remove="Views\Profile\StudentExam.cshtml" />
   </ItemGroup>
 
 </Project>

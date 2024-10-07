@@ -11,4 +11,8 @@ public class StudentExam
 
     public DateTime ExamDate { get; set; }
     public int Score { get; set; }
+
+    public string QuestionName { get; set; }
+    public string QuestionType { get; set; }
+    public string Result { get; set; } //Đúng, sai
 }

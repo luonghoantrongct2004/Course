@@ -21,8 +21,10 @@ public class Course
     public int CategoryID { get; set; }
     public User? Author { get; set; }
     public bool Status { get; set; } = true;
+    public int? LibraryID { get; set; }
 
     public ICollection<Chapter> Chapters { get; set; } = new List<Chapter>();
     public Category? Category { get; set; }
     public ICollection<UserCourse>? UserCourses { get; set; }
+    public Library? Library { get; set; }
 }

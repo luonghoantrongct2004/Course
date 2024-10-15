@@ -1,9 +1,12 @@
-﻿using EduCourse.Entities;
+﻿using EduCourse.Areas.Admin.Models;
+using EduCourse.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EduCourse.Areas.Admin.Controllers;
+
+[Area("Admin")]
 [Authorize(Roles = "Admin")]
 public class RoleController : Controller
 {
@@ -16,16 +19,70 @@ public class RoleController : Controller
         _roleManager = roleManager;
     }
 
-    public IActionResult Index()
+    public async Task<IActionResult> Index()
     {
-        return View();
+        // Get all users
+        var users = _userManager.Users.ToList();
+
+        // Get all roles
+        var roles = _roleManager.Roles.ToList();
+
+        // Create a dictionary to store the roles for each user
+        var userRoles = new Dictionary<string, List<string>>();
+
+        // Populate the dictionary with users and their roles
+        foreach (var user in users)
+        {
+            var rolesForUser = await _userManager.GetRolesAsync(user); // Get roles for each user
+            userRoles[user.Id] = rolesForUser.ToList();
+        }
+
+        // Create the view model
+        var viewModel = new UserRoleViewModel
+        {
+            Users = users,
+            Roles = roles,
+            UserRoles = userRoles
+        };
+
+        return View(viewModel);
     }
-    public async Task<IActionResult> AssignRole(string userId, string role)
+    [HttpPost]
+    public async Task<IActionResult> ChangeUserRole(string userId, string role)
     {
         var user = await _userManager.FindByIdAsync(userId);
         if (user == null)
         {
             return NotFound();
+        }
+
+        // Remove all roles from the user
+        var userRoles = await _userManager.GetRolesAsync(user);
+        var result = await _userManager.RemoveFromRolesAsync(user, userRoles);
+
+        if (!result.Succeeded)
+        {
+            // Handle error
+            return BadRequest("Failed to remove user roles.");
+        }
+
+        // Add the selected role to the user
+        result = await _userManager.AddToRoleAsync(user, role);
+        if (!result.Succeeded)
+        {
+            // Handle error
+            return BadRequest("Failed to assign the new role.");
+        }
+
+        return Redirect("/admin/role");
+    }
+
+    public async Task<IActionResult> AssignRole(string userId, string role)
+    {
+        var user = await _userManager.FindByIdAsync(userId);
+        if (user == null)
+        {
+            return Redirect("/Home/Error404");
         }
 
         if (!await _roleManager.RoleExistsAsync(role))

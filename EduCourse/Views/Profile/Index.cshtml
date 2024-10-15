@@ -28,12 +28,12 @@
                     <div class="settings-menu">
                         <div class="profile-bg">
                             <div class="profile-img">
-                                <a href="student-profile.html"><img src="~/assets/img/user/user16.jpg" alt="Img"></a>
+                                <a href="/profile/account"><img src="~/assets/img/user/user16.jpg" alt="Img"></a>
                             </div>
                         </div>
                         <div class="profile-group">
                             <div class="profile-name text-center">
-                                <h4><a href="student-profile.html">@Model.User.FullName</a></h4>
+                                <h4><a href="/profile/account">@Model.User.FullName</a></h4>
                             </div>
                         </div>
                     </div>
@@ -53,12 +53,12 @@
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="student-courses.html" class="nav-link">
+                                <a href="/profile/courseprofile" class="nav-link">
                                     <i class="bx bxs-graduation"></i>Khóa học đã mua
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="/profile/StudentExam" class="nav-link">
+                                <a href="/home/StudentExam" class="nav-link">
                                     <i class="bx bxs-shapes"></i>Bài thi
                                 </a>
                             </li>
@@ -87,7 +87,7 @@
                     <div class="col-lg-6 col-md-6 d-flex">
                         <div class="card dash-info flex-fill">
                             <div class="card-body">
-                                <h5>Enrolled Courses</h5>
+                                <h5>Khóa học đã mua</h5>
                                 <h2>@Model.EnrollCourse</h2>
                             </div>
                         </div>
@@ -95,7 +95,7 @@
                     <div class="col-lg-6 col-md-6 d-flex">
                         <div class="card dash-info flex-fill">
                             <div class="card-body">
-                                <h5>Exams</h5>
+                                <h5>Bài thi</h5>
                                 <h2>@Model.Exam</h2>
                             </div>
                         </div>
@@ -103,7 +103,7 @@
                 </div>
 
                 <div class="dashboard-title">
-                    <h4>Recently Enrolled Courses</h4>
+                    <h4>Những khóa học đã mua</h4>
                 </div>
                 <div class="row">
                     @foreach (var item in Model.UserCourses)
@@ -125,7 +125,7 @@
                                     <div class="product-content">
                                         <div class="course-group d-flex">
                                             <div class="course-group-img d-flex">
-                                                <a href="/home/detail?id=@item.CourseID"><img src="assets/img/user/user2.jpg" alt="Img" class="img-fluid"></a>
+                                                <a href="/home/detail?id=@item.CourseID"><img src="~/assets/img/user/user2.jpg" alt="Img" class="img-fluid"></a>
                                                 <div class="course-name">
                                                     <h4><a href="/home/detail?id=@item.CourseID">@item.Course.Author.FullName</a></h4>
                                                 </div>
@@ -185,23 +185,29 @@
                 <div class="dash-pagination">
                     <div class="row align-items-center">
                         <div class="col-6">
-                            <p>Page 1 of 2</p>
+                            <p>Page @Model.CurrentPage of @Model.TotalPages</p>
                         </div>
                         <div class="col-6">
                             <ul class="pagination">
-                                <li class="active">
-                                    <a href="#">1</a>
-                                </li>
-                                <li>
-                                    <a href="#">2</a>
-                                </li>
-                                <li>
-                                    <a href="#"><i class="bx bx-chevron-right"></i></a>
-                                </li>
+                                @for (int i = 1; i <= Model.TotalPages; i++)
+                                {
+                                    <li class="@(i == Model.CurrentPage ? "active" : "")">
+                                        <a href="@Url.Action("Index", new { page = i })">@i</a>
+                                    </li>
+                                }
+                                @if (Model.CurrentPage < Model.TotalPages)
+                                {
+                                    <li>
+                                        <a href="@Url.Action("Index", new { page = Model.CurrentPage + 1 })">
+                                            <i class="bx bx-chevron-right"></i>
+                                        </a>
+                                    </li>
+                                }
                             </ul>
                         </div>
                     </div>
                 </div>
+
             </div>
 
         </div>

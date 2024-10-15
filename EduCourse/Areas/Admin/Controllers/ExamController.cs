@@ -1,10 +1,12 @@
 ﻿using EduCourse.Areas.Admin.Models;
 using EduCourse.Data;
 using EduCourse.Entities;
+using EduCourse.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
+using System.Security.Claims;
 
 namespace EduCourse.Areas.Admin.Controllers;
 
@@ -21,17 +23,30 @@ public class ExamController : Controller
 
     // GET: Lấy danh sách đề thi
     [HttpGet]
-    public IActionResult Index()
+    public IActionResult Index(int page = 1, int pageSize = 10)
     {
+        // Get the total count of exams
+        var totalExams = _context.Exams.Count();
+
+        // Fetch the paginated exams with related data
         var exams = _context.Exams
-                                .Include(a => a.Author)
-                                .Include(e => e.ExamQuestions)
-                                  .ThenInclude(eq => eq.Question)
-                                  .ThenInclude(o => o.Options)
-                                  .ToList();
+                            .Include(a => a.Author)
+                            .Include(e => e.ExamQuestions)
+                                .ThenInclude(eq => eq.Question)
+                                .ThenInclude(o => o.Options)
+                            .OrderBy(e => e.CreatedDate)  // Order by any field you want, such as CreatedDate
+                            .Skip((page - 1) * pageSize)
+                            .Take(pageSize)
+                            .ToList();
+
+        // Set ViewData for pagination
+        ViewData["TotalExams"] = totalExams;
+        ViewData["CurrentPage"] = page;
+        ViewData["PageSize"] = pageSize;
 
         return View(exams);
     }
+
 
     // GET: Lấy đề thi theo ID
     [HttpGet]
@@ -44,7 +59,7 @@ public class ExamController : Controller
                                  .FirstOrDefault(e => e.ExamID == id);
 
         if (exam == null)
-            return NotFound();
+            return Redirect("/Home/Error404");
 
         return View(exam);
     }
@@ -93,17 +108,17 @@ public class ExamController : Controller
                     {
                         var examQuestion = new ExamQuestion
                         {
-                            ExamID = exam.ExamID, 
-                            QuestionID = questionId 
+                            ExamID = exam.ExamID,
+                            QuestionID = questionId
                         };
-                        _context.ExamQuestions.Add(examQuestion); 
+                        _context.ExamQuestions.Add(examQuestion);
                     }
                 }
 
-                _context.SaveChanges(); 
-                transaction.Commit();  
+                _context.SaveChanges();
+                transaction.Commit();
 
-                return Json(new { success = true, message = "Đã tạo thành công bài thi" }); 
+                return Json(new { success = true, message = "Đã tạo thành công bài thi" });
             }
             catch (Exception ex)
             {
@@ -127,7 +142,7 @@ public class ExamController : Controller
 
         if (exam == null)
         {
-            return NotFound();
+            return Redirect("/Home/Error404");
         }
         var questions = _context.Questions
             .Include(o => o.Options)
@@ -151,7 +166,7 @@ public class ExamController : Controller
             .FirstOrDefault(e => e.ExamID == id);
 
         if (exam == null)
-            return NotFound();
+            return Redirect("/Home/Error404");
 
         // Update basic exam properties
         exam.Title = model.Title;
@@ -192,5 +207,64 @@ public class ExamController : Controller
         // Trả về phản hồi JSON thành công thay vì redirect
         return Ok(new { message = "Xóa thành công." });
     }
+
+    public IActionResult StudentExam(int page = 1, int pageSize = 10)
+    {
+        var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+        IQueryable<StudentExam> query;
+
+        // Determine query based on user role
+        if (User.IsInRole("Instructure"))
+        {
+            // Filter by AuthorID for instructors
+            query = _context.StudentExams
+                .Include(e => e.Exam)
+                .Include(s => s.ExamDetails)
+                .Include(e => e.Exam.Author) // Include Author for filtering
+                .Include(e => e.Student)
+                .Where(s => s.Exam.AuthorID == userId)
+                .OrderByDescending(d => d.ExamDate);
+        }
+        else if (User.IsInRole("Admin"))
+        {
+            // Admin sees all exams without filtering by AuthorID
+            query = _context.StudentExams
+                .Include(e => e.Exam)
+                .Include(s => s.ExamDetails)
+                .Include(e => e.Exam.Author)
+                .Include(e => e.Student)
+                .OrderByDescending(d => d.ExamDate);
+        }
+        else
+        {
+            // Redirect to error if user doesn't have proper roles
+            return Redirect("/home/error500");
+        }
+
+        // Get total count of exams for pagination
+        var totalExamsCount = query.Count();
+
+        // Execute pagination
+        var studentExams = query.Skip((page - 1) * pageSize)
+                                .Take(pageSize)
+                                .ToList();
+
+        // Calculate total pages
+        var totalPages = (int)Math.Ceiling((double)totalExamsCount / pageSize);
+
+        // Prepare the view model
+        var viewModel = new ProfileViewModel
+        {
+            CurrentPage = page,
+            StudentExams = studentExams,
+            PageSize = pageSize,
+            TotalPages = totalPages
+        };
+
+        // Return the view with the data
+        return View(viewModel);
+
+    }
+
 
 }

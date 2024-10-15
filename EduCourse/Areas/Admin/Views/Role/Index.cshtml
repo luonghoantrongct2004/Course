@@ -1,0 +1,246 @@
+﻿@using EduCourse.Areas.Admin.Models
+@model UserRoleViewModel
+<link rel="stylesheet" href="~/admin/assets/css/output.css" asp-append-version="true" />
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+
+<style>
+    .swal-custom-popup {
+        background-color: #a52effa3;
+        color: black;
+    }
+
+    .swal-custom-title {
+        color: black;
+    }
+
+    .swal-custom-confirm, .swal-custom-cancel {
+        background-color: #ffffffd9;
+        color: #000000;
+    }
+
+        .swal-custom-confirm:hover, .swal-custom-cancel:hover {
+            background-color: #ebebeb;
+            color: black;
+        }
+</style>
+<main class="w-full">
+    <!-- write your code here-->
+    <div class="p-7">
+        <div class="flex flex-col justify-between gap-5 mb-6 sm:flex-row">
+            <div>
+                <h3 class="mb-1 text-xl font-semibold leading-6 text-slate-800">
+                    Phân Quyền
+                </h3>
+                <p class="text-sm text-slate-600">
+                    Phân quyền hạng cho tài khoản
+                </p>
+            </div>
+            <div class="flex gap-5">
+                <button class="flex items-center gap-1 rounded-lg py-2.5 px-4 text-sm text-slate-600 border border-slate-200 shadow-xs">
+                    <svg width="20"
+                         height="20"
+                         viewBox="0 0 20 20"
+                         fill="none"
+                         xmlns="http://www.w3.org/2000/svg">
+                        <path d="M15 11.6665L15.9596 10.7069C16.3501 10.3164 16.3501 9.68326 15.9596 9.29273L15 8.33317"
+                              stroke="#475569"
+                              stroke-width="1.5"
+                              stroke-linecap="round"
+                              stroke-linejoin="round" />
+                        <path d="M15.8333 10L10.8333 10M3.33334 14.3886V6.05527M13.3333 14.3886C13.3333 15.3091 12.5872 16.0553 11.6667 16.0553H8.33334M13.3333 6.05527C13.3333 5.1348 12.5872 4.38861 11.6667 4.38861H8.33334M4.07551 16.5501L5.74218 17.6612C6.84977 18.3996 8.33334 17.6056 8.33334 16.2744V4.16947C8.33334 2.83831 6.84977 2.04432 5.74218 2.78272L4.07551 3.89383C3.61185 4.20294 3.33334 4.72333 3.33334 5.28058V15.1633C3.33334 15.7206 3.61185 16.2409 4.07551 16.5501Z"
+                              stroke="#475569"
+                              stroke-width="1.5"
+                              stroke-linecap="round" />
+                    </svg>
+                    Export
+                </button>
+            </div>
+        </div>
+        <div class="py-5 bg-white rounded-lg">
+            <div class="flex flex-col justify-between gap-4 px-5 md:flex-row md:items-center">
+                <div class="flex-1">
+                    <div class="relative">
+                        <div class="absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none">
+                            <svg width="25"
+                                 height="24"
+                                 viewBox="0 0 25 24"
+                                 fill="none"
+                                 xmlns="http://www.w3.org/2000/svg">
+                                <circle cx="12.2669"
+                                        cy="11.7666"
+                                        r="8.98856"
+                                        stroke="#0F172A"
+                                        stroke-width="1.5"
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round" />
+                                <path d="M18.5186 18.4851L22.0426 22"
+                                      stroke="#0F172A"
+                                      stroke-width="1.5"
+                                      stroke-linecap="round"
+                                      stroke-linejoin="round" />
+                            </svg>
+                        </div>
+                        <input type="text" id="examSearch"
+                               placeholder="Tìm theo tên bài thi..."
+                               class="w-full h-12 p-4 pl-12 border border-transparent rounded-lg ring-0 focus:ring-0 focus:border-primary bg-slate-50 placeholder:text-slate-400" />
+                    </div>
+                </div>
+            </div>
+            <!-- Tables -->
+            <div class="-m-1.5 overflow-x-auto">
+                <div class="p-1.5 min-w-full inline-block align-middle">
+                    <table class="min-w-full divide-y divide-slate-100" id="examsTable">
+                        <thead>
+                            <tr>
+                                <th scope="col"
+                                    class="px-5 py-3 text-base font-medium capitalize text-start text-slate-900">
+                                    Tên người dùng
+                                </th>
+                                <th scope="col"
+                                    class="px-5 py-3 text-sm font-medium capitalize text-start text-mainblack">
+                                    Email
+                                </th>
+                                <th scope="col"
+                                    class="px-5 py-3 text-sm font-medium capitalize text-start text-mainblack">
+                                    Quyền hạng
+                                </th>
+                                <th scope="col"
+                                    class="px-5 py-3 text-sm font-medium capitalize text-end text-mainblack">
+                                    Action
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-100">
+                            @foreach (var item in Model.Users)
+                            {
+                                <tr class="course-row transition hover:bg-slate-50" data-search-name="@item.FullName"  data-search="@item.Id">
+
+                                    <td class="px-5 py-3 text-sm whitespace-nowrap text-slate-600">
+                                        @item.FullName
+                                    </td>
+                                    <td class="px-5 py-3 text-sm font-medium whitespace-nowrap text-slate-500">
+                                        @item.Email
+                                    </td>
+                                    <td class="px-5 py-3 text-sm whitespace-nowrap text-mainblack">
+                                        <ul>
+                                            @if (Model.UserRoles.ContainsKey(item.Id))
+                                            {
+                                                @foreach (var role in Model.UserRoles[item.Id])
+                                                {
+                                                    <li>@role</li>
+                                                }
+                                            }
+                                            else
+                                            {
+                                                <li>Không có quyền nào</li>
+                                            }
+                                        </ul>
+                                    </td>
+                                    <td class="px-5 py-3 whitespace-nowrap">
+                                        <div class="flex justify-end gap-2">
+                                            <button type="button" onclick="showRoleModal('@item.Id')"
+                                                    class="inline-flex items-center justify-center w-8 h-8 text-white bg-red-500 rounded">
+                                                <svg width="20"
+                                                     height="21"
+                                                     viewBox="0 0 20 21"
+                                                     fill="none"
+                                                     xmlns="http://www.w3.org/2000/svg">
+                                                    <g clip-path="url(#clip0_67_6479)">
+                                                        <path d="M17.5 8.83317V6.74984C17.5 4.90889 16.0076 3.4165 14.1667 3.4165H5.83333C3.99238 3.4165 2.5 4.90889 2.5 6.74984V15.4998C2.5 17.3408 3.99238 18.8332 5.83333 18.8332H7.5M6.66667 2.1665V4.6665M13.3333 2.1665V4.6665M10 18.8332L12.5506 18.106C12.6874 18.067 12.8119 17.9938 12.9125 17.8933L17.0915 13.7143C17.6362 13.1696 17.6362 12.2864 17.0915 11.7417C16.5468 11.197 15.6636 11.197 15.1189 11.7417L10.9399 15.9207C10.8394 16.0213 10.7661 16.1458 10.7271 16.2825L10 18.8332Z"
+                                                              stroke="currentColor"
+                                                              stroke-width="1.8"
+                                                              stroke-linecap="round" />
+                                                    </g>
+                                                    <defs>
+                                                        <clipPath id="clip0_67_6479">
+                                                            <rect width="20"
+                                                                  height="20"
+                                                                  fill="white"
+                                                                  transform="translate(0 0.5)" />
+                                                        </clipPath>
+                                                    </defs>
+                                                </svg>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div id="roleModal" class="fixed z-50 inset-0 hidden bg-gray-800 bg-opacity-50 flex items-center justify-center">
+                <div class="bg-white rounded-lg shadow-lg p-5 max-w-md w-full">
+                    <h2 class="text-lg font-medium text-gray-800 mb-4">Thay đổi quyền cho <span id="userName"></span></h2>
+
+                    <form id="roleForm" method="post" action="/admin/Role/ChangeUserRole">
+                        <input type="hidden" id="userId" name="userId" />
+                        <div class="mb-4">
+                            <label for="roleSelect" class="block text-sm font-medium text-gray-700">Chọn quyền</label>
+                            <select id="roleSelect" name="role" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm">
+                                @foreach (var role in Model.Roles)
+                                {
+                                    <option value="@role.Name">@role.Name</option>
+                                }
+                            </select>
+                        </div>
+                        <div class="flex justify-end gap-2">
+                            <button type="button" onclick="closeRoleModal()" class="px-4 py-2 bg-gray-500 text-black rounded">
+                                Hủy
+                            </button>
+                            <button type="submit" class="px-4 py-2 bg-blue-500 text-black rounded">Thay đổi</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <script>
+                function showRoleModal(userId) {
+                    // Attempt to find the element
+                    var userRow = document.querySelector(`[data-search="${userId}"]`);
+
+                    // Check if the element exists
+                    if (userRow) {
+                        // Set user ID in hidden input
+                        document.getElementById('userId').value = userId;
+
+                        // Get the name from the table row's first column (adjust this based on your HTML structure)
+                        var userName = userRow.querySelector('td').textContent;
+
+                        // Set the user's name in the modal
+                        document.getElementById('userName').textContent = userName;
+
+                        // Show the modal
+                        document.getElementById('roleModal').classList.remove('hidden');
+                    } else {
+                        console.error("User row not found for userId:", userId);
+                    }
+                }
+
+                function closeRoleModal() {
+                    // Hide the modal
+                    document.getElementById('roleModal').classList.add('hidden');
+                }
+
+            </script>
+
+            <script>
+                $(document).ready(function () {
+                    $('#examSearch').on('keyup', function () {
+                        var searchText = $(this).val().toLowerCase();
+
+                        $('#examsTable .course-row').filter(function () {
+                            $(this).toggle($(this).attr('data-search-name').toLowerCase().indexOf(searchText) > -1);
+                        });
+                    });
+                });
+            </script>
+        </div>
+    </div>
+    <!-- write your code here-->
+</main>
+
+<script src="~/admin/assets/js/main.js"></script>

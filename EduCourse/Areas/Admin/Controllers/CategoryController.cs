@@ -16,11 +16,26 @@ public class CategoryController : Controller
         _context = context;
     }
 
-    public IActionResult Index()
+    public IActionResult Index(int page = 1, int pageSize = 10)
     {
-        var categories = _context.Categories.ToList();
+        // Get the total count of categories
+        var totalCategories = _context.Categories.Count();
+
+        // Fetch the paginated categories
+        var categories = _context.Categories
+            .OrderBy(c => c.CategoryID)  // Or any other property you want to order by
+            .Skip((page - 1) * pageSize)
+            .Take(pageSize)
+            .ToList();
+
+        // Set ViewData for pagination
+        ViewData["TotalCategories"] = totalCategories;
+        ViewData["CurrentPage"] = page;
+        ViewData["PageSize"] = pageSize;
+
         return View(categories);
     }
+
     // GET: Admin/Category/Create
     public IActionResult Create()
     {
@@ -63,13 +78,13 @@ public class CategoryController : Controller
     {
         if (id == null)
         {
-            return NotFound();
+            return Redirect("/Home/Error404");
         }
 
         var category = await _context.Categories.FindAsync(id);
         if (category == null)
         {
-            return NotFound();
+            return Redirect("/Home/Error404");
         }
         return View(category);
     }
@@ -80,7 +95,7 @@ public class CategoryController : Controller
     {
         if (id != category.CategoryID)
         {
-            return NotFound();
+            return Redirect("/Home/Error404");
         }
 
         if (ModelState.IsValid)
@@ -94,7 +109,7 @@ public class CategoryController : Controller
             {
                 if (!CategoryExists(category.CategoryID))
                 {
-                    return NotFound();
+                    return Redirect("/Home/Error404");
                 }
                 else
                 {

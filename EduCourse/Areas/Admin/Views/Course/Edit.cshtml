@@ -1,4 +1,7 @@
 ﻿@model Course
+@{
+    var libary = ViewData["Libary"] as List<Library>;
+}
 <style>
     .form-step {
         display: none;
@@ -198,6 +201,50 @@
                         </select>
 
                     </div>
+                   <div class="col-span-full">
+    <label for="LibrarySelect"
+           class="block mb-2 text-sm font-medium leading-6 text-mainblack">Tài liệu khóa học *</label>
+    <!-- Dropdown for selecting an existing file from Library -->
+    <select id="LibrarySelect"
+            name="SelectedLibraryId"
+            class="w-full px-4 py-2 text-sm border rounded-lg text-mainblack placeholder:text-sm focus:ring-0 focus:border-primary h-11 border-slate-200 placeholder:text-slate-600">
+        @if(Model.LibraryID > 0){
+            foreach (var library in libary)
+            {
+                 <option value="@Model.LibraryID">@Model.Library.LibraryName</option>
+                 <option value="@library.LibraryID">@library.LibraryName</option>
+            }
+        }else{
+            <option value="">Chọn tài liệu có sẵn</option>
+            foreach (var library in libary)
+            {
+                 <option value="@library.LibraryID">@library.LibraryName</option>
+            }
+        }
+    </select>
+</div>
+
+                    <div class="col-span-full">
+                        <label for="LibraryUpload"
+                               class="block mb-2 text-sm font-medium leading-6 text-mainblack">Tải lên tài liệu mới</label>
+                        <!-- Input for uploading new files -->
+                        <input type="file"
+                               id="LibraryUpload"
+                               name="UploadedFiles"
+                               multiple
+                               class="w-full px-4 py-2 text-sm border rounded-lg text-mainblack focus:ring-0 focus:border-primary h-11 border-slate-200" />
+
+                        <!-- Input for custom file name -->
+                        <div class="mt-4">
+                            <label for="FileCustomName" class="block mb-2 text-sm font-medium leading-6 text-mainblack">Tên tài liệu</label>
+                            <input type="text"
+                                   id="FileCustomName"
+                                   name="FileCustomNames"
+                                   placeholder="Tên tài liệu"
+                                   class="w-full px-4 py-2 text-sm border rounded-lg text-mainblack focus:ring-0 focus:border-primary h-11 border-slate-200" />
+                        </div>
+                    </div>
+
                     <div class="border-b border-slate-200 col-span-full">
                         <h3 class="flex items-center gap-3 mb-2 text-xl font-semibold leading-6 text-mainblack">
                             Giá

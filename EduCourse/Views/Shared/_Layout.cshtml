@@ -46,6 +46,8 @@
 
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/akiran/theia-sticky-sidebar@1.9.0/dist/theia-sticky-sidebar.min.js"></script>
     <script>
         AOS.init();
     </script>
@@ -143,6 +145,9 @@
                                 <li class="has-submenu menu-effect">
                                     <a href="#">Liên hệ</a>
                                 </li>
+                                <li class="has-submenu menu-effect">
+                                    <a href="/exam">Cuộc thi</a>
+                                </li>
 
                             </ul>
                         </div>
@@ -183,11 +188,24 @@
                                                 <h6>@user.FullName</h6>
                                             </div>
                                         </div>
+
+                                        @if (User.IsInRole("Instructure") || User.IsInRole("Admin"))
+                                        {
+                                            <a class="dropdown-item" href="/admin">
+                                                <i class="feather-shield me-1"></i> Trang quản trị
+                                            </a>
+                                        }
                                         <a class="dropdown-item" href="/profile">
                                             <i class="feather-user me-1"></i> Trang cá nhân
                                         </a>
-                                        <a class="dropdown-item" href="setting-student-subscription.html">
-                                            <i class="feather-star me-1"></i> Subscription
+                                        <a class="dropdown-item" href="/profile/historyOrder">
+                                            <i class="feather-upload me-1"></i> Đơn hàng
+                                        </a>
+                                        <a class="dropdown-item" href="/home/StudentExam">
+                                            <i class="feather-star me-1"></i> Bài thi
+                                        </a>
+                                        <a class="dropdown-item" href="/profile/courseprofile">
+                                            <i class="feather-book me-1"></i> Khóa học đã mua
                                         </a>
                                         <form action="/Auth/Logout" class="dropdown-item" method="post">
                                             <button type="submit" class="signin-head button">
@@ -226,7 +244,7 @@
 
                             <div class="footer-widget footer-about">
                                 <div class="footer-logo">
-                                    <img src="~/assets/img/logo.svg" alt="logo">
+                                    <img src="~/Lotus.png" alt="logo">
                                 </div>
                                 <div class="footer-about-content">
                                     <p>
@@ -272,7 +290,7 @@
                             <div class="footer-widget footer-menu footer-menu-two">
                                 <h2 class="footer-title">For Student</h2>
                                 <ul>
-                                    <li><a href="student-profile.html">Profile</a></li>
+                                    <li><a href="/profile/account">Profile</a></li>
                                     <li><a href="login.html">Login</a></li>
                                     <li><a href="register.html">Register</a></li>
                                     <li><a href="students-list.html">Student</a></li>
@@ -314,7 +332,7 @@
                         <div class="row">
                             <div class="col-md-6 col-sm-12">
                                 <div class="copyright-text">
-                                    <p class="mb-0">&copy; 2024 DreamsLMS. All rights reserved.</p>
+                                    <p class="mb-0">&copy; 2024 Academic Lotus All rights reserved.</p>
                                 </div>
                             </div>
                             <div class="col-md-6 col-sm-12">

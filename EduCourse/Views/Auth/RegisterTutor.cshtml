@@ -1,0 +1,135 @@
+﻿@model EduCourse.Entities.User
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Mirrored from dreamslms.dreamstechnologies.com/html/register.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 28 Aug 2024 13:31:26 GMT -->
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
+    <title>Academic Lotus</title>
+
+    <link rel="shortcut icon" type="image/x-icon" href="~/assets/img/favicon.svg">
+
+    <script src="~/assets/js/theme-script.js" type="396c91523bbefd2e897fb28b-text/javascript"></script>
+
+    <link rel="stylesheet" href="~/assets/css/bootstrap.min.css">
+
+    <link rel="stylesheet" href="~/assets/plugins/fontawesome/css/fontawesome.min.css">
+    <link rel="stylesheet" href="~/assets/plugins/fontawesome/css/all.min.css">
+
+    <link rel="stylesheet" href="~/assets/css/owl.carousel.min.css">
+    <link rel="stylesheet" href="~/assets/css/owl.theme.default.min.css">
+
+    <link rel="stylesheet" href="~/assets/plugins/feather/feather.css">
+
+    <link rel="stylesheet" href="~/assets/css/style.css" asp-append-version="true">
+</head>
+<body>
+
+    <div class="main-wrapper log-wrap">
+        <div class="row">
+
+            <div class="col-md-6 login-bg">
+                <div class="owl-carousel login-slide owl-theme">
+                    <div class="welcome-login">
+                        <div class="login-banner">
+                            <img src="~/assets/img/login-img.png" class="img-fluid" alt="Logo" asp-append-version="true">
+                        </div>
+                        <div class="mentor-course text-center">
+                            <h2>Chào mừng đến với <br>Khóa học Academic Lotus</h2>
+                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.</p>
+                        </div>
+                    </div>
+                    <div class="welcome-login">
+                        <div class="login-banner">
+                            <img src="~/assets/img/login-img.png" class="img-fluid" alt="Logo" asp-append-version="true">
+                        </div>
+                        <div class="mentor-course text-center">
+                            <h2>Chào mừng đến với <br>Khóa học Academic Lotus</h2>
+                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.</p>
+                        </div>
+                    </div>
+                    <div class="welcome-login">
+                        <div class="login-banner">
+                            <img src="~/assets/img/login-img.png" class="img-fluid" alt="Logo" asp-append-version="true">
+                        </div>
+                        <div class="mentor-course text-center">
+                            <h2>Chào mừng đến với <br>Khóa học Academic Lotus</h2>
+                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6 login-wrap-bg">
+
+                <div class="login-wrapper">
+                    <div class="loginbox">
+                        <div class="img-logo">
+                            <img src="~/Lotus.png" class="img-fluid" alt="Logo" asp-append-version="true">
+                            <div class="back-home">
+                                <a href="/">Về trang chủ</a>
+                                <p class="mb-0">Bạn đã có tài khoản? <a href="Login">Đăng nhập</a></p>
+                            </div>
+                        </div>
+                        <h1>Đăng ký giáo viên</h1>
+                        <form action="/Auth/RegisterTutor" method="post">
+                            <div class="input-block">
+                                <label class="form-control-label">Họ và tên</label>
+                                <input type="text" class="form-control" placeholder="Nhập họ và tên của bạn" asp-for="FullName" required>
+                            </div>
+                            <div class="input-block">
+                                <label class="form-control-label">Email</label>
+                                <input type="email" class="form-control" placeholder="Nhập địa chỉ email của bạn" asp-for="Email" required>
+                            </div>
+                            <div class="input-block">
+                                <label class="form-control-label">Mật khẩu</label>
+                                <div class="pass-group" id="passwordInput">
+                                    <input type="password" class="form-control pass-input" placeholder="Nhập mật khẩu của bạn" name="Password" required minlength="8">
+                                    <span class="toggle-password feather-eye"></span>
+                                    <span class="pass-checked"><i class="feather-check"></i></span>
+                                </div>
+                                <div class="password-strength" id="passwordStrength">
+                                    <span id="poor"></span>
+                                    <span id="weak"></span>
+                                    <span id="strong"></span>
+                                    <span id="heavy"></span>
+                                </div>
+                                <div id="passwordInfo"></div>
+                            </div>
+                            <div class="form-check remember-me">
+                                <label class="form-check-label mb-0">
+                                    <input class="form-check-input" type="checkbox" name="remember" required> Tôi đồng ý với <a href="term-condition.html">Điều khoản dịch vụ</a> và <a href="privacy-policy.html">Chính sách bảo mật</a>.
+                                </label>
+                            </div>
+                            <div class="d-grid">
+                                <button class="btn btn-primary btn-start" type="submit">Tạo tài khoản</button>
+                            </div>
+                        </form>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+
+    <script src="~/assets/js/jquery-3.7.1.min.js" type="396c91523bbefd2e897fb28b-text/javascript"></script>
+
+    <script src="~/assets/js/bootstrap.bundle.min.js" type="396c91523bbefd2e897fb28b-text/javascript"></script>
+
+    <script src="~/assets/js/owl.carousel.min.js" type="396c91523bbefd2e897fb28b-text/javascript"></script>
+
+    <script src="~/assets/js/validation.js" type="396c91523bbefd2e897fb28b-text/javascript" asp-append-version="true"></script>
+
+    <script src="~/assets/js/script.js" type="396c91523bbefd2e897fb28b-text/javascript"></script>
+    <script src="~/cdn-cgi/scripts/7d0fa10a/cloudflare-static/rocket-loader.min.js" data-cf-settings="396c91523bbefd2e897fb28b-|49" defer></script>
+</body>
+
+<!-- Mirrored from dreamslms.dreamstechnologies.com/html/register.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 28 Aug 2024 13:31:26 GMT -->
+</html>

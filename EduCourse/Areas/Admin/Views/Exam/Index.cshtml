@@ -398,7 +398,7 @@
             <div class="flex flex-col items-center justify-between gap-5 px-5 mt-6 md:flex-row">
                 <div>
                     <p class="text-sm font-medium text-slate-600">
-                        Hiện @(((ViewData["CurrentPage"] as int?) ?? 1 - 1)) đến
+                        Hiện @(((ViewData["CurrentPage"] as int?) ?? 1 - 1) * ((ViewData["PageSize"] as int?) ?? 10) + 1) đến
                         @Math.Min(((ViewData["CurrentPage"] as int?) ?? 1) * ((ViewData["PageSize"] as int?) ?? 10), (ViewData["TotalCourses"] as int?) ?? 0)
                         của @ViewData["TotalCourses"] kết quả
                     </p>
@@ -436,10 +436,10 @@
                                 </svg>
                             </button>
                         </li>
-                        @for (int i = 1; i <= Math.Ceiling((double)(ViewData["TotalCourses"] as int? ?? 0) / (ViewData["PageSize"] as int? ?? 1)); i++)
+                        @for (int i = 1; i <= Math.Ceiling((double)(ViewData["TotalExams"] as int? ?? 0) / (ViewData["PageSize"] as int? ?? 1)); i++)
                         {
                             <li>
-                                <a href="@Url.Action("Index", new { page = i, pageSize = ViewData["PageSize"] })"
+                                <a href="/admin/exam?page=@i?pageSize=@ViewData["PageSize"]"
                                    class="flex items-center justify-center text-sm rounded-full @(i == (ViewData["CurrentPage"] as int?) ? "text-white bg-primary" : "text-primary") h-7 w-7">
                                     @i
                                 </a>

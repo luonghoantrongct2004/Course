@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
 using System.Drawing.Printing;
+using System.Security.Claims;
 
 namespace EduCourse.Areas.Admin.Controllers;
 
@@ -30,7 +31,6 @@ public class CourseController : Controller
         var courses = await _context.Courses
             .Include(p => p.Author)
             .Include(c => c.Category)
-            .Include(c => c.Category)
             .Include(c => c.Chapters)
                 .ThenInclude(l => l.Lessons)
             .OrderBy(c => c.CreatedDate)
@@ -38,12 +38,14 @@ public class CourseController : Controller
             .Take(pageSize)
             .ToListAsync();
 
+        // Set ViewData for pagination
         ViewData["TotalCourses"] = totalCourses;
         ViewData["CurrentPage"] = page;
         ViewData["PageSize"] = pageSize;
 
         return View(courses);
     }
+
 
     public IActionResult Detail(int id)
     {
@@ -58,7 +60,7 @@ public class CourseController : Controller
 
         if (course == null)
         {
-            return NotFound();
+            return Redirect("/Home/Error404");
         }
 
         return View(course);
@@ -68,6 +70,7 @@ public class CourseController : Controller
     public IActionResult Create()
     {
         ViewData["Categories"] = new SelectList(_context.Categories, "CategoryID", "Name");
+        ViewData["Libary"] = _context.Libraries.ToList();
         return View();
     }
     public async Task<double> GetVideoDurationAsync(string filePath)
@@ -96,107 +99,167 @@ public class CourseController : Controller
     }
 
     [HttpPost]
-    public async Task<IActionResult> Create(Course course, IFormFile file, List<Chapter> chapters)
+    public async Task<IActionResult> Create(Course course, IFormFile file, List<Chapter> chapters,
+        List<IFormFile> UploadedFiles, int? SelectedLibraryId, string? FileCustomNames)
     {
         ViewData["Categories"] = new SelectList(_context.Categories, "CategoryID", "Name", course.CategoryID);
-
-        if (ModelState.IsValid)
+        try
         {
-            // Handling course image upload
-            if (file != null)
+
+            if (ModelState.IsValid)
             {
-                var fileExtension = Path.GetExtension(file.FileName);
-                var uniqueFileName = Guid.NewGuid().ToString() + fileExtension;
-                var uploadsFolder = Path.Combine(_webHostEnvironment.WebRootPath, "uploads");
-                var filePath = Path.Combine(uploadsFolder, uniqueFileName);
-
-                if (!Directory.Exists(uploadsFolder))
+                ViewData["Library"] = _context.Libraries.ToList();
+                if (file != null)
                 {
-                    Directory.CreateDirectory(uploadsFolder);
-                }
+                    var fileExtension = Path.GetExtension(file.FileName);
+                    var uniqueFileName = Guid.NewGuid().ToString() + fileExtension;
+                    var uploadsFolder = Path.Combine(_webHostEnvironment.WebRootPath, "uploads");
+                    var filePath = Path.Combine(uploadsFolder, uniqueFileName);
 
-                using (var stream = new FileStream(filePath, FileMode.Create))
-                {
-                    await file.CopyToAsync(stream);
-                }
-
-                course.Image = $"/uploads/{uniqueFileName}";
-            }
-
-            // Handling chapters, lessons, and questions
-            if (chapters != null)
-            {
-                var chapterList = new List<Chapter>();
-
-                foreach (var chapter in chapters)
-                {
-                    var newChapter = new Chapter
+                    if (!Directory.Exists(uploadsFolder))
                     {
-                        ChapterID = chapter.ChapterID,
-                        Title = chapter.Title,
-                        Lessons = new List<Lesson>()
-                    };
-
-                    foreach (var lesson in chapter.Lessons)
-                    {
-                        var videoFileKey = $"Chapters[{chapterList.Count}].Lessons[{newChapter.Lessons.Count}].VideoFile";
-                        var videoFile = Request.Form.Files.FirstOrDefault(f => f.Name == videoFileKey);
-
-                        if (videoFile != null)
-                        {
-                            var videoFileExtension = Path.GetExtension(videoFile.FileName);
-                            var uniqueVideoFileName = Guid.NewGuid().ToString() + videoFileExtension;
-                            var videoFilePath = Path.Combine(_webHostEnvironment.WebRootPath, "uploads", uniqueVideoFileName);
-
-                            using (var videoStream = new FileStream(videoFilePath, FileMode.Create))
-                            {
-                                await videoFile.CopyToAsync(videoStream);
-                            }
-
-                            lesson.VideoURL = $"/uploads/{uniqueVideoFileName}";
-
-                            var durationString = await GetVideoDurationAsync(videoFilePath);
-                            lesson.Duration = Convert.ToDouble(durationString);
-                            lesson.CreatedDate = DateTime.Now;
-                        }
-
-                        if (lesson.Questions != null)
-                        {
-                            foreach (var question in lesson.Questions)
-                            {
-                                question.LessonID = lesson.LessonID;
-                                question.Lesson = lesson;
-
-                                if (question.Options != null)
-                                {
-                                    var optionsList = new List<Option>();
-                                    foreach (var option in question.Options)
-                                    {
-                                        option.QuestionID = question.QuestionID;
-                                        option.Question = question;
-                                        optionsList.Add(option);
-                                    }
-                                    question.Options = optionsList;
-                                }
-                            }
-                        }
-
-                        lesson.Chapter = newChapter;
-                        newChapter.Lessons.Add(lesson);
+                        Directory.CreateDirectory(uploadsFolder);
                     }
 
-                    chapterList.Add(newChapter);
+                    using (var stream = new FileStream(filePath, FileMode.Create))
+                    {
+                        await file.CopyToAsync(stream);
+                    }
+
+                    course.Image = $"/uploads/{uniqueFileName}";
                 }
 
-                course.Chapters = chapterList;
-                course.CreatedDate = DateTime.Now;
+                // Handling chapters, lessons, and questions
+                if (chapters != null)
+                {
+                    var chapterList = new List<Chapter>();
+
+                    foreach (var chapter in chapters)
+                    {
+                        var newChapter = new Chapter
+                        {
+                            ChapterID = chapter.ChapterID,
+                            Title = chapter.Title,
+                            Lessons = new List<Lesson>()
+                        };
+
+                        foreach (var lesson in chapter.Lessons)
+                        {
+                            var videoFileKey = $"Chapters[{chapterList.Count}].Lessons[{newChapter.Lessons.Count}].VideoFile";
+                            var videoFile = Request.Form.Files.FirstOrDefault(f => f.Name == videoFileKey);
+
+                            if (videoFile != null)
+                            {
+                                var videoFileExtension = Path.GetExtension(videoFile.FileName);
+                                var uniqueVideoFileName = Guid.NewGuid().ToString() + videoFileExtension;
+                                var videoFilePath = Path.Combine(_webHostEnvironment.WebRootPath, "uploads", uniqueVideoFileName);
+
+                                using (var videoStream = new FileStream(videoFilePath, FileMode.Create))
+                                {
+                                    await videoFile.CopyToAsync(videoStream);
+                                }
+
+                                lesson.VideoURL = $"/uploads/{uniqueVideoFileName}";
+
+                                var durationString = await GetVideoDurationAsync(videoFilePath);
+                                lesson.Duration = Convert.ToDouble(durationString);
+                                lesson.CreatedDate = DateTime.Now;
+                            }
+
+                            if (lesson.Questions != null)
+                            {
+                                foreach (var question in lesson.Questions)
+                                {
+                                    question.LessonID = lesson.LessonID;
+                                    question.Lesson = lesson;
+
+                                    if (question.Options != null)
+                                    {
+                                        var optionsList = new List<Option>();
+                                        foreach (var option in question.Options)
+                                        {
+                                            option.QuestionID = question.QuestionID;
+                                            option.Question = question;
+                                            optionsList.Add(option);
+                                        }
+                                        question.Options = optionsList;
+                                    }
+                                }
+                            }
+
+                            lesson.Chapter = newChapter;
+                            newChapter.Lessons.Add(lesson);
+                        }
+
+                        chapterList.Add(newChapter);
+                    }
+
+                    course.Chapters = chapterList;
+                    course.CreatedDate = DateTime.Now;
+                }
+
+                _context.Courses.Add(course);
+
+                await _context.SaveChangesAsync();
+                var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+                Library newLibraryEntry = null;
+
+                // Process file uploads (one Library for all uploaded files)
+                if (UploadedFiles != null && UploadedFiles.Count > 0)
+                {
+                    // Create a new library entry (if not already selected)
+                    newLibraryEntry = new Library
+                    {
+                        LibraryName = !string.IsNullOrEmpty(FileCustomNames) ? FileCustomNames : course.Title,
+                        CourseID = course.CourseID, // Link to the current course
+                        IsArchived = false,  // Active by default
+                        UploadedDate = DateTime.Now,
+                        UploadedByID = userId,
+                        FilePaths = new List<string>()  // Initialize the list for file paths
+                    };
+
+                    // Save the library entry to get the LibraryID
+                    _context.Libraries.Add(newLibraryEntry);
+                    await _context.SaveChangesAsync();
+
+                    // Now link the newly created Library to the course
+                    course.LibraryID = newLibraryEntry.LibraryID;
+
+                    foreach (var fileLibary in UploadedFiles)
+                    {
+                        if (fileLibary.Length > 0)
+                        {
+                            // Save the uploaded file to the server
+                            var fileExtension = Path.GetExtension(fileLibary.FileName);
+                            var uniqueFileName = Guid.NewGuid().ToString() + fileExtension;
+                            var filePath = Path.Combine(_webHostEnvironment.WebRootPath, "libraries", uniqueFileName);
+
+                            if (!Directory.Exists(Path.Combine(_webHostEnvironment.WebRootPath, "libraries")))
+                            {
+                                Directory.CreateDirectory(Path.Combine(_webHostEnvironment.WebRootPath, "libraries"));
+                            }
+
+                            using (var stream = new FileStream(filePath, FileMode.Create))
+                            {
+                                await fileLibary.CopyToAsync(stream);
+                            }
+
+                            // Add the file path to the library's file paths list
+                            newLibraryEntry.FilePaths.Add($"/libraries/{uniqueFileName}");
+                        }
+                    }
+
+                    // Save changes to update the library with the file paths
+                    await _context.SaveChangesAsync();
+                }
+
+                // Save the course with the new or selected LibraryID
+                await _context.SaveChangesAsync();
+
+                return Json(new { success = true, message = "Khóa học đã được tạo thành công" });
             }
-
-            _context.Courses.Add(course);
-            await _context.SaveChangesAsync();
-
-            return Json(new { success = true, message = "Khóa học đã được tạo thành công" });
         }
+        catch (Exception ex) { }
         return Json(new { success = false, message = "Thông tin nhập vào không hợp lệ. Vui lòng kiểm tra lại." });
     }
 
@@ -204,6 +267,7 @@ public class CourseController : Controller
     public IActionResult Edit(int id)
     {
         var course = _context.Courses
+            .Include(l => l.Library)
             .Include(c => c.Chapters)
             .ThenInclude(l => l.Lessons)
             .ThenInclude(q => q.Questions)
@@ -212,15 +276,16 @@ public class CourseController : Controller
 
         if (course == null)
         {
-            return NotFound();
+            return Redirect("/Home/Error404");
         }
-
+        ViewData["Libary"] = _context.Libraries.ToList();
         ViewData["Categories"] = new SelectList(_context.Categories, "CategoryID", "Name");
         return View(course);
     }
 
     [HttpPost]
-    public async Task<IActionResult> Edit(int CourseID, IFormFile? file, Course course)
+    public async Task<IActionResult> Edit(int CourseID, IFormFile? file, Course course
+        , List<IFormFile> UploadedFiles, int? SelectedLibraryId, string? FileCustomNames)
     {
 
         if (ModelState.IsValid)
@@ -483,9 +548,88 @@ public class CourseController : Controller
 
                             _context.Chapters.Add(chapter);
                             await _context.SaveChangesAsync();
-                            return Redirect("/Admin/Course");
+                         
+                            return Json(new { success = true, message = "Course has been updated successfully" });
+
                         }
                     }
+                    var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+                    // Check if a valid library option is selected and it is not already the current one
+                    if (SelectedLibraryId.HasValue && SelectedLibraryId != course.LibraryID)
+                    {
+                        // User selected a new file from the library, and it's different from the existing one
+                        var selectedLibrary = _context.Libraries.FirstOrDefault(l => l.LibraryID == SelectedLibraryId.Value);
+
+                        if (selectedLibrary != null)
+                        {
+                            // Update course's library entry with the newly selected one
+                            course.LibraryID = selectedLibrary.LibraryID;
+                        }
+                    }
+
+                    // Process file uploads only if there are uploaded files
+                    if (UploadedFiles != null && UploadedFiles.Count > 0)
+                    {
+                        // Create a new Library entry for the uploaded files
+                        var newLibraryEntry = new Library
+                        {
+                            LibraryName = !string.IsNullOrEmpty(FileCustomNames) ? FileCustomNames : course.Title,
+                            CourseID = course.CourseID, // Link to the current course
+                            IsArchived = false,  // Assuming IsArchived = false means the file is active
+                            UploadedDate = DateTime.Now,
+                            UploadedByID = userId,
+                            FilePaths = new List<string>()  // Initialize the list for file paths
+                        };
+
+                        foreach (var fileLibary in UploadedFiles)
+                        {
+                            if (fileLibary.Length > 0)
+                            {
+                                // Save the uploaded file to the server
+                                var fileExtension = Path.GetExtension(fileLibary.FileName);
+                                var uniqueFileName = Guid.NewGuid().ToString() + fileExtension;
+                                var filePath = Path.Combine(_webHostEnvironment.WebRootPath, "libraries", uniqueFileName);
+
+                                // Ensure the directory exists
+                                if (!Directory.Exists(Path.Combine(_webHostEnvironment.WebRootPath, "libraries")))
+                                {
+                                    Directory.CreateDirectory(Path.Combine(_webHostEnvironment.WebRootPath, "libraries"));
+                                }
+
+                                // Save the file to the server
+                                using (var stream = new FileStream(filePath, FileMode.Create))
+                                {
+                                    await fileLibary.CopyToAsync(stream);
+                                }
+
+                                // Add the file path to the library's file paths list
+                                newLibraryEntry.FilePaths.Add($"/libraries/{uniqueFileName}");
+                            }
+                        }
+
+                        // Add the new library entry to the database and assign its ID to the course
+                        _context.Libraries.Add(newLibraryEntry);
+                        await _context.SaveChangesAsync(); // Save the library to get the LibraryID
+
+                        // Now link the newly created Library to the course
+                        course.LibraryID = newLibraryEntry.LibraryID;
+                    }
+
+                    // If neither a new library was selected nor new files were uploaded, retain the current LibraryID
+                    if (!SelectedLibraryId.HasValue && UploadedFiles.Count == 0)
+                    {
+                        // Retrieve the original LibraryID from the database to preserve it
+                        var originalCourse = _context.Courses.AsNoTracking().FirstOrDefault(c => c.CourseID == course.CourseID);
+                        if (originalCourse != null)
+                        {
+                            course.LibraryID = originalCourse.LibraryID; // Retain the original LibraryID if no changes were made
+                        }
+                    }
+
+                    // Save the course with the new or retained LibraryID
+                    _context.Courses.Update(course);
+                    await _context.SaveChangesAsync();
 
                     await transaction.CommitAsync();
                     return Redirect("/Admin/Course");
@@ -517,7 +661,7 @@ public class CourseController : Controller
 
         if (course == null)
         {
-            return NotFound();
+            return Redirect("/Home/Error404");
         }
 
         foreach (var chapter in course.Chapters)
@@ -548,7 +692,7 @@ public class CourseController : Controller
         var chapter = await _context.Chapters.FindAsync(id);
         if (chapter == null)
         {
-            return NotFound();
+            return Redirect("/Home/Error404");
         }
 
         _context.Chapters.Remove(chapter);
@@ -563,7 +707,7 @@ public class CourseController : Controller
         var lesson = await _context.Lessons.FindAsync(id);
         if (lesson == null)
         {
-            return NotFound();
+            return Redirect("/Home/Error404");
         }
 
         _context.Lessons.Remove(lesson);
@@ -577,7 +721,7 @@ public class CourseController : Controller
         var question = await _context.Questions.FindAsync(id);
         if (question == null)
         {
-            return NotFound();
+            return Redirect("/Home/Error404");
         }
 
         _context.Questions.Remove(question);
@@ -592,7 +736,7 @@ public class CourseController : Controller
         var option = await _context.Options.FindAsync(id);
         if (option == null)
         {
-            return NotFound();
+            return Redirect("/Home/Error404");
         }
 
         _context.Options.Remove(option);

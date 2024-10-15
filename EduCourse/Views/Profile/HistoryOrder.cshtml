@@ -29,12 +29,12 @@
                     <div class="settings-menu">
                         <div class="profile-bg">
                             <div class="profile-img">
-                                <a href="student-profile.html"><img src="~/assets/img/user/user16.jpg" alt="Img"></a>
+                                <a href="/profile/account"><img src="~/assets/img/user/user16.jpg" alt="Img"></a>
                             </div>
                         </div>
                         <div class="profile-group">
                             <div class="profile-name text-center">
-                                <h4><a href="student-profile.html">@Model.User.FullName</a></h4>
+                                <h4><a href="/profile/account">@Model.User.FullName</a></h4>
                             </div>
                         </div>
                     </div>
@@ -43,7 +43,7 @@
                     <div class="settings-menu">
                         <h3>Tổng quát</h3>
                         <ul>
-                            <li class="nav-item active">
+                            <li class="nav-item">
                                 <a href="/profile" class="nav-link">
                                     <i class="bx bxs-tachometer"></i>Dashboard
                                 </a>
@@ -54,16 +54,16 @@
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="student-courses.html" class="nav-link">
+                                <a href="/profile/courseprofile" class="nav-link">
                                     <i class="bx bxs-graduation"></i>Khóa học đã mua
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="/profile/StudentExam" class="nav-link">
+                                <a href="/home/StudentExam" class="nav-link">
                                     <i class="bx bxs-shapes"></i>Bài thi
                                 </a>
                             </li>
-                            <li class="nav-item">
+                            <li class="nav-item active">
                                 <a href="/profile/historyOrder" class="nav-link">
                                     <i class="bx bxs-cart"></i>Lịch sử mua
                                 </a>

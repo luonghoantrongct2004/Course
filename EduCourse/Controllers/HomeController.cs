@@ -115,7 +115,7 @@ namespace EduCourse.Controllers
 
             if (course == null) // Check if the course is null
             {
-                return NotFound(); // Return 404 if not found
+                return Redirect("/Home/Error404"); // Return 404 if not found
             }
 
             var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
@@ -147,6 +147,35 @@ namespace EduCourse.Controllers
         public IActionResult Error500()
         {
             return View();
+        }
+
+        public IActionResult StudentExam(int page = 1, int pageSize = 10)
+        {
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            var student = _context.Users.FirstOrDefault(u => u.Id == userId);
+
+            if (student == null)
+            {
+                return NotFound("Student not found");
+            }
+            var query = _context.StudentExams
+                .Include(s => s.ExamDetails)
+                .Include(e => e.Exam)
+                .Include(e => e.Student)
+                .OrderByDescending(d => d.ExamDate)
+                .Where(s => s.StudentID == userId).ToList();
+            var totalExam = query.ToList();
+            var studentExams = totalExam.Skip((page - 1) * pageSize)
+                                    .Take(pageSize)
+                                    .ToList();
+            var viewModel = new ProfileViewModel
+            {
+                User = student,
+                CurrentPage = page,
+                StudentExams = studentExams,
+                PageSize = pageSize
+            };
+            return View(viewModel);
         }
     }
 }

@@ -1,0 +1,283 @@
+﻿@model ProfileViewModel
+
+<link rel="stylesheet" href="~/assets/plugins/boxicons/css/boxicons.min.css">
+
+<div class="breadcrumb-bar breadcrumb-bar-info">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 col-12">
+                <div class="breadcrumb-list">
+                    <h2 class="breadcrumb-title">My Profile</h2>
+                    <nav aria-label="breadcrumb" class="page-breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="/">Home</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">My Profile</li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="page-content">
+    <div class="container">
+        <div class="row">
+
+            <div class="col-xl-3 col-lg-3 theiaStickySidebar">
+                <div class="settings-widget dash-profile">
+                    <div class="settings-menu">
+                        <div class="profile-bg">
+                            <div class="profile-img">
+                                <a href="/profile/account"><img src="~/assets/img/user/user16.jpg" alt="Img"></a>
+                            </div>
+                        </div>
+                        <div class="profile-group">
+                            <div class="profile-name text-center">
+                                <h4><a href="/profile/account">@Model.User.FullName</a></h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="settings-widget account-settings">
+                    <div class="settings-menu">
+                        <h3>Tổng quát</h3>
+                        <ul>
+                            <li class="nav-item ">
+                                <a href="/profile" class="nav-link">
+                                    <i class="bx bxs-tachometer"></i>Dashboard
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="/profile/account" class="nav-link">
+                                    <i class="bx bxs-user"></i>Thông tin cá nhân
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="/profile/courseprofile" class="nav-link">
+                                    <i class="bx bxs-graduation"></i>Khóa học đã mua
+                                </a>
+                            </li>
+                            <li class="nav-item active">
+                                <a href="/home/StudentExam" class="nav-link ">
+                                    <i class="bx bxs-shapes"></i>Bài thi
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="/profile/historyOrder" class="nav-link">
+                                    <i class="bx bxs-cart"></i>Lịch sử mua
+                                </a>
+                            </li>
+                        </ul>
+                        <h3>Account Settings</h3>
+                        <ul>
+                            <li class="nav-item">
+                                <a href="index-2.html" class="nav-link">
+                                    <i class="bx bxs-log-out"></i>Đăng xuất
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+
+
+            <div class="col-xl-9 col-lg-9">
+                <div class="settings-widget card-details">
+                    <div class="settings-menu p-0">
+                        <div class="profile-heading">
+                            <h3>Bài Thi</h3>
+                        </div>
+                        <div class="checkout-form">
+                            <!-- Date Filter Inputs -->
+                            <div class="form-group d-flex align-items-center pb-4">
+                                <div class="flex-grow-1 mr-2">
+                                    <label for="startDate">Từ ngày:</label>
+                                    <input type="date" id="startDate" name="startDate" class="form-control" />
+                                </div>
+                                <div class="flex-grow-1 mr-2">
+                                    <label for="endDate">Đến ngày:</label>
+                                    <input type="date" id="endDate" name="endDate" class="form-control" />
+                                </div>
+                                <div class="flex-grow-1" style="margin-top: 30px;">
+                                    <button type="button" class="btn btn-primary w-100" onclick="filterByDate()">Lọc</button>
+                                </div>
+                            </div>
+
+
+                            <!-- Exam Table -->
+                            <div class="table-responsive custom-table">
+                                <table class="table table-nowrap mb-0" id="examTable">
+                                    <thead>
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>Tiêu đề bài thi</th>
+                                            <th>Ngày thi</th>
+                                            <th>Câu hỏi</th>
+                                            <th>Loại câu hỏi</th>
+                                            <th>Kết quả</th>
+                                            <th>Số điểm</th>
+                                            <th>Tổng điểm</th>
+                                            <th>Chi tiết</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @if (Model.StudentExams != null && Model.StudentExams.Any())
+                                        {
+                                            foreach (var item in Model.StudentExams)
+                                            {
+                                                // Tính tổng điểm cho bài thi
+                                                var totalScore = item.ExamDetails.Sum(detail => detail.Score);
+
+                                                // Lặp qua từng chi tiết câu hỏi
+                                                foreach (var detail in item.ExamDetails)
+                                                {
+                                                    <tr>
+                                                        @* Hiển thị ID, Tiêu đề bài thi và Ngày thi chỉ cho câu hỏi đầu tiên *@
+                                                        @if (detail == item.ExamDetails.First())
+                                                        {
+                                                            <td>@item.Id</td>
+                                                            <td>@item.Exam.Title</td>
+                                                            <td class="exam-date">@item.ExamDate.ToString("dd/MM/yyyy hh:mm")</td>
+                                                            <td><span class="title-course">@detail.QuestionName</span></td>
+                                                            <td>@detail.QuestionType</td>
+                                                            <td>
+                                                                @if (detail.Result.Equals("Partially Correct"))
+                                                                {
+                                                                    <span class="resut-badge badge-light-danger">@detail.Result</span>
+                                                                }
+                                                                else
+                                                                {
+                                                                    <span class="resut-badge badge-light-success">@detail.Result</span>
+                                                                }
+                                                            </td>
+                                                            <td>@detail.Score</td>
+                                                            <td>@totalScore</td>
+                                                            <td>
+                                                                <a href="student-quiz-details.html" class="btn btn-light-danger quiz-view">Details</a>
+                                                            </td>
+                                                        }
+                                                        else
+                                                        {
+                                                            <td class="hidden"></td> @* Ô ẩn cho ID *@
+                                                            <td class="hidden"></td> @* Ô ẩn cho Tiêu đề bài thi *@
+                                                            <td class="hidden"></td> @* Ô ẩn cho Ngày thi *@
+                                                            <td><span class="title-course">@detail.QuestionName</span></td>
+                                                            <td>@detail.QuestionType</td>
+                                                            <td>
+                                                                @if (detail.Result.Equals("Partially Correct"))
+                                                                {
+                                                                    <span class="resut-badge badge-light-danger">@detail.Result</span>
+                                                                }
+                                                                else
+                                                                {
+                                                                    <span class="resut-badge badge-light-success">@detail.Result</span>
+                                                                }
+                                                            </td>
+                                                            <td>@detail.Score</td>
+                                                            <td class="hidden"></td> @* Ô ẩn cho tổng điểm *@
+                                                            <td class="hidden"></td> @* Ô ẩn cho nút "Details" *@
+                                                        }
+                                                    </tr>
+                                                }
+                                            }
+                                        }
+                                        else
+                                        {
+                                            <tr id="no-records">
+                                                <td colspan="9" class="text-center">Không có bài thi nào trong khoảng thời gian đã chọn.</td>
+                                            </tr>
+                                        }
+                                    </tbody>
+
+                                </table>
+
+                            </div>
+                        </div>
+
+                        <!-- JavaScript for Date Filtering -->
+                        <script>
+                            function filterByDate() {
+                                // Get the values from the date input fields
+                                var startDate = document.getElementById('startDate').value;
+                                var endDate = document.getElementById('endDate').value;
+
+                                // Convert the selected dates to Date objects
+                                var start = startDate ? new Date(startDate) : null;
+                                var end = endDate ? new Date(endDate) : null;
+
+                                // Get all the rows from the table
+                                var rows = document.querySelectorAll('#examTable tbody tr');
+                                var recordsFound = false; // Flag to check if any records are found
+
+                                rows.forEach(function (row) {
+                                    // Skip the "no records" row
+                                    if (row.id === 'no-records') return;
+
+                                    // Get the exam date from the row and convert it to a Date object
+                                    var examDate = row.querySelector('.exam-date').textContent.trim();
+                                    var examDateObj = new Date(examDate.split(' ')[0].split('/').reverse().join('-'));
+
+                                    // Determine whether to show or hide the row based on the date range
+                                    var showRow = true;
+                                    if (start && examDateObj < start) {
+                                        showRow = false;
+                                    }
+                                    if (end && examDateObj > end) {
+                                        showRow = false;
+                                    }
+
+                                    // Toggle the row visibility
+                                    if (showRow) {
+                                        row.style.display = '';
+                                        recordsFound = true; // At least one record matches
+                                    } else {
+                                        row.style.display = 'none';
+                                    }
+                                });
+
+                                // Show or hide the "no records" message
+                                document.getElementById('no-records').style.display = recordsFound ? 'none' : '';
+
+                                // Alert if no records are found
+                                if (!recordsFound) {
+                                    alert("Không có bài thi nào trong khoảng thời gian đã chọn.");
+                                }
+                            }
+                        </script>
+
+
+                    </div>
+                </div>
+                <div class="dash-pagination">
+                    <div class="row align-items-center">
+                        <div class="col-6">
+                            <p>Page @Model.CurrentPage of @Math.Ceiling((double)Model.TotalOrders / Model.PageSize)</p>
+                        </div>
+                        <div class="col-6">
+                            <ul class="pagination">
+                                @for (var i = 1; i <= Math.Ceiling((double)Model.TotalOrders / Model.PageSize); i++)
+                                {
+                                    <li class="@(i == Model.CurrentPage ? "active" : "")">
+                                        <a href="@Url.Action("HistoryOrder", new { page = i })">@i</a>
+                                    </li>
+                                }
+                                @if (Model.CurrentPage < Math.Ceiling((double)Model.TotalOrders / Model.PageSize))
+                                {
+                                    <li>
+                                        <a href="@Url.Action("HistoryOrder", new { page = Model.CurrentPage + 1 })">
+                                            <i class="bx bx-chevron-right"></i>
+                                        </a>
+                                    </li>
+                                }
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</div>

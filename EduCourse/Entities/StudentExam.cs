@@ -10,9 +10,7 @@ public class StudentExam
     public Exam? Exam { get; set; }
 
     public DateTime ExamDate { get; set; }
-    public int Score { get; set; }
+    public int Score { get; set; } // Total score for the exam
 
-    public string QuestionName { get; set; }
-    public string QuestionType { get; set; }
-    public string Result { get; set; } //Đúng, sai
+    public List<StudentExamDetail> ExamDetails { get; set; } = new List<StudentExamDetail>(); // New
 }

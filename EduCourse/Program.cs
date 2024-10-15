@@ -44,7 +44,28 @@ namespace EduCourse
                 options.LoginPath = "/Auth/Login";
                 options.LogoutPath = "/Auth/Logout";
             });
-
+            builder.Services.AddAuthentication(options =>
+            {
+                options.DefaultScheme = IdentityConstants.ApplicationScheme;
+            })
+            .AddCookie(options =>
+            {
+                options.AccessDeniedPath = "/home/error404"; 
+            });
+            builder.Services.ConfigureApplicationCookie(options =>
+            {
+                options.Events.OnRedirectToAccessDenied = context =>
+                {
+                    // Redirect to /home/error404 if access is denied
+                    context.Response.Redirect("/home/error404");
+                    return Task.CompletedTask;
+                };
+            });
+            builder.Services.AddAuthorization(options =>
+            {
+                options.AddPolicy("Admin", policy => policy.RequireRole("Admin"));
+                options.AddPolicy("Instructure", policy => policy.RequireRole("Instructure"));
+            });
             // Cấu hình DbContext
             builder.Services.AddDbContext<AppDbContext>(opts =>
             {
@@ -61,7 +82,7 @@ namespace EduCourse
             if (!app.Environment.IsDevelopment())
             {
                 app.UseExceptionHandler("/Home/Error500");
-                app.UseStatusCodePagesWithReExecute("/Home/Error{0}");
+                app.UseStatusCodePagesWithReExecute("/Home/Error404");
                 app.UseHsts();
             }
 

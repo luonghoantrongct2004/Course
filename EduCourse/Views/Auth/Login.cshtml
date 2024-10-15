@@ -7,7 +7,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
-    <title>Dreams LMS</title>
+    <title>Academic Lotus</title>
 
     <link rel="shortcut icon" type="image/x-icon" href="~/assets/img/favicon.svg">
     <script src="~/assets/js/theme-script.js" type="text/javascript"></script>
@@ -32,7 +32,7 @@
                             <img src="~/assets/img/login-img.png" class="img-fluid" alt="Logo">
                         </div>
                         <div class="mentor-course text-center">
-                            <h2>Chào mừng đến với <br> Khóa học DreamsLMS.</h2>
+                            <h2>Chào mừng đến với <br> Khóa học Academic Lotus</h2>
                             <p>
                                 Chúng tôi cung cấp các khóa học chất lượng cao để giúp bạn phát triển kỹ năng và kiến thức.
                             </p>
@@ -43,7 +43,7 @@
                             <img src="~/assets/img/login-img.png" class="img-fluid" alt="Logo">
                         </div>
                         <div class="mentor-course text-center">
-                            <h2>Chào mừng đến với <br> Khóa học DreamsLMS.</h2>
+                            <h2>Chào mừng đến với <br> Khóa học Academic Lotus</h2>
                             <p>
                                 Khám phá các chương trình học hấp dẫn và cải thiện khả năng của bạn với chúng tôi.
                             </p>
@@ -54,7 +54,7 @@
                             <img src="~/assets/img/login-img.png" class="img-fluid" alt="Logo">
                         </div>
                         <div class="mentor-course text-center">
-                            <h2>Chào mừng đến với <br> Khóa học DreamsLMS.</h2>
+                            <h2>Chào mừng đến với <br> Khóa học Academic Lotus</h2>
                             <p>
                                 Đăng ký ngay để không bỏ lỡ các cơ hội học tập tuyệt vời!
                             </p>
@@ -69,10 +69,11 @@
                     <div class="loginbox">
                         <div class="w-100">
                             <div class="img-logo">
-                                <img src="~/assets/img/logo.svg" class="img-fluid" alt="Logo">
+                                <img src="~/Lotus.png" class="img-fluid" alt="Logo">
                                 <div class="back-home">
                                     <a href="@Url.Action("Index", "Home")">Về trang chủ</a>
                                     <p class="mb-0">Người dùng mới? <a href="@Url.Action("Register", "Auth")">Tạo tài khoản</a></p>
+                                    <p class="mb-0" style="color:cornflowerblue">Đăng ký giáo viên? <a href="@Url.Action("RegisterTutor", "Auth")">Tạo tài khoản</a></p>
                                 </div>
                             </div>
                             <h1>Đăng nhập vào tài khoản của bạn</h1>
@@ -100,7 +101,7 @@
                                 <div class="remember-me">
                                     <label class="custom_check mr-2 mb-0 d-inline-flex remember-me">
                                         Ghi nhớ tôi
-                                        <input type="checkbox" name="RememberMe" asp-for="RememberMe">
+                                        <input type="checkbox" name="RememberMe" asp-for="RememberMe" checked>
                                         <span class="checkmark"></span>
                                     </label>
                                 </div>

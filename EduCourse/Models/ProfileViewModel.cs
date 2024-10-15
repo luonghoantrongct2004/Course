@@ -14,4 +14,5 @@ public class ProfileViewModel
     public int CurrentPage { get; set; }
     public int PageSize { get; set; }
     public string? TimeFrame { get; set; }
+    public int TotalPages { get; set; } = 0;
 }

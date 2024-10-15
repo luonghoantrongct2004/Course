@@ -3,6 +3,10 @@
 @inject UserManager<User> UserManager
 @{
     var user = UserManager.GetUserAsync(User).Result;
+    int totalCourses = ViewData["TotalCourses"] as int? ?? 0;
+    int currentPage = ViewData["CurrentPage"] as int? ?? 1;
+    int pageSize = ViewData["PageSize"] as int? ?? 10;
+
 }
 <!DOCTYPE html>
 <html lang="en">
@@ -97,7 +101,7 @@
                                     </a>
                                 </li>
                                 <li class="item">
-                                    <a href="teachers-list.html"
+                                    <a href="/admin/instructure"
                                        class="flex items-center gap-2 p-2.5 rounded-lg bg-transparent hover:bg-violet-50 transition text-base font-medium text-mainblue cursor-pointer">
                                         <svg class="item-ico"
                                              width="20"
@@ -160,6 +164,40 @@
                                                   fill="#8247FF" />
                                         </svg>
                                         Học sinh
+                                    </a>
+                                </li>
+
+
+                                <li class="space-y-1 item">
+                                    <a href="/admin/role" class="p-2.5 gap-2 w-full flex items-center rounded-lg hover:bg-violet-50 transition text-base font-medium text-mainblue cursor-pointer">
+                                        <svg class="item-ico"
+                                             width="20"
+                                             height="20"
+                                             viewBox="0 0 20 20"
+                                             fill="none"
+                                             xmlns="http://www.w3.org/2000/svg">
+                                            <path fill-rule="evenodd"
+                                                  clip-rule="evenodd"
+                                                  d="M10.625 15.8262V17.7077H12.5C12.8452 17.7077 13.125 17.9875 13.125 18.3327C13.125 18.6779 12.8452 18.9577 12.5 18.9577H7.5C7.15482 18.9577 6.875 18.6779 6.875 18.3327C6.875 17.9875 7.15482 17.7077 7.5 17.7077H9.375V15.8262H10.625Z"
+                                                  fill="#8247FF" />
+                                            <path opacity="0.4"
+                                                  d="M1.66663 4.99935C1.66663 3.1584 3.15901 1.66602 4.99996 1.66602H15C16.8409 1.66602 18.3333 3.1584 18.3333 4.99935V12.4993C18.3333 14.3403 16.8409 15.8327 15 15.8327H4.99996C3.15901 15.8327 1.66663 14.3403 1.66663 12.4993V4.99935Z"
+                                                  fill="#8247FF" />
+                                            <ellipse cx="1.66667"
+                                                     cy="1.66667"
+                                                     rx="1.66667"
+                                                     ry="1.66667"
+                                                     transform="matrix(1 0 0 -1 8.33325 8.33203)"
+                                                     fill="#8247FF" />
+                                            <rect x="6.66663"
+                                                  y="9.16602"
+                                                  width="6.66667"
+                                                  height="3.33333"
+                                                  rx="1.66667"
+                                                  fill="#8247FF" />
+                                        </svg>
+                                        <span class="item-text"> Quản lý quyền</span>
+                                      
                                     </a>
                                 </li>
                                 <li class="item">
@@ -246,7 +284,7 @@
                                             </a>
                                         </li>
                                         <li>
-                                            <a href="resource-ebook.html"
+                                            <a href="/admin/exam/studentexam"
                                                class="p-2.5 gap-2 w-full flex items-center rounded-lg bg-transparent hover:bg-violet-50 transition text-base font-medium text-mainblue cursor-pointer">
                                                 Cuộc thi
                                             </a>
@@ -414,6 +452,39 @@
                                                 </span>
                                             </a>
                                         </li>
+
+                                        <li class="item px-7">
+                                            <a href="/admin/role">
+                                                <span class="flex items-center justify-center w-10 h-10 rounded-lg item-ico hover:bg-violet-50">
+                                                    <svg class="item-ico"
+                                                         width="20"
+                                                         height="20"
+                                                         viewBox="0 0 20 20"
+                                                         fill="none"
+                                                         xmlns="http://www.w3.org/2000/svg">
+                                                        <path fill-rule="evenodd"
+                                                              clip-rule="evenodd"
+                                                              d="M10.625 15.8262V17.7077H12.5C12.8452 17.7077 13.125 17.9875 13.125 18.3327C13.125 18.6779 12.8452 18.9577 12.5 18.9577H7.5C7.15482 18.9577 6.875 18.6779 6.875 18.3327C6.875 17.9875 7.15482 17.7077 7.5 17.7077H9.375V15.8262H10.625Z"
+                                                              fill="#8247FF" />
+                                                        <path opacity="0.4"
+                                                              d="M1.66663 4.99935C1.66663 3.1584 3.15901 1.66602 4.99996 1.66602H15C16.8409 1.66602 18.3333 3.1584 18.3333 4.99935V12.4993C18.3333 14.3403 16.8409 15.8327 15 15.8327H4.99996C3.15901 15.8327 1.66663 14.3403 1.66663 12.4993V4.99935Z"
+                                                              fill="#8247FF" />
+                                                        <ellipse cx="1.66667"
+                                                                 cy="1.66667"
+                                                                 rx="1.66667"
+                                                                 ry="1.66667"
+                                                                 transform="matrix(1 0 0 -1 8.33325 8.33203)"
+                                                                 fill="#8247FF" />
+                                                        <rect x="6.66663"
+                                                              y="9.16602"
+                                                              width="6.66667"
+                                                              height="3.33333"
+                                                              rx="1.66667"
+                                                              fill="#8247FF" />
+                                                    </svg>
+                                                </span>
+                                            </a>
+                                        </li>
                                         <li class="item px-7">
                                             <a href="/admin/course">
                                                 <span class="flex items-center justify-center w-10 h-10 rounded-lg item-ico hover:bg-violet-50">
@@ -463,7 +534,7 @@
                                                        class="text-md font-medium text-bgray-600 py-1.5 inline-block hover:text-bgray-800">Đề thi</a>
                                                 </li>
                                                 <li>
-                                                    <a href="/admin/exam"
+                                                    <a href="/admin/exam/studentexam"
                                                        class="text-md font-medium text-bgray-600 py-1.5 inline-block hover:text-bgray-800">Cuộc thi</a>
                                                 </li>
                                             </ul>

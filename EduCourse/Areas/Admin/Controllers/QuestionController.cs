@@ -18,14 +18,28 @@ public class QuestionController : Controller
         _context = context;
     }
     [HttpGet]
-    public IActionResult Index()
+    public IActionResult Index(int page = 1, int pageSize = 10)
     {
-        var questions = _context.Questions.Include(q => q.Options)
-            .Include(l => l.Lesson)
-            .Include(o => o.Options)
-            .ToList();
+        // Get the total count of questions
+        var totalQuestions = _context.Questions.Count();
+
+        // Fetch the paginated questions with related data
+        var questions = _context.Questions
+                                .Include(q => q.Options)
+                                .Include(l => l.Lesson)
+                                .OrderBy(q => q.QuestionID)  // Sort by any column (QuestionID in this case)
+                                .Skip((page - 1) * pageSize)
+                                .Take(pageSize)
+                                .ToList();
+
+        // Set ViewData for pagination
+        ViewData["TotalQuestions"] = totalQuestions;
+        ViewData["CurrentPage"] = page;
+        ViewData["PageSize"] = pageSize;
+
         return View(questions);
     }
+
     [HttpGet]
     public IActionResult Create()
     {

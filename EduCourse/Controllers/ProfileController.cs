@@ -23,32 +23,85 @@ public class ProfileController : Controller
         _signInManager = signInManager;
     }
 
-    public IActionResult Index()
+    public IActionResult Index(int page = 1, int pageSize = 10)
     {
         if (!User.Identity.IsAuthenticated)
         {
             return Redirect("/Auth/Login");
         }
+
         var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
         var countCourseEnrolled = _context.Orders.Where(o => o.UserID == userId).Count();
         var examCount = _context.StudentExams.Where(u => u.StudentID == userId).Count();
+
+        var totalUserCourses = _context.UserCourses
+            .Where(uc => uc.UserID == userId)
+            .Count();
+
         var userCourses = _context.UserCourses
-           .Where(uc => uc.UserID == userId)
-           .Include(u => u.User)
-           .Include(uc => uc.Course)
+            .Where(uc => uc.UserID == userId)
+            .Include(u => u.User)
+            .Include(uc => uc.Course)
                 .ThenInclude(c => c.Chapters)
                     .ThenInclude(l => l.Lessons)
-           .ToList();
+            .Skip((page - 1) * pageSize) // Bỏ qua số khóa học đã hiển thị
+            .Take(pageSize) // Lấy số khóa học theo pageSize
+            .ToList();
+
         var viewModel = new ProfileViewModel
         {
             EnrollCourse = countCourseEnrolled,
             Exam = examCount,
             User = _context.Users.FirstOrDefault(u => u.Id == userId),
-            UserCourses = userCourses
+            UserCourses = userCourses,
+            CurrentPage = page,
+            PageSize = pageSize,
+            TotalOrders = countCourseEnrolled,
+            TotalPages = (int)Math.Ceiling((double)totalUserCourses / pageSize) // Tính tổng số trang
         };
 
         return View(viewModel);
     }
+    public IActionResult CourseProfile(int page = 1, int pageSize = 10)
+    {
+        if (!User.Identity.IsAuthenticated)
+        {
+            return Redirect("/Auth/Login");
+        }
+
+        var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+        var countCourseEnrolled = _context.Orders.Where(o => o.UserID == userId).Count();
+        var examCount = _context.StudentExams.Where(u => u.StudentID == userId).Count();
+
+        var totalUserCourses = _context.UserCourses
+            .Where(uc => uc.UserID == userId)
+            .Count();
+
+        var userCourses = _context.UserCourses
+            .Where(uc => uc.UserID == userId)
+            .Include(u => u.User)
+            .Include(uc => uc.Course)
+                .ThenInclude(c => c.Chapters)
+                    .ThenInclude(l => l.Lessons)
+            .Skip((page - 1) * pageSize) // Bỏ qua số khóa học đã hiển thị
+            .Take(pageSize) // Lấy số khóa học theo pageSize
+            .ToList();
+
+        var viewModel = new ProfileViewModel
+        {
+            EnrollCourse = countCourseEnrolled,
+            Exam = examCount,
+            User = _context.Users.FirstOrDefault(u => u.Id == userId),
+            UserCourses = userCourses,
+            CurrentPage = page,
+            PageSize = pageSize,
+            TotalOrders = countCourseEnrolled,
+            TotalPages = (int)Math.Ceiling((double)totalUserCourses / pageSize) // Tính tổng số trang
+        };
+
+        return View(viewModel);
+    }
+
     public IActionResult HistoryOrder(string timeFrame = "today", int page = 1, int pageSize = 10)
     {
         if (!User.Identity.IsAuthenticated)
@@ -131,7 +184,7 @@ public class ProfileController : Controller
 
         await _signInManager.RefreshSignInAsync(user);
         TempData["SuccessMessage"] = "Mật khẩu của bạn đã được cập nhật thành công.";
-        return RedirectToAction("Index", "Profile");
+        return RedirectToAction("Account", "Profile");
     }
     [HttpPost]
     public async Task<IActionResult> UpdateProfile(User model)
@@ -155,7 +208,7 @@ public class ProfileController : Controller
         {
             // Nếu cập nhật thành công, chuyển hướng đến trang hồ sơ
             TempData["SuccessMessage"] = "Cập nhật hồ sơ thành công!";
-            return RedirectToAction("Index", "Profile");
+            return RedirectToAction("Account", "Profile");
         }
 
         // Nếu có lỗi, hiển thị thông báo lỗi
@@ -167,31 +220,5 @@ public class ProfileController : Controller
         // Trả về view với model chứa thông tin lỗi
         return View(user);
     }
-    public IActionResult StudentExam(int page = 1, int pageSize = 10)
-    {
-        var studentId = User.Identity.Name;
-        var student = _context.Users.FirstOrDefault(u => u.UserName == studentId);
-
-        if (student == null)
-        {
-            return NotFound("Student not found");
-        }
-        var query = _context.StudentExams
-            .Include(e => e.Exam)
-            .Include(e => e.Student)
-            .OrderByDescending(d => d.ExamDate)
-            .Where(s => s.StudentID == studentId).ToList();
-        var totalExam = query.ToList();
-        var studentExams = totalExam.Skip((page - 1) * pageSize)
-                                .Take(pageSize)
-                                .ToList();
-        var viewModel = new ProfileViewModel
-        {
-            User = student,
-            CurrentPage = page,
-            StudentExams = studentExams,
-            PageSize = pageSize
-        };
-        return View(viewModel);
-    }
+    
 }

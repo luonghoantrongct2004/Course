@@ -38,24 +38,6 @@
                 </p>
             </div>
             <div class="flex gap-5">
-                <button class="flex items-center gap-1 rounded-lg py-2.5 px-4 text-sm text-slate-600 border border-slate-200 shadow-xs">
-                    <svg width="20"
-                         height="20"
-                         viewBox="0 0 20 20"
-                         fill="none"
-                         xmlns="http://www.w3.org/2000/svg">
-                        <path d="M15 11.6665L15.9596 10.7069C16.3501 10.3164 16.3501 9.68326 15.9596 9.29273L15 8.33317"
-                              stroke="#475569"
-                              stroke-width="1.5"
-                              stroke-linecap="round"
-                              stroke-linejoin="round" />
-                        <path d="M15.8333 10L10.8333 10M3.33334 14.3886V6.05527M13.3333 14.3886C13.3333 15.3091 12.5872 16.0553 11.6667 16.0553H8.33334M13.3333 6.05527C13.3333 5.1348 12.5872 4.38861 11.6667 4.38861H8.33334M4.07551 16.5501L5.74218 17.6612C6.84977 18.3996 8.33334 17.6056 8.33334 16.2744V4.16947C8.33334 2.83831 6.84977 2.04432 5.74218 2.78272L4.07551 3.89383C3.61185 4.20294 3.33334 4.72333 3.33334 5.28058V15.1633C3.33334 15.7206 3.61185 16.2409 4.07551 16.5501Z"
-                              stroke="#475569"
-                              stroke-width="1.5"
-                              stroke-linecap="round" />
-                    </svg>
-                    Export
-                </button>
                 <a href="/admin/category/create"
                    class="flex items-center gap rounded-lg py-2.5 px-4 text-sm bg-mainblack text-white shadow-xs">
                     <svg width="20"
@@ -98,122 +80,8 @@
                             </svg>
                         </div>
                         <input type="text" id="examSearch"
-                               placeholder="Tìm theo tên bài thi..."
+                               placeholder="Tìm theo tên thể loại..."
                                class="w-full h-12 p-4 pl-12 border border-transparent rounded-lg ring-0 focus:ring-0 focus:border-primary bg-slate-50 placeholder:text-slate-400" />
-                    </div>
-                </div>
-                <div class="sm:flex sm:flex-wrap spac-y-4 sm:space-y-0 sm:gap-4">
-                    <div class="relative hidden lg:block">
-                        <button onclick="dropdownFilterAction('#paymentFilter')"
-                                class="inline-flex items-center justify-center h-12 gap-1 p-4 text-sm font-medium transition ease-in-out rounded-lg bg-slate-50 text-slate-500 hover:bg-primary hover:text-white hover:border-transparent">
-                            <svg xmlns="http://www.w3.org/2000/svg"
-                                 width="19"
-                                 height="17"
-                                 viewBox="0 0 19 17"
-                                 fill="none">
-                                <path d="M7.83001 13.5928H1.5293"
-                                      stroke="currentColor"
-                                      stroke-width="1.5"
-                                      stroke-linecap="round"
-                                      stroke-linejoin="round" />
-                                <path d="M10.6406 3.90042H16.9413"
-                                      stroke="currentColor"
-                                      stroke-width="1.5"
-                                      stroke-linecap="round"
-                                      stroke-linejoin="round" />
-                                <path fill-rule="evenodd"
-                                      clip-rule="evenodd"
-                                      d="M6.22629 3.84625C6.22629 2.5506 5.16813 1.5 3.86314 1.5C2.55816 1.5 1.5 2.5506 1.5 3.84625C1.5 5.14191 2.55816 6.19251 3.86314 6.19251C5.16813 6.19251 6.22629 5.14191 6.22629 3.84625Z"
-                                      stroke="currentColor"
-                                      stroke-width="1.5"
-                                      stroke-linecap="round"
-                                      stroke-linejoin="round" />
-                                <path fill-rule="evenodd"
-                                      clip-rule="evenodd"
-                                      d="M17.4997 13.5538C17.4997 12.2581 16.4424 11.2075 15.1374 11.2075C13.8316 11.2075 12.7734 12.2581 12.7734 13.5538C12.7734 14.8494 13.8316 15.9 15.1374 15.9C16.4424 15.9 17.4997 14.8494 17.4997 13.5538Z"
-                                      stroke="currentColor"
-                                      stroke-width="1.5"
-                                      stroke-linecap="round"
-                                      stroke-linejoin="round" />
-                            </svg>
-                            Filter
-                        </button>
-                        <div id="paymentFilter"
-                             class="absolute right-0 z-10 hidden w-full overflow-hidden bg-white rounded-lg shadow-lg top-full">
-                            <ul>
-                                <li onclick="dropdownFilterAction('#paymentFilter')"
-                                    class="px-2 py-2 text-sm font-semibold text-gray-500 cursor-pointer hover:bg-gray-50">
-                                    January
-                                </li>
-                                <li onclick="dropdownFilterAction('#paymentFilter')"
-                                    class="px-2 py-2 text-sm font-semibold text-gray-500 cursor-pointer hover:bg-gray-50">
-                                    February
-                                </li>
-                                <li onclick="dropdownFilterAction('#paymentFilter')"
-                                    class="px-2 py-2 text-sm font-semibold text-gray-500 cursor-pointer hover:bg-gray-50">
-                                    March
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="relative">
-                        <button onclick="dropdownFilterAction('#dateFilter')"
-                                class="flex items-center justify-center w-full h-12 gap-1 p-4 text-sm font-medium transition ease-in-out rounded-lg bg-slate-50 text-slate-500 hover:bg-primary hover:text-white hover:border-transparent">
-                            <svg width="25"
-                                 height="24"
-                                 viewBox="0 0 25 24"
-                                 fill="none"
-                                 xmlns="http://www.w3.org/2000/svg">
-                                <path d="M18.5 5H6.5C5.39543 5 4.5 5.89543 4.5 7V19C4.5 20.1046 5.39543 21 6.5 21H18.5C19.6046 21 20.5 20.1046 20.5 19V7C20.5 5.89543 19.6046 5 18.5 5Z"
-                                      stroke="currentColor"
-                                      stroke-width="1.5"
-                                      stroke-linecap="round"
-                                      stroke-linejoin="round" />
-                                <path d="M16.5 3V7"
-                                      stroke="currentColor"
-                                      stroke-width="1.5"
-                                      stroke-linecap="round"
-                                      stroke-linejoin="round" />
-                                <path d="M8.5 3V7"
-                                      stroke="currentColor"
-                                      stroke-width="1.5"
-                                      stroke-linecap="round"
-                                      stroke-linejoin="round" />
-                                <path d="M4.5 11H20.5"
-                                      stroke="currentColor"
-                                      stroke-width="1.5"
-                                      stroke-linecap="round"
-                                      stroke-linejoin="round" />
-                                <path d="M11.5 15H12.5"
-                                      stroke="currentColor"
-                                      stroke-width="2"
-                                      stroke-linecap="round"
-                                      stroke-linejoin="round" />
-                                <path d="M12.5 15V18"
-                                      stroke="currentColor"
-                                      stroke-width="1.5"
-                                      stroke-linecap="round"
-                                      stroke-linejoin="round" />
-                            </svg>
-                            April 11 - April 24
-                        </button>
-                        <div id="dateFilter"
-                             class="absolute right-0 z-10 hidden w-full overflow-hidden bg-white rounded-lg shadow-lg top-full">
-                            <ul>
-                                <li onclick="dropdownFilterAction('#dateFilter')"
-                                    class="px-2 py-2 text-sm font-semibold text-gray-500 cursor-pointer hover:bg-gray-50">
-                                    Jan 11 - Jan 24
-                                </li>
-                                <li onclick="dropdownFilterAction('#dateFilter')"
-                                    class="px-2 py-2 text-sm font-semibold text-gray-500 cursor-pointer hover:bg-gray-50">
-                                    Feb 11 - Feb 24
-                                </li>
-                                <li onclick="dropdownFilterAction('#dateFilter')"
-                                    class="px-2 py-2 text-sm font-semibold text-gray-500 cursor-pointer hover:bg-gray-50">
-                                    Mar 11 - Mar 24
-                                </li>
-                            </ul>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -223,6 +91,10 @@
                     <table class="min-w-full divide-y divide-slate-100" id="examsTable">
                         <thead>
                             <tr>
+                                <th scope="col"
+                                    class="px-5 py-3 text-sm font-medium capitalize text-start text-mainblack" >
+                                    Hình ảnh
+                                </th>
                                 <th scope="col"
                                     class="px-5 py-3 text-base font-medium capitalize text-start text-slate-900">
                                     Tên danh mục
@@ -242,6 +114,9 @@
                             {
                                 <tr class="course-row transition hover:bg-slate-50" data-search="@item.Name @item.Description">
 
+                                    <td class="px-5 py-3 text-sm whitespace-nowrap text-slate-600">
+                                        <img src="@item.Image" alt="@item.Image" width="50px" height="50px" />
+                                    </td>
                                     <td class="px-5 py-3 text-sm whitespace-nowrap text-slate-600">
                                         @item.Name
                                     </td>
@@ -391,12 +266,14 @@
             <div class="flex flex-col items-center justify-between gap-5 px-5 mt-6 md:flex-row">
                 <div>
                     <p class="text-sm font-medium text-slate-600">
-                        Hiện @(((ViewData["CurrentPage"] as int?) ?? 1 - 1) * ((ViewData["PageSize"] as int?) ?? 10) + 1) đến
-                        @Math.Min(((ViewData["CurrentPage"] as int?) ?? 1) * ((ViewData["PageSize"] as int?) ?? 10), (ViewData["TotalCourses"] as int?) ?? 0)
-                        của @ViewData["TotalCourses"] kết quả
+                        Hiện
+                        @(((((ViewData["CurrentPage"] as int?) ?? 1) - 1) * ((ViewData["PageSize"] as int?) ?? 1)) + 1)
+                        đến
+                        @Math.Min((((ViewData["CurrentPage"] as int?) ?? 1) * ((ViewData["PageSize"] as int?) ?? 10)), (ViewData["TotalCategories"] as int?) ?? 0)
+                        của @ViewData["TotalCategories"] kết quả
                     </p>
-
                 </div>
+
                 <nav>
                     <ul class="flex flex-wrap items-center gap-2">
                         <li>

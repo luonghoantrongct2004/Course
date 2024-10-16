@@ -174,14 +174,14 @@
                                 <li class="nav-item user-nav">
                                     <a href="#" class="dropdown-toggle" data-bs-toggle="dropdown">
                                         <span class="user-img">
-                                            <img src="~/assets/img/user/user11.jpg" alt="Img">
+                                            <img src="@user.Image" alt="Img">
                                             <span class="status online"></span>
                                         </span>
                                     </a>
                                     <div class="users dropdown-menu dropdown-menu-right" data-popper-placement="bottom-end">
                                         <div class="user-header">
                                             <div class="avatar avatar-sm">
-                                                <img src="~/assets/img/user/user11.jpg" alt="User Image"
+                                                <img src="@user.Image" alt="User Image"
                                                      class="avatar-img rounded-circle">
                                             </div>
                                             <div class="user-text">
@@ -248,8 +248,8 @@
                                 </div>
                                 <div class="footer-about-content">
                                     <p>
-                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut consequat mauris
-                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut consequat mauris
+                                       Lotus Academy luôn lắng nghe và tôn trọng tất cả ý kiến 
+                                       của người dùng.
                                     </p>
                                 </div>
                                 <div class="social-icon">
@@ -274,13 +274,10 @@
                         <div class="col-lg-2 col-md-6 col-sm-6 col-12">
 
                             <div class="footer-widget footer-menu footer-menu-two">
-                                <h2 class="footer-title">For Instructor</h2>
+                                <h2 class="footer-title">Cho giáo viên</h2>
                                 <ul>
-                                    <li><a href="instructor-profile.html">Profile</a></li>
-                                    <li><a href="login.html">Login</a></li>
-                                    <li><a href="register.html">Register</a></li>
-                                    <li><a href="instructor-list.html">Instructor</a></li>
-                                    <li><a href="instructor-dashboard.html"> Dashboard</a></li>
+                                    <li><a asp-controller="Auth" asp-action="Login">Đăng nhập</a></li>
+                                    <li><a asp-controller="Auth" asp-action="RegisterTutor">Đăng ký</a></li>
                                 </ul>
                             </div>
 
@@ -288,13 +285,10 @@
                         <div class="col-lg-2 col-md-6 col-sm-6 col-12">
 
                             <div class="footer-widget footer-menu footer-menu-two">
-                                <h2 class="footer-title">For Student</h2>
+                                <h2 class="footer-title">Cho học sinh</h2>
                                 <ul>
-                                    <li><a href="/profile/account">Profile</a></li>
-                                    <li><a href="login.html">Login</a></li>
-                                    <li><a href="register.html">Register</a></li>
-                                    <li><a href="students-list.html">Student</a></li>
-                                    <li><a href="student-dashboard.html"> Dashboard</a></li>
+                                    <li><a asp-controller="Auth" asp-action="Login">Đăng nhập</a></li>
+                                    <li><a asp-controller="Auth" asp-action="Register">Đăng ký</a></li>
                                 </ul>
                             </div>
 
@@ -302,19 +296,19 @@
                         <div class="col-lg-4 col-md-6 col-sm-6 col-12">
 
                             <div class="footer-widget footer-contact footer-contact-two">
-                                <h2 class="footer-title">Address</h2>
+                                <h2 class="footer-title">Địa chỉ</h2>
                                 <div class="footer-contact-widget">
                                     <div class="footer-address">
                                         <h6>Location</h6>
-                                        <p> 3556 Beech Street, San Francisco,<br> California, CA 94108 </p>
+                                        <p> Đống Đa, Hà Nội, Việt Nam </p>
                                     </div>
-                                    <h6>Email Address</h6>
+                                    <h6>Địa chỉ Email</h6>
                                     <p>
-                                        <a href="https://dreamslms.dreamstechnologies.com/cdn-cgi/l/email-protection#bdd9cfd8dcd0ced1d0cefdd8c5dcd0cdd1d893ded2d0"><span class="__cf_email__" data-cfemail="73170116121e001f1e0033160b121e031f165d101c1e">[email&#160;protected]</span></a>
+                                        <a href="mailto:lotusacademy@gmail.com"><span class="__cf_email__">lotusacademy@gmail.com</span></a>
                                     </p>
-                                    <h6>Phone number</h6>
+                                    <h6>Số điện thoại</h6>
                                     <p class="mb-0">
-                                        <a href="tel:+191234567890">+19 123-456-7890</a>
+                                        <a href="tel:0971019620">+84 971 019 620</a>
                                     </p>
                                 </div>
                             </div>
@@ -338,9 +332,8 @@
                             <div class="col-md-6 col-sm-12">
                                 <div class="privacy-policy">
                                     <ul>
-                                        <li><a href="term-condition.html">Terms & Condition</a></li>
-                                        <li><a href="privacy-policy.html">Privacy Policy</a></li>
-                                        <li><a href="support.html">Contact Us</a></li>
+                                        <li><a href="mailto:lotusacademy@gmail.com">lotusacademy@gmail.com</a></li>
+                                        <li><a href="tel:0971019620">+84 971 019 620</a></li>
                                     </ul>
                                 </div>
                             </div>

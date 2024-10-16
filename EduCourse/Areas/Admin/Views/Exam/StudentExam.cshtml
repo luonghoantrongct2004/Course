@@ -442,15 +442,17 @@
                     });
                 });
             </script>
-            <!-- Pagination -->
             <div class="flex flex-col items-center justify-between gap-5 px-5 mt-6 md:flex-row">
                 <div>
                     <p class="text-sm font-medium text-slate-600">
-                        Hiện @(Model.CurrentPage * Model.PageSize - Model.PageSize + 1) đến
-                        @Math.Min(Model.CurrentPage * Model.PageSize, Model.TotalPages) của @Model.TotalPages kết quả
+                        Hiện
+                        @(((((ViewData["CurrentPage"] as int?) ?? 1) - 1) * ((ViewData["PageSize"] as int?) ?? 1)) + 1)
+                        đến
+                        @Math.Min((((ViewData["CurrentPage"] as int?) ?? 1) * ((ViewData["PageSize"] as int?) ?? 10)), (ViewData["TotalExams"] as int?) ?? 0)
+                        của @ViewData["TotalExams"] kết quả
                     </p>
-
                 </div>
+
                 <nav>
                     <ul class="flex flex-wrap items-center gap-2">
                         <li>
@@ -483,11 +485,11 @@
                                 </svg>
                             </button>
                         </li>
-                        @for (int i = 1; i <= Model.TotalPages; i++)
+                        @for (int i = 1; i <= Math.Ceiling((double)(ViewData["TotalExams"] as int? ?? 0) / (ViewData["PageSize"] as int? ?? 1)); i++)
                         {
                             <li>
-                                <a href="@Url.Action("StudentExam", new { page = i, pageSize = Model.PageSize })"
-                                   class="flex items-center justify-center text-sm rounded-full @(i == Model.CurrentPage ? "text-white bg-primary" : "text-primary") h-7 w-7">
+                                <a href="/admin/exam/studentexam?page=@i?pageSize=@ViewData["PageSize"]"
+                                   class="flex items-center justify-center text-sm rounded-full @(i == (ViewData["CurrentPage"] as int?) ? "text-white bg-primary" : "text-primary") h-7 w-7">
                                     @i
                                 </a>
                             </li>
@@ -507,7 +509,6 @@
                     </ul>
                 </nav>
             </div>
-
         </div>
     </div>
     <!-- write your code here-->

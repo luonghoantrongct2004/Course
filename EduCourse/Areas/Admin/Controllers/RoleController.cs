@@ -1,8 +1,10 @@
 ﻿using EduCourse.Areas.Admin.Models;
+using EduCourse.Data;
 using EduCourse.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace EduCourse.Areas.Admin.Controllers;
 
@@ -12,20 +14,28 @@ public class RoleController : Controller
 {
     private readonly UserManager<User> _userManager;
     private readonly RoleManager<IdentityRole> _roleManager;
+    private readonly AppDbContext _context;
 
-    public RoleController(UserManager<User> userManager, RoleManager<IdentityRole> roleManager)
+    public RoleController(UserManager<User> userManager, RoleManager<IdentityRole> roleManager, AppDbContext context)
     {
         _userManager = userManager;
         _roleManager = roleManager;
+        _context = context;
     }
 
-    public async Task<IActionResult> Index()
+    public async Task<IActionResult> Index(int page = 1, int pageSize = 10)
     {
         // Get all users
-        var users = _userManager.Users.ToList();
+        var users = _context.Users
+            .Skip((page - 1) * pageSize)
+                            .Take(pageSize)
+            .ToList();
 
         // Get all roles
-        var roles = _roleManager.Roles.ToList();
+        var roles = _roleManager.Roles
+             .Skip((page - 1) * pageSize)
+                            .Take(pageSize)
+            .ToList();
 
         // Create a dictionary to store the roles for each user
         var userRoles = new Dictionary<string, List<string>>();
@@ -37,6 +47,11 @@ public class RoleController : Controller
             userRoles[user.Id] = rolesForUser.ToList();
         }
 
+        var totalOrders = users.Count();
+
+        ViewData["TotalUser"] = totalOrders;
+        ViewData["CurrentPage"] = page;
+        ViewData["PageSize"] = pageSize;
         // Create the view model
         var viewModel = new UserRoleViewModel
         {
@@ -50,32 +65,44 @@ public class RoleController : Controller
     [HttpPost]
     public async Task<IActionResult> ChangeUserRole(string userId, string role)
     {
+        // Tìm người dùng theo Id
         var user = await _userManager.FindByIdAsync(userId);
         if (user == null)
         {
             return NotFound();
         }
 
-        // Remove all roles from the user
+        // Lấy danh sách các vai trò hiện tại của người dùng
         var userRoles = await _userManager.GetRolesAsync(user);
+
+        // Kiểm tra xem người dùng đã có vai trò mong muốn chưa
+        if (userRoles.Contains(role))
+        {
+            // Nếu người dùng đã có vai trò này, không cần thay đổi
+            return BadRequest("User already has this role.");
+        }
+
+        // Xóa tất cả các vai trò cũ của người dùng
         var result = await _userManager.RemoveFromRolesAsync(user, userRoles);
 
         if (!result.Succeeded)
         {
-            // Handle error
+            // Xử lý lỗi nếu việc xóa vai trò thất bại
             return BadRequest("Failed to remove user roles.");
         }
 
-        // Add the selected role to the user
+        // Thêm vai trò mới cho người dùng
         result = await _userManager.AddToRoleAsync(user, role);
         if (!result.Succeeded)
         {
-            // Handle error
+            // Xử lý lỗi nếu việc thêm vai trò thất bại
             return BadRequest("Failed to assign the new role.");
         }
 
+        // Chuyển hướng lại trang quản lý vai trò
         return Redirect("/admin/role");
     }
+
 
     public async Task<IActionResult> AssignRole(string userId, string role)
     {

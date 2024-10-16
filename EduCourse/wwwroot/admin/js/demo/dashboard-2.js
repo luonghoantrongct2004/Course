@@ -1,20 +1,4 @@
-
-// Dashboard-2.js
-// ====================================================================
-// This file should not be included in your project.
-// This is just a sample how to initialize plugins or components.
-//
-// - ThemeOn.net -
-
-
-$(document).on('nifty.ready', function() {
-
-    // FLOT CHART
-    // =================================================================
-    // Require Flot Charts
-    // -----------------------------------------------------------------
-    // http://www.flotcharts.org/
-    // =================================================================
+﻿$(document).on('nifty.ready', function() {
 
     var d1 = [[0, 520], [1, 370], [2, 820], [3, 209], [4, 495], [5, 170], [6, 185], [7, 273]],
         d2 = [[0, 85], [1, 45], [2, 58], [3, 35], [4, 95], [5, 25], [6, 65], [7, 12]],
@@ -22,13 +6,13 @@ $(document).on('nifty.ready', function() {
 
     $.plot("#demo-bar-chart", [
         {
-            label: "Students",
+            label: "Học sinh",
             data: d1
         },{
             label: "Parents",
             data: d2
         },{
-            label: "Teachers",
+            label: "Giáo viên",
             data: d3
         }],{
         series: {

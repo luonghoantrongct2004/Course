@@ -1,5 +1,4 @@
-﻿@using EduCourse.Areas.Admin.Models
-@model UserRoleViewModel
+﻿@model List<Library>
 <link rel="stylesheet" href="~/admin/assets/css/output.css" asp-append-version="true" />
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
@@ -32,10 +31,10 @@
         <div class="flex flex-col justify-between gap-5 mb-6 sm:flex-row">
             <div>
                 <h3 class="mb-1 text-xl font-semibold leading-6 text-slate-800">
-                    Phân Quyền
+                    Thư viện
                 </h3>
                 <p class="text-sm text-slate-600">
-                    Phân quyền hạng cho tài khoản
+                    Những thư viện trong hệ thống
                 </p>
             </div>
         </div>
@@ -64,7 +63,7 @@
                             </svg>
                         </div>
                         <input type="text" id="examSearch"
-                               placeholder="Tìm theo tên người dùng..."
+                               placeholder="Tìm theo tên thể loại..."
                                class="w-full h-12 p-4 pl-12 border border-transparent rounded-lg ring-0 focus:ring-0 focus:border-primary bg-slate-50 placeholder:text-slate-400" />
                     </div>
                 </div>
@@ -76,16 +75,24 @@
                         <thead>
                             <tr>
                                 <th scope="col"
+                                    class="px-5 py-3 text-sm font-medium capitalize text-start text-mainblack">
+                                    Tên thư viện
+                                </th>
+                                <th scope="col"
                                     class="px-5 py-3 text-base font-medium capitalize text-start text-slate-900">
-                                    Tên người dùng
+                                    Khóa học sử dụng
                                 </th>
                                 <th scope="col"
                                     class="px-5 py-3 text-sm font-medium capitalize text-start text-mainblack">
-                                    Email
+                                    Tạo bởi
+                                </th>
+                                <th scope="col"
+                                    class="px-5 py-3 text-base font-medium capitalize text-start text-slate-900">
+                                    Ngày tạo
                                 </th>
                                 <th scope="col"
                                     class="px-5 py-3 text-sm font-medium capitalize text-start text-mainblack">
-                                    Quyền hạng
+                                    Files (Nhấn vào file để tải)
                                 </th>
                                 <th scope="col"
                                     class="px-5 py-3 text-sm font-medium capitalize text-end text-mainblack">
@@ -94,54 +101,45 @@
                             </tr>
                         </thead>
                         <tbody class="divide-y divide-slate-100">
-                            @foreach (var item in Model.Users)
+                            @foreach (var item in Model)
                             {
-                                <tr class="course-row transition hover:bg-slate-50" data-search-name="@item.FullName"  data-search="@item.Id">
+                                <tr class="course-row transition hover:bg-slate-50" data-search="@item.LibraryName @item.Course.Title">
 
                                     <td class="px-5 py-3 text-sm whitespace-nowrap text-slate-600">
-                                        @item.FullName
+                                        @item.LibraryName
+                                    </td>
+                                    <td class="px-5 py-3 text-sm whitespace-nowrap text-slate-600">
+                                        @item.Course.Title
                                     </td>
                                     <td class="px-5 py-3 text-sm font-medium whitespace-nowrap text-slate-500">
-                                        @item.Email
+                                        @item.User.FullName
                                     </td>
-                                    <td class="px-5 py-3 text-sm whitespace-nowrap text-mainblack">
-                                        <ul>
-                                            @if (Model.UserRoles.ContainsKey(item.Id))
-                                            {
-                                                @foreach (var role in Model.UserRoles[item.Id])
-                                                {
-                                                    <li>@role</li>
-                                                }
-                                            }
-                                            else
-                                            {
-                                                <li>Không có quyền nào</li>
-                                            }
-                                        </ul>
+                                    <td class="px-5 py-3 text-sm whitespace-nowrap text-slate-600">
+                                        @item.UploadedDate.ToString("dd/MM/yyyy")
                                     </td>
+                                    <td class="px-5 py-3 text-sm font-medium whitespace-nowrap text-slate-500">
+                                        @foreach (var file in item.FilePaths)
+                                        {
+                                            <p>
+                                                <a href="@Url.Content(file)" download style="color:blueviolet; padding-bottom:5px;">@System.IO.Path.GetFileName(file)</a> <br />
+                                            </p>
+                                        }
+                                    </td>
+
                                     <td class="px-5 py-3 whitespace-nowrap">
                                         <div class="flex justify-end gap-2">
-                                            <button type="button" onclick="showRoleModal('@item.Id')"
+                                            <button type="button" onclick="deleteLibary(@item.LibraryID)"
                                                     class="inline-flex items-center justify-center w-8 h-8 text-white bg-red-500 rounded">
                                                 <svg width="20"
                                                      height="21"
                                                      viewBox="0 0 20 21"
                                                      fill="none"
                                                      xmlns="http://www.w3.org/2000/svg">
-                                                    <g clip-path="url(#clip0_67_6479)">
-                                                        <path d="M17.5 8.83317V6.74984C17.5 4.90889 16.0076 3.4165 14.1667 3.4165H5.83333C3.99238 3.4165 2.5 4.90889 2.5 6.74984V15.4998C2.5 17.3408 3.99238 18.8332 5.83333 18.8332H7.5M6.66667 2.1665V4.6665M13.3333 2.1665V4.6665M10 18.8332L12.5506 18.106C12.6874 18.067 12.8119 17.9938 12.9125 17.8933L17.0915 13.7143C17.6362 13.1696 17.6362 12.2864 17.0915 11.7417C16.5468 11.197 15.6636 11.197 15.1189 11.7417L10.9399 15.9207C10.8394 16.0213 10.7661 16.1458 10.7271 16.2825L10 18.8332Z"
-                                                              stroke="currentColor"
-                                                              stroke-width="1.8"
-                                                              stroke-linecap="round" />
-                                                    </g>
-                                                    <defs>
-                                                        <clipPath id="clip0_67_6479">
-                                                            <rect width="20"
-                                                                  height="20"
-                                                                  fill="white"
-                                                                  transform="translate(0 0.5)" />
-                                                        </clipPath>
-                                                    </defs>
+                                                    <path d="M4.16667 7.1665V15.4998C4.16667 17.3408 5.65905 18.8332 7.5 18.8332H12.5C14.3409 18.8332 15.8333 17.3408 15.8333 15.4998V7.1665M11.6667 9.6665V14.6665M8.33333 9.6665L8.33333 14.6665M13.3333 4.6665L12.1614 2.90867C11.8523 2.44501 11.3319 2.1665 10.7747 2.1665H9.22531C8.66805 2.1665 8.14767 2.44501 7.83856 2.90867L6.66667 4.6665M13.3333 4.6665H6.66667M13.3333 4.6665H17.5M6.66667 4.6665H2.5"
+                                                          stroke="currentColor"
+                                                          stroke-width="1.5"
+                                                          stroke-linecap="round"
+                                                          stroke-linejoin="round" />
                                                 </svg>
                                             </button>
                                         </div>
@@ -152,73 +150,83 @@
                     </table>
                 </div>
             </div>
-            <div id="roleModal" class="fixed z-50 inset-0 hidden bg-gray-800 bg-opacity-50 flex items-center justify-center">
-                <div class="bg-white rounded-lg shadow-lg p-5 max-w-md w-full">
-                    <h2 class="text-lg font-medium text-gray-800 mb-4">Thay đổi quyền cho <span id="userName"></span></h2>
-
-                    <form id="roleForm" method="post" action="/admin/Role/ChangeUserRole">
-                        <input type="hidden" id="userId" name="userId" />
-                        <div class="mb-4">
-                            <label for="roleSelect" class="block text-sm font-medium text-gray-700">Chọn quyền</label>
-                            <select id="roleSelect" name="role" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm">
-                                @foreach (var role in Model.Roles)
-                                {
-                                    <option value="@role.Name">@role.Name</option>
-                                }
-                            </select>
-                        </div>
-                        <div class="flex justify-end gap-2">
-                            <button type="button" onclick="closeRoleModal()" class="px-4 py-2 bg-gray-500 text-black rounded">
-                                Hủy
-                            </button>
-                            <button type="submit" class="px-4 py-2 bg-blue-500 text-black rounded">Thay đổi</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
 
             <script>
-                function showRoleModal(userId) {
-                    // Attempt to find the element
-                    var userRow = document.querySelector(`[data-search="${userId}"]`);
-
-                    // Check if the element exists
-                    if (userRow) {
-                        // Set user ID in hidden input
-                        document.getElementById('userId').value = userId;
-
-                        // Get the name from the table row's first column (adjust this based on your HTML structure)
-                        var userName = userRow.querySelector('td').textContent;
-
-                        // Set the user's name in the modal
-                        document.getElementById('userName').textContent = userName;
-
-                        // Show the modal
-                        document.getElementById('roleModal').classList.remove('hidden');
-                    } else {
-                        console.error("User row not found for userId:", userId);
-                    }
-                }
-
-                function closeRoleModal() {
-                    // Hide the modal
-                    document.getElementById('roleModal').classList.add('hidden');
+                function deleteLibary(courseID) {
+                    Swal.fire({
+                        title: 'Bạn có chắc chắn muốn xóa danh mục này không?',
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonText: 'Có, xóa nó!',
+                        cancelButtonText: 'Không, hủy!',
+                        reverseButtons: true,
+                        customClass: {
+                            popup: 'swal-custom-popup',
+                            title: 'swal-custom-title',
+                            confirmButton: 'swal-custom-confirm',
+                            cancelButton: 'swal-custom-cancel'
+                        }
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            fetch(`/Admin/libary/Delete/${courseID}`, {
+                                method: 'DELETE'
+                            })
+                                .then(response => {
+                                    if (response.ok) {
+                                        Swal.fire({
+                                            title: 'Xóa thành công!',
+                                            text: 'Danh mục đã được xóa.',
+                                            icon: 'success',
+                                            customClass: {
+                                                popup: 'swal-custom-popup',
+                                                title: 'swal-custom-title',
+                                                confirmButton: 'swal-custom-confirm'
+                                            }
+                                        }).then(() => {
+                                            location.reload();
+                                        });
+                                    } else {
+                                        Swal.fire({
+                                            title: 'Lỗi!',
+                                            text: 'Xóa danh mục không thành công.',
+                                            icon: 'error',
+                                            customClass: {
+                                                popup: 'swal-custom-popup',
+                                                title: 'swal-custom-title',
+                                                confirmButton: 'swal-custom-confirm'
+                                            }
+                                        });
+                                    }
+                                })
+                                .catch(error => {
+                                    console.error('Error:', error);
+                                    Swal.fire({
+                                        title: 'Lỗi!',
+                                        text: 'Đã xảy ra lỗi trong quá trình xóa.',
+                                        icon: 'error',
+                                        customClass: {
+                                            popup: 'swal-custom-popup',
+                                            title: 'swal-custom-title',
+                                            confirmButton: 'swal-custom-confirm'
+                                        }
+                                    });
+                                });
+                        }
+                    });
                 }
 
             </script>
-
             <script>
                 $(document).ready(function () {
                     $('#examSearch').on('keyup', function () {
                         var searchText = $(this).val().toLowerCase();
 
                         $('#examsTable .course-row').filter(function () {
-                            $(this).toggle($(this).attr('data-search-name').toLowerCase().indexOf(searchText) > -1);
+                            $(this).toggle($(this).attr('data-search').toLowerCase().indexOf(searchText) > -1);
                         });
                     });
                 });
             </script>
-
             <!-- Pagination -->
             <div class="flex flex-col items-center justify-between gap-5 px-5 mt-6 md:flex-row">
                 <div>
@@ -226,7 +234,7 @@
                         Hiện
                         @(((((ViewData["CurrentPage"] as int?) ?? 1) - 1) * ((ViewData["PageSize"] as int?) ?? 1)) + 1)
                         đến
-                        @Math.Min((((ViewData["CurrentPage"] as int?) ?? 1) * ((ViewData["PageSize"] as int?) ?? 10)), (ViewData["TotalUser"] as int?) ?? 0)
+                        @Math.Min((((ViewData["CurrentPage"] as int?) ?? 1) * ((ViewData["PageSize"] as int?) ?? 10)), (ViewData["TotalLibraries"] as int?) ?? 0)
                         của @ViewData["TotalCategories"] kết quả
                     </p>
                 </div>
@@ -263,10 +271,10 @@
                                 </svg>
                             </button>
                         </li>
-                        @for (int i = 1; i <= Math.Ceiling((double)(ViewData["TotalUser"] as int? ?? 0) / (ViewData["PageSize"] as int? ?? 1)); i++)
+                        @for (int i = 1; i <= Math.Ceiling((double)(ViewData["TotalLibraries"] as int? ?? 0) / (ViewData["PageSize"] as int? ?? 1)); i++)
                         {
                             <li>
-                                <a href="/admin/role?page=@i?pageSize=@ViewData["PageSize"]"
+                                <a href="/admin/libary?page=@i?pageSize=@ViewData["PageSize"]"
                                    class="flex items-center justify-center text-sm rounded-full @(i == (ViewData["CurrentPage"] as int?) ? "text-white bg-primary" : "text-primary") h-7 w-7">
                                     @i
                                 </a>

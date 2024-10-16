@@ -41,9 +41,6 @@
                                         }
                                     </style>
                                 </div>
-                                <div class="show-result">
-                                    <h4>Hiện @Model.CurrentPage đến @Model.CurrentPage của @Model.TotalResults kết quả</h4>
-                                </div>
                             </div>
                         </div>
                         <div class="col-lg-6">
@@ -68,6 +65,7 @@
                     {
                         foreach (var course in Model.Courses)
                         {
+                            bool isPurchased = ViewBag.PurchasedCourses.Contains(course.CourseID);
                             <div class="course-item col-lg-12 col-md-12 d-flex">
                                 <div class="course-box course-design list-course d-flex">
                                     <div class="product">
@@ -98,13 +96,11 @@
                                                     </a>
                                                 </h3>
                                                 <div class="all-btn all-category d-flex align-items-center">
-                                                    @{
-                                                        bool isPurchased = ViewBag.PurchasedCourses.Contains(course.CourseID);
-                                                    }
+                                                   
                                                     @if (isPurchased)
                                                     {
-                                                      <a href="javascript:void(0);" class="btn btn-enroll w-100">
-                                                                    <i class="feather-shopping-cart"></i> Đã mua
+                                                        <a href="javascript:void(0);" class="btn btn-primary">
+                                                                     Đã mua
                                                         </a>
                                                     }
                                                     else
@@ -164,15 +160,23 @@
                                                         <img src="/Lotus.png" alt="Img" class="img-fluid">
                                                     </a>
                                                     <div class="">
-                                                        <h4><a >@course.Author.FullName</a></h4>
+                                                        <h6><a >@course.Author.FullName</a></h6>
                                                     </div>
                                                 </div>
                                                 <div class="course-share d-flex align-items-center justify-content-center">
                                                     @if (User.Identity.IsAuthenticated)
                                                     {
-                                                        <a href="javascript:void(0);" class="btn btn-wish w-100" onclick="addToCart(@course.CourseID)">
-                                                        Thêm vào giỏ
-                                                    </a>
+                                                       
+                                                        if (isPurchased == false)
+                                                        {
+                                                            <a href="javascript:void(0);" class="btn btn-wish w-100" onclick="addToCart(@course.CourseID)">
+                                                                Thêm vào giỏ
+                                                            </a>
+                                                        }else{
+                                                                <a href="/home/detail?id=@course.CourseID" class="btn btn-wish w-100">
+                                                                Xem chi tiết
+                                                            </a>
+                                                        }
                                                     }else{
                                                         <a href="/auth/login" class="btn btn-wish w-100">
                                                             Thêm vào giỏ
@@ -323,8 +327,6 @@
                         </div>
                     }
                 </div>
-
-
             </div>
 
             <div class="col-lg-3 theiaStickySidebar">
@@ -336,6 +338,7 @@
                         </div>
                     </div>
 
+                    <!-- Phần lọc danh mục khóa học -->
                     <div class="card search-filter categories-filter-blk">
                         <div class="card-body">
                             <div class="filter-widget mb-0">
@@ -344,12 +347,13 @@
                                     <i class="fas fa-angle-down"></i>
                                 </div>
                                 <div>
-                                    @if (Model.Categories != null && Model.Categories.Any() && Model.CategoryName != null)
+                                    @if (Model.Categories != null && Model.Categories.Any())
                                     {
                                         foreach (var category in Model.Categories)
                                         {
                                             <label class="custom_check">
-                                                <input type="checkbox" name="category" value="@category.Name" @(Model.CategoryName.Contains(category.Name) ? "checked" : "")>
+                                                <input type="checkbox" name="category" value="@category.Name"
+                                                       onchange="filterCourses()" @(Model.CategoryName.Contains(category.Name) ? "checked" : "")>
                                                 <span class="checkmark"></span> @category.Name
                                             </label>
                                         }
@@ -359,6 +363,7 @@
                         </div>
                     </div>
 
+                    <!-- Phần lọc giảng viên -->
                     <div class="card search-filter">
                         <div class="card-body">
                             <div class="filter-widget mb-0">
@@ -367,27 +372,99 @@
                                     <i class="fas fa-angle-down"></i>
                                 </div>
                                 <div>
-                                    @if (Model.Instructors != null && Model.Instructors.Any() && Model.InstructorName != null)
-                                    foreach (var instructor in Model.Instructors)
+                                    @if (Model.Instructors != null && Model.Instructors.Any())
                                     {
-                                        <label class="custom_check">
-                                            <input type="checkbox" name="instructor" value="@instructor.FullName" @(Model.InstructorName.Contains(instructor.FullName) ? "checked" : "")>
-                                            <span class="checkmark"></span> @instructor.FullName
-                                        </label>
+                                        foreach (var instructor in Model.Instructors)
+                                        {
+                                            <label class="custom_check">
+                                                <input type="radio" name="instructor" value="@instructor.FullName"
+                                                       onchange="filterCourses()" @(Model.InstructorName.Contains(instructor.FullName) ? "checked" : "")>
+                                                <span class="checkmark"></span> @instructor.FullName
+                                            </label>
+                                        }
                                     }
                                 </div>
                             </div>
                         </div>
                     </div>
+
                 </div>
             </div>
         </div>
+        <div class="row">
+            <div class="col-md-12">
+                <ul class="pagination lms-page">
+                    <!-- Nút "Previous" chỉ hiện khi không phải là trang đầu -->
+                    @if ((int)ViewData["CurrentPage"] > 1)
+                    {
+                        <li class="page-item prev">
+                            <a class="page-link" href="javascript:void(0)" onclick="navigatePage('@((int)ViewData["CurrentPage"] - 1)')">
+                                <i class="fas fa-angle-left"></i>
+                            </a>
+                        </li>
+                    }
+
+                    <!-- Hiển thị các số trang -->
+                    @for (var i = 1; i <= (int)ViewData["TotalPages"]; i++)
+                    {
+                        <li class="page-item @(i == (int)ViewData["CurrentPage"] ? "active" : "")">
+                            <a class="page-link" href="javascript:void(0)" onclick="navigatePage('@i')">@i</a>
+                        </li>
+                    }
+
+                    <!-- Nút "Next" chỉ hiện khi không phải là trang cuối -->
+                    @if ((int)ViewData["CurrentPage"] < (int)ViewData["TotalPages"])
+                    {
+                        <li class="page-item next">
+                            <a class="page-link" href="javascript:void(0)" onclick="navigatePage('@((int)ViewData["CurrentPage"] + 1)')">
+                                <i class="fas fa-angle-right"></i>
+                            </a>
+                        </li>
+                    }
+                </ul>
+            </div>
+        </div>
+
     </div>
+
 </section>
 <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="~/assets/js/script.js" type="b36d43511b1d467e6b338c09-text/javascript"></script>
 <script src="~/cdn-cgi/scripts/7d0fa10a/cloudflare-static/rocket-loader.min.js" data-cf-settings="b36d43511b1d467e6b338c09-|49" defer></script>
+<script data-cfasync="false" src="~/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
+
+<script src="~/assets/js/bootstrap.bundle.min.js" type="c3c670991341dec57f2846ac-text/javascript"></script>
+
+<script src="~/assets/js/owl.carousel.min.js" type="c3c670991341dec57f2846ac-text/javascript"></script>
+
+<script src="~/assets/plugins/aos/aos.js" type="c3c670991341dec57f2846ac-text/javascript"></script>
+
+<script src="~/assets/js/jquery.waypoints.js" type="c3c670991341dec57f2846ac-text/javascript"></script>
+<script src="~/assets/js/jquery.counterup.min.js" type="c3c670991341dec57f2846ac-text/javascript"></script>
+
+<script src="~/assets/plugins/select2/js/select2.min.js" type="c3c670991341dec57f2846ac-text/javascript"></script>
+
+<script src="~/assets/plugins/slick/slick.js" type="c3c670991341dec57f2846ac-text/javascript"></script>
+
+<script src="~/assets/plugins/swiper/js/swiper.min.js" type="c3c670991341dec57f2846ac-text/javascript"></script>
+
+<script src="~/assets/js/script.js" type="c3c670991341dec57f2846ac-text/javascript"></script>
+<script src="~/cdn-cgi/scripts/7d0fa10a/cloudflare-static/rocket-loader.min.js" data-cf-settings="c3c670991341dec57f2846ac-|49" defer></script>
+<script>
+    function filterCourses() {
+        // Lấy danh sách các tùy chọn đã chọn
+        let selectedCategories = Array.from(document.querySelectorAll('input[name="category"]:checked')).map(checkbox => checkbox.value);
+        let selectedInstructors = Array.from(document.querySelectorAll('input[name="instructor"]:checked')).map(checkbox => checkbox.value);
+
+        // Tạo query string từ các tùy chọn lọc
+        let queryString = `?categories=${selectedCategories.join(',')}&instructors=${selectedInstructors.join(',')}`;
+
+        // Điều hướng tới URL mới với các tham số lọc
+        window.location.href = `/Home/Search${queryString}`;
+    }
+
+</script>
 <script>
     function checkoutSingleCourse(courseId) {
         console.log(courseId);

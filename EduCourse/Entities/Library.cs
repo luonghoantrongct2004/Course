@@ -14,7 +14,7 @@ namespace EduCourse.Entities
 
         // Navigation properties
         [ForeignKey("UploadedByID")]
-        public User User { get; set; }
+        public User? User { get; set; }
         public Course? Course { get; set; }
     }
 }

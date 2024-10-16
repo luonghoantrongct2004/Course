@@ -14,13 +14,20 @@ public class OrderController : Controller
         _context = context;
     }
 
-    public IActionResult Index()
+    public IActionResult Index(int page = 1, int pageSize = 10)
     {
+        var totalOrders = _context.Orders.Count();
         var orders = _context.Orders
             .Include(u => u.User)
             .Include(od => od.OrderDetails)
                 .ThenInclude(u => u.Course)
+             .OrderByDescending(d => d.OrderDate)
+             .Skip((page - 1) * pageSize)
+                            .Take(pageSize)
             .ToList();
+        ViewData["TotalOrders"] = totalOrders;
+        ViewData["CurrentPage"] = page;
+        ViewData["PageSize"] = pageSize;
         return View(orders);
     }
     public IActionResult Details(int id)

@@ -11,8 +11,8 @@
             <div class="col-lg-8 col-12" >
                 <div class="home-slide-face">
                     <div class="home-slide-text ">
-                        <h5>The Leader in Online Learning</h5>
-                        <h1>Engaging & Accessible Online Courses For All</h1>
+                        <h5>Dẫn đầu cho các khóa học online</h5>
+                        <h1>Rèn luyện & nâng cao trình độ qua những khóa học tại Academy Lotus</h1>
                     </div>
                     <div class="banner-content">
                         <form class="form" name="store" id="store" method="get" action="/home/search">
@@ -40,129 +40,60 @@
     </div>
 </section>
 
-
-<!--<section class="about-section">
+<section class="home-three-favourite">
     <div class="container">
         <div class="row">
-            <div class="col-lg-6 wow fadeInLeft order-lg-1 order-xs-2 order-sm-2" data-aos="fade-up">
-                <div class="header-two-title">
-                    <p class="tagline">Learn with DreamLMS</p>
-                    <h2 class="mb-0">Get Trained By Experts & Professionals around the World</h2>
-                </div>
-                <div class="header-two-title">
-                    <p class="about-text">
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quam dolor
-                        fermentum massa viverra congue proin. A volutpat eget ultrices velit nunc orci. Commodo
-                        quis integer a felis ac vel mauris a morbi. Scelerisque nunc accumsan elementum aenean
-                        nisl lacinia. Congue enim aliquet ac vitae turpis. Neque, bibendum imperdiet sed
-                        ullamcorper morbi amet. Facilisi odio amet, nunc quam ut nulla purus adipiscing
-                        pharetra.
-                    </p>
-                    <div class="about-button more-details">
-                        <a href="course-list.html" class="discover-btn">Learn more <i class="fas fa-arrow-right ms-2"></i></a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-6 order-lg-2 order-xs-1 order-sm-1">
-                <div class="stylist-gallery">
-                    <div class="row">
-                        <div class="col-lg-6 col-md-6 col-sm-12 col-12" data-aos="fade-down">
-                            <div class="about-image count-one d-flex align-items-center justify-content-center flex-fill project-details">
-                                <div class="about-count">
-                                    <div class="course-img">
-                                        <img src="~/assets/img/icon/count-one.svg" alt="Img">
-                                    </div>
-                                    <div class="count-content-three course-count ms-0">
-                                        <h4><span class="counterUp">10</span>K</h4>
-                                        <p class="mb-0">Online Courses</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-6 col-md-6 col-sm-12 col-12" data-aos="fade-down">
-                            <div class="about-image count-two d-flex align-items-center justify-content-center flex-fill project-details">
-                                <div class="about-count">
-                                    <div class="course-img">
-                                        <img src="~/assets/img/icon/count-two.svg" alt="Img">
-                                    </div>
-                                    <div class="count-content-three course-count ms-0">
-                                        <h4><span class="counterUp">215</span>+</h4>
-                                        <p class="mb-0">Expert Tutors</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-6 col-md-6 col-sm-12 col-12" data-aos="fade-right" data-wow-delay="1.5">
-                            <div class="about-image count-three d-flex align-items-center justify-content-center flex-fill project-details">
-                                <div class="about-count">
-                                    <div class="course-img">
-                                        <img src="~/assets/img/icon/count-three.svg" alt="Img">
-                                    </div>
-                                    <div class="count-content-three course-count ms-0">
-                                        <h4><span class="counterUp">10</span>K</h4>
-                                        <p class="mb-0">Ceritified Courses</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-6 col-md-6 col-sm-12 col-12" data-aos="fade-left" data-wow-delay="0.5">
-                            <div class="about-image count-four d-flex align-items-center justify-content-center flex-fill project-details">
-                                <div class="about-count">
-                                    <div class="course-img">
-                                        <img src="~/assets/img/icon/count-four.svg" alt="Img">
-                                    </div>
-                                    <div class="count-content-three course-count ms-0">
-                                        <h4><span class="counterUp">10</span>K</h4>
-                                        <p class="mb-0">Online Students</p>
-                                    </div>
-                                </div>
-                            </div>
+            <div class="container">
+                <div class="home-three-head section-header-title" style="
+    padding-bottom: 20px;    margin-bottom: 48px;
+}" data-aos="fade-up">
+                    <div class="row align-items-center d-flex justify-content-between">
+                        <div class="col-lg-12 col-sm-12">
+                            <h2>
+                                Những thể loại của Lotus Academy
+                            </h2>
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
-    </div>
-</section>-->
-
-
-<section class="topcategory-sec">
-    <div class="container">
-        <div class="header-two-title text-center" data-aos="fade-up">
-            <p class="tagline">Thể Loại</p>
-            <h2>Top Thể Loại</h2>
-            <div class="header-two-text">
-                <p class="mb-0">
-                    Những thể loại có trong Lotus Academy<br/>
-                    mà bạn không thể bỏ qua
-                </p>
-            </div>
-        </div>
-        <div class="top-category-group">
-            <div class="row">
+                <div class="owl-carousel home-three-favourite-carousel owl-theme aos">
+                    
                 @if (Model.Categories != null && Model.Categories.Any())
-                {
-                    foreach (var cate in Model.Categories)
                     {
-                        <div class="col-xl-3 col-lg-6 col-md-6 col-sm-12 d-flex" data-aos="fade-down">
-                            <div class="categories-item flex-fill">
-                                <div class="categories-icon">
-                                    <img src="~/assets/img/category/category-1.svg" alt="@cate.Name">
-                                </div>
-                                <div class="categories-content">
-                                    <h3>@cate.Name</h3>
-                                    <!--<p>40 Instructors</p>-->
+                        foreach (var cate in Model.Categories)
+                        {
+                            <div class="favourite-box" data-aos="fade-down">
+                                <div class="favourite-item flex-fill">
+                                    <div class="categories-icon">
+                                        <img class="img-fluid" src="@cate.Image" alt="@cate.Name">
+                                    </div>
+                                    <div class="categories-content course-info">
+                                        <h3>@cate.Name</h3>
+                                    </div>
+                                    <div class="course-instructors">
+                                        <div class="instructors-info">
+                                            <p class="me-4">Khóa học</p>
+                                            <ul class="instructors-list">
+                                                @foreach (var item in Model.Courses.Where(c => c.CategoryID == cate.CategoryID).Take(3).ToList())
+                                                {
+                                                    <li>
+                                                        <a href="/home/search?name=@item.Category.Name" data-bs-toggle="tooltip" data-bs-placement="top" title data-bs-original-title="@item.Category.Name"><img src="@item.Image" alt="img"></a>
+                                                    </li>
+                                                }
+                                                <li class="more-set">
+                                                    <a href="/home/search?name=@cate.Name">@Model.Courses.Where(c => c.CategoryID == cate.CategoryID).Count()+</a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
+                        }
                     }
-                }
+                </div>
             </div>
         </div>
-
     </div>
 </section>
-
 
 <section class="featured-courses-sec">
     <div class="patter-one-main">
@@ -279,36 +210,259 @@
 </section>
 
 
-<section class="growup-section">
-    <div class="home-two-shapes">
-        <img src="~/assets/img/bg/home-right-bottom.png" alt="Img">
-    </div>
+<section class="section master-skill">
     <div class="container">
-        <div class="row align-items-center">
-            <div class="col-xl-6 col-lg-6 col-md-5 col-12" data-aos="fade-right">
-                <div class="growup-images-two">
-                    <div class="growup-skills-img">
-                        <img class src="~/assets/img/skil-01.png" alt="image-banner" title="image-banner">
+        <div class="row">
+            <div class="col-lg-7 col-md-12">
+                <div class="section-header aos" data-aos="fade-up">
+                    <div class="section-sub-head">
+                        <span>Có Gì Mới</span>
+                        <h2>Làm chủ các kỹ năng để thúc đẩy sự nghiệp của bạn</h2>
+                    </div>
+                </div>
+                <div class="section-text aos" data-aos="fade-up">
+                    <p>
+                        Nhận chứng chỉ, làm chủ các kỹ năng công nghệ hiện đại, và nâng tầm sự nghiệp của bạn — 
+                        dù bạn mới bắt đầu hay đã là chuyên gia lâu năm. 95% học viên Lotus Academy báo cáo rằng nội dung thực hành của chúng tôi đã trực tiếp giúp ích cho sự nghiệp của họ.
+                    </p>
+                </div>
+                <div class="career-group aos" data-aos="fade-up">
+                    <div class="row">
+                        <div class="col-lg-6 col-md-6 d-flex">
+                            <div class="certified-group blur-border d-flex">
+                                <div class="get-certified d-flex align-items-center">
+                                    <div class="blur-box">
+                                        <div class="certified-img ">
+                                            <img src="~/assets/img/icon/icon-1.svg" alt="Hình ảnh" class="img-fluid">
+                                        </div>
+                                    </div>
+                                    <p>Luôn có động lực với những giảng viên tận tâm</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-md-6 d-flex">
+                            <div class="certified-group blur-border d-flex">
+                                <div class="get-certified d-flex align-items-center">
+                                    <div class="blur-box">
+                                        <div class="certified-img ">
+                                            <img src="~/assets/img/icon/icon-2.svg" alt="Hình ảnh" class="img-fluid">
+                                        </div>
+                                    </div>
+                                    <p>Cập nhật những xu hướng mới nhất trong lĩnh vực điện toán đám mây</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-md-6 d-flex">
+                            <div class="certified-group blur-border d-flex">
+                                <div class="get-certified d-flex align-items-center">
+                                    <div class="blur-box">
+                                        <div class="certified-img ">
+                                            <img src="~/assets/img/icon/icon-3.svg" alt="Hình ảnh" class="img-fluid">
+                                        </div>
+                                    </div>
+                                    <p>Nhận chứng chỉ với hơn 100+ khóa học cấp chứng chỉ</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-md-6 d-flex">
+                            <div class="certified-group blur-border d-flex">
+                                <div class="get-certified d-flex align-items-center">
+                                    <div class="blur-box">
+                                        <div class="certified-img ">
+                                            <img src="~/assets/img/icon/icon-4.svg" alt="Hình ảnh" class="img-fluid">
+                                        </div>
+                                    </div>
+                                    <p>Xây dựng kỹ năng theo cách của bạn, từ phòng thi đến khóa học</p>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-            <div class="col-xl-6 col-lg-6 col-md-7 col-12 wow fadeInLeft" data-aos="fade-left">
-                <div class="header-two-title">
-                    <p class="tagline">Growup Your Skill</p>
-                    <h2 class="text-navy">Learn Anything you want today</h2>
-                    <div class="header-two-text">
+            <div class="col-lg-5 col-md-12 d-flex align-items-end">
+                <div class="career-img aos" data-aos="fade-up">
+                    <img src="~/assets/img/join.png" alt="Hình ảnh" class="img-fluid">
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+
+<section class="section trend-course">
+    <div class="container">
+        <div class="feature-instructors">
+            <div class="section-header aos" data-aos="fade-up">
+                <div class="section-sub-head feature-head text-center">
+                    <h2>Giáo viên nổi bật</h2>
+                    <div class="section-text aos" data-aos="fade-up">
                         <p class="mb-0">
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quam dolor
-                            fermentum massa viverra congue proin. A volutpat eget ultrices velit nunc orci.
-                            Commodo quis integer a felis ac vel mauris a morbi. Scelerisque nunc accumsan
-                            elementum aenean nisl lacinia. Congue enim aliquet ac vitae turpis. Neque, bibendum
-                            imperdiet sed ullamcorper morbi amet. Facilisi odio amet, nunc quam ut nulla purus
-                            adipiscing pharetra.
+                           Những giáo viên nổi bật của Lotus Academy
                         </p>
                     </div>
                 </div>
-                <div class="about-button more-details">
-                    <a href="register.html" class="discover-btn">Join Today <i class="fas fa-arrow-right ms-2"></i></a>
+            </div>
+            <div class="owl-carousel instructors-course owl-theme aos" data-aos="fade-up">
+                @foreach (var item in Model.Instructors)
+                {
+                    <div class="instructors-widget">
+                        <div class="instructors-img ">
+                            <a href="">
+                                <img class="img-fluid" alt="Img" src="@item.Image">
+                            </a>
+                        </div>
+                        <div class="instructors-content text-center">
+                            <h5><a href="">@item.FullName</a></h5>
+                            <div class="student-count d-flex justify-content-center">
+                                <i class="fa-solid fa-user-group"></i>
+                                <span>@Model.Courses.Where(u => u.AuthorID == item.Id).Count() Khóa học</span>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+
+    </div>
+</section>
+
+<section class="section user-love" data-aos="fade-up">
+    <div class="container">
+        <div class="section-header white-header aos" data-aos="fade-up">
+            <div class="section-sub-head feature-head text-center">
+                <span>Hãy xem những đánh giá thực tế này</span>
+                <h2>Người dùng yêu thích chúng tôi - Đừng chỉ nghe từ chúng tôi.</h2>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="testimonial-four">
+    <div class="review">
+        <div class="container">
+            <div class="testi-quotes">
+                <img src="~/assets/img/qute.png" alt="Hình ảnh">
+            </div>
+            <div class="mentor-testimonial lazy slider aos" data-aos="fade-up" data-sizes="50vw">
+
+                <!-- Testimonial 1: Aristotle -->
+                <div class="d-flex justify-content-center">
+                    <div class="testimonial-all d-flex justify-content-center">
+                        <div class="testimonial-two-head text-center align-items-center d-flex">
+                            <div class="testimonial-four-saying">
+                                <div class="testi-right">
+                                    <img  src="~/assets/img/qute-01.png" alt="Img">
+                                </div>
+                                <p>
+                                    "Gốc rễ của việc giáo dục thì đắng cay, nhưng quả của nó lại ngọt ngào."
+                                </p>
+                                <div class="four-testimonial-founder">
+                                    <div class="fount-about-img">
+                                        <a href="https://vi.wikipedia.org/wiki/Aristotle"><img src="https://imgs.search.brave.com/aoDkONjmlOBOO1Qv9txzTDvK1XSIu21NyRlcct9a6KI/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9oaXBz/LmhlYXJzdGFwcHMu/Y29tL2htZy1wcm9k/L2ltYWdlcy9hcmlz/dG90bGVfYnlfcmFw/aGFlbF93aWtpbWVk/aWFfY29tbW9uc19j/cm9wcGVkLmpwZz9y/ZXNpemU9OTgwOio" alt="Aristotle" class="img-fluid"></a>
+                                    </div>
+                                    <h3>Aristotle</a></h3>
+                                    <span>Triết gia Hy Lạp</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Testimonial 2: Nelson Mandela -->
+                <div class="d-flex justify-content-center">
+                    <div class="testimonial-all d-flex justify-content-center">
+                        <div class="testimonial-two-head text-center align-items-center d-flex">
+                            <div class="testimonial-four-saying">
+                                <div class="testi-right">
+                                    <img  src="~/assets/img/qute-01.png" alt="Img">
+                                </div>
+                                <p>
+                                    "Giáo dục là vũ khí mạnh nhất mà bạn có thể sử dụng để thay đổi thế giới."
+                                </p>
+                                <div class="four-testimonial-founder">
+                                    <div class="fount-about-img">
+                                        <a href="https://vi.wikipedia.org/wiki/Nelson_Mandela"><img src="https://imgs.search.brave.com/e_pK8c3EnB71zUjn9Ep9C9580gZme8dMru5XNMF8b5o/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9oaXBz/LmhlYXJzdGFwcHMu/Y29tL2htZy1wcm9k/L2ltYWdlcy9fcGhv/dG8tYnktcGVyLWFu/ZGVycy1wZXR0ZXJz/c29uZ2V0dHktaW1h/Z2VzLmpwZz9jcm9w/PTF4dzoxLjB4aDtj/ZW50ZXIsdG9wJnJl/c2l6ZT02NDA6Kg" alt="Nelson Mandela" class="img-fluid"></a>
+                                    </div>
+                                    <h3><a href="https://vi.wikipedia.org/wiki/Nelson_Mandela">Nelson Mandela</a></h3>
+                                    <span>Nhà hoạt động chống phân biệt chủng tộc</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Testimonial 3: Albert Einstein -->
+                <div class="d-flex justify-content-center">
+                    <div class="testimonial-all d-flex justify-content-center">
+                        <div class="testimonial-two-head text-center align-items-center d-flex">
+                            <div class="testimonial-four-saying">
+
+                                <div class="testi-right">
+                                    <img  src="~/assets/img/qute-01.png" alt="Img">
+                                </div>
+                                <p>
+                                    "Giáo dục không phải là việc học thuộc các sự kiện, mà là việc rèn luyện tâm trí để tư duy."
+                                </p>
+                                <div class="four-testimonial-founder">
+                                    <div class="fount-about-img">
+                                        <a href="https://vi.wikipedia.org/wiki/Albert_Einstein"><img src="https://imgs.search.brave.com/yc6fYyrNTN1LfSKfQg2MXKsQB3Ll3H65HmlgD-JYrzU/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9oaXBz/LmhlYXJzdGFwcHMu/Y29tL2htZy1wcm9k/L2ltYWdlcy9hbGJl/cnQtZWluc3RlaW4t/c3RpY2tzLW91dC1o/aXMtdG9uZ3VlLXdo/ZW4tYXNrZWQtYnkt/bmV3cy1waG90by0x/NjgxMzE2NzQ5Lmpw/Zz9jcm9wPTEuMDB4/dzowLjk1NnhoOzAs/MC4wNDM3eGgmcmVz/aXplPTk4MDoq" alt="Albert Einstein" class="img-fluid"></a>
+                                    </div>
+                                    <h3><a href="https://vi.wikipedia.org/wiki/Albert_Einstein">Albert Einstein</a></h3>
+                                    <span>Nhà vật lý học</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<section class="section become-instructors aos" data-aos="fade-up">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-6 col-md-6 d-flex">
+                <div class="student-mentor cube-instuctor ">
+                    <h4>Trở thành giảng viên</h4>
+                    <div class="row">
+                        <div class="col-lg-7 col-md-12">
+                            <div class="top-instructors">
+                                <p>
+                                    Những giảng viên hàng đầu từ khắp nơi trên thế giới giảng dạy hàng triệu học viên trên
+                                    Mentoring.
+                                </p>
+                            </div>
+                        </div>
+                        <div class="col-lg-5 col-md-12">
+                            <div class="mentor-img">
+                                <img class="img-fluid" alt="Hình ảnh" src="~/assets/img/icon/become-02.svg">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6 col-md-6 d-flex">
+                <div class="student-mentor yellow-mentor">
+                    <h4>Thay đổi cách tiếp cận giáo dục</h4>
+                    <div class="row">
+                        <div class="col-lg-8 col-md-12">
+                            <div class="top-instructors">
+                                <p>
+                                    Tạo một tài khoản để nhận bản tin của chúng tôi, các đề xuất khóa học và các chương trình khuyến mãi.
+                                </p>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-md-12">
+                            <div class="mentor-img">
+                                <img class="img-fluid" alt="Hình ảnh" src="~/assets/img/icon/become-01.svg">
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -316,114 +470,271 @@
 </section>
 
 
-<section class="master-skills-sec">
+<section class="featured-section-five">
     <div class="container">
-        <div class="header-two-title text-center" data-aos="fade-up">
-            <p class="tagline">What’s New</p>
-            <h2>Master the skills to drive your career</h2>
-            <div class="header-two-text" data-aos="fade-up">
-                <p class="mb-0">
-                    Get certified, master modern tech skills, and level up your career — whether
-                    you’re starting out or a seasoned pro. 95% of eLearning learners report our hands-on content
-                    directly helped their careers.
-                </p>
+        <div class="header-five-title text-center" data-aos="fade-down">
+            <h2>Những khóa học nổi bật</h2>
+            <p>Hãy chọn cho mình khóa học nổi bật</p>
+        </div>
+        <div class="row">
+            <div class="featured-courses-five-tab" data-aos="fade-up">
+                <div class="tab-content">
+                    <div class="nav tablist-five" role="tablist">
+                        @foreach (var item in Model.Categories.Take(5).Select((category, index) => new { Category = category, Index = index }))
+                        {
+                            <a class="nav-tab @(item.Index == 0 ? "active" : "")" data-bs-toggle="tab" href="#@item.Category.CategoryID" role="tab">
+                                @item.Category.Name
+                            </a>
+                        }
+                    </div>
+                    <style>
+                        .heart-five .feather-shopping-cart {
+                            position: relative;
+                            width: 40px;
+                            height: 40px;
+                            background-color: transparent;
+                            border: 2px solid #fff;
+                            align-items: center;
+                            display: flex;
+                            justify-content: center;
+                            border-radius: 50%;
+                            font-size: 12px;
+                            color: #fff;
+                            -webkit-transition: .5s;
+                            -moz-transition: .5s;
+                            -o-transition: .5s;
+                            transition: .5s;
+                        }
+
+                        .course-box-five:hover .heart-five .feather-shopping-cart {
+                            width: 40px;
+                            height: 40px;
+                            background-color: transparent;
+                            border: 2px solid transparent;
+                            align-items: center;
+                            display: flex;
+                            justify-content: center;
+                            border-radius: 50%;
+                            font-size: 16px;
+                            color: red;
+                            stroke: #000;
+                            stroke-width: 40px;
+                            z-index: 2;
+                            -webkit-transition: .5s;
+                            -moz-transition: .5s;
+                            -o-transition: .5s;
+                            transition: .5s;
+                        }
+                    </style>
+                    <div class="tab-content">
+                        @foreach (var item in Model.Categories.Take(5).Select((category, index) => new { Category = category, Index = index }))
+                        {
+                            <div class="tab-pane fade @(item.Index == 0 ? "active show" : "")" id="@item.Category.CategoryID">
+                                <div class="ux-design-five">
+                                    <div class="row">
+                                        @foreach (var course in Model.Courses.Where(c => c.CategoryID == item.Category.CategoryID).Take(8).ToList())
+                                        {
+                                            var chapters = course.Chapters?.ToList();
+                                            double totalCourseDuration = chapters?
+                                            .Sum(chapter => chapter.Lessons.Sum(lesson => lesson.Duration)) ?? 0;
+
+                                            int hours = (int)(totalCourseDuration / 3600);
+                                            int minutes = (int)((totalCourseDuration % 3600) / 60);
+                                            int seconds = (int)(totalCourseDuration % 60);
+                                            <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                                                <div class="course-box-five">
+                                                    <div class="product-five">
+                                                        <div class="product-img-five">
+                                                            <a href="/home/detail?id=@course.CourseID">
+                                                                <img class="img-fluid" alt="Img" src="@course.Image">
+                                                            </a>
+                                                            <div class="heart-five">
+                                                                <a href="javascript:void(0);" onclick="addToCart(@course.CourseID)">
+                                                                    <i class="fa-regular feather-shopping-cart"></i>
+                                                                </a>
+                                                            </div>
+                                                        </div>
+                                                        <div class="product-content-five">
+                                                            <div class="course-group-five">
+                                                                <div class="course-group-img-five">
+                                                                    <a href="/home/detail?id=@course.CourseID">
+                                                                        <img src="@course.Author.Image" alt="Img" class="img-fluid">
+                                                                    </a>
+                                                                    <h6>
+                                                                        <a href="/home/detail?id=@course.CourseID">
+                                                                            @course.Author.FullName
+                                                                        </a>
+                                                                    </h6>
+                                                                </div>
+                                                            </div>
+                                                            <h3 class="product-five-title">
+                                                                <a href="/home/detail?id=@course.CourseID">
+                                                                    @course.Title
+                                                                </a>
+                                                            </h3>
+                                                            <div class="info-five-middle">
+                                                                <div class="course-view-five">
+                                                                    <span class="me-2"><a href="#"><i class="fa-regular fa-clock"></i></a></span>
+                                                                    <p>
+                                                                        @if (hours > 0)
+                                                                        {
+                                                                            @($"{hours} giờ{(hours > 1 ? "" : "")} ")
+                                                                        }
+                                                                        @if (minutes > 0)
+                                                                        {
+                                                                            @($"{minutes} phút{(minutes > 1 ? "" : "")} ")
+                                                                        }
+                                                                        @if (seconds > 0)
+                                                                        {
+                                                                            @($"{seconds} giây{(seconds > 1 ? "" : "")}")
+                                                                        }
+                                                                        @if (hours == 0 && minutes == 0 && seconds == 0)
+                                                                        {
+                                                                            @("0 giây")
+                                                                        }
+                                                                    </p>
+                                                                </div>
+                                                                <div class="rating-img">
+                                                                    <span class="me-2"><i class="fa-solid fa-book-open"></i></span>
+                                                                    <p> @course.Chapters.Sum(chapter => chapter.Lessons.Count())+ Chương</p>
+                                                                </div>
+                                                            </div>
+                                                            <div class="price-five-group">
+                                                                @{
+                                                                    var price = course.Price * (1 - course.Discount / 100M);
+                                                                }
+                                                                <p>@course.Category.Name</p>
+                                                                <h3>@price.ToString("N0") đ</h3>
+                                                                
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="joing-course-ovelay">
+                                                        <a href="/home/detail?id=@course.CourseID" class="joing-course-btn">
+                                                            Chi tiết
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+
+                </div>
             </div>
         </div>
-
-        <div class="course-info-two">
-            <div class="row align-items-center">
-
-                <div class="col-lg-6 col-md-12 order-lg-0 order-md-0 order-0" data-aos="fade-up">
-                    <div class="join-title-one">
-                        <h2>Award Winning Course Management</h2>
-                        <p>
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quam dolor fermentum massa
-                            viverra congue proin. A volutpat eget ultrices velit nunc orci. Commodo quis integer
-                            a felis ac vel mauris a morbi. Scelerisque nunc accumsan elementum aenean nisl
-                            lacinia. Congue enim aliquet ac vitae turpis. Neque, bibendum imperdiet sed
-                            ullamcorper morbi amet. Facilisi odio amet, nunc quam ut nulla purus adipiscing
-                            pharetra.
-                        </p>
-                    </div>
-                </div>
-
-
-                <div class="col-lg-6 col-md-12 order-lg-1 order-md-1 order-1" data-aos="fade-up">
-                    <div class="join-mentor-img">
-                        <div class="winning-two-one">
-                            <img src="~/assets/img/skills/skills-01.jpg" alt="Img" class="img-fluid">
-                        </div>
-                        <div class="joing-icon-award">
-                            <img src="~/assets/img/bg/skill-icon-01.png" alt="Img" class="joing-icon-one img-fluid">
-                        </div>
-                    </div>
-                </div>
-
-
-                <div class="col-xl-6 col-lg-7 col-md-12 order-lg-2 order-md-3 order-3" data-aos="fade-up">
-                    <div class="join-mentor-img">
-                        <div class="winning-two-two">
-                            <img src="~/assets/img/skills/skills-02.jpg" alt="Img" class="img-fluid">
-                        </div>
-                    </div>
-                    <div class="joing-icon-award">
-                        <img src="~/assets/img/bg/skill-icon-02.png" alt="Img" class="joing-icon-two img-fluid">
-                    </div>
-                </div>
-
-
-                <div class="col-xl-6 col-lg-5 col-md-12 order-lg-3 order-md-2 order-2" data-aos="fade-up">
-                    <div class="join-title-middle">
-                        <h2>Award Winning Course Management</h2>
-                        <p>
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quam dolor fermentum massa
-                            viverra congue proin. A volutpat eget ultrices velit nunc orci. Commodo quis integer
-                            a felis ac vel mauris a morbi. Scelerisque nunc accumsan elementum aenean nisl
-                            lacinia. Congue enim aliquet ac vitae turpis. Neque, bibendum imperdiet sed
-                            ullamcorper morbi amet. Facilisi odio amet, nunc quam ut nulla purus adipiscing
-                            pharetra.
-                        </p>
-                    </div>
-                </div>
-
-
-                <div class="col-xl-6 col-lg-7 col-md-12 order-lg-4 order-md-4 order-4" data-aos="fade-up">
-                    <div class="join-title-one">
-                        <h2>Certification for solid development of your Carrer</h2>
-                        <p>
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quam dolor fermentum massa
-                            viverra congue proin. A volutpat eget ultrices velit nunc orci. Commodo quis integer
-                            a felis ac vel mauris a morbi. Scelerisque nunc accumsan elementum aenean nisl
-                            lacinia. Congue enim aliquet ac vitae turpis. Neque, bibendum imperdiet sed
-                            ullamcorper morbi amet. Facilisi odio amet, nunc quam ut nulla purus adipiscing
-                            pharetra.
-                        </p>
-                    </div>
-                </div>
-
-
-                <div class="col-xl-6 col-lg-5 col-md-12 order-lg-5 order-md-5 order-5" data-aos="fade-up">
-                    <div class="join-mentor-img mb-0">
-                        <div class="winning-two-three">
-                            <img src="~/assets/img/skills/skills-03.jpg" alt="Img" class="img-fluid">
-                        </div>
-                    </div>
-                    <div class="joing-icon-award">
-                        <img src="~/assets/img/bg/skill-icon-03.png" alt="Img" class="joing-icon-three img-fluid">
-                    </div>
-                </div>
-
-            </div>
-        </div>
-
     </div>
 </section>
 
 
-<section class="testimonial-sec">
+<section class="section latest-blog">
     <div class="container">
-        <div class="testimonial-two-img">
-            <img src="~/assets/img/bg/map-user.png" alt="Img" class="img-fluid">
+        <div class="lab-course">
+            <div class="section-header aos" data-aos="fade-up">
+                <div class="section-sub-head feature-head text-center">
+                    <h2>Không giới hạn truy cập đến 360+ khóa học <br> và không giới hạn bài thi </h2>
+                </div>
+            </div>
+            <div class="icon-group aos" data-aos="fade-up">
+                <div class="offset-lg-1 col-lg-12">
+                    <div class="row">
+                        <div class="col-lg-1 col-3">
+                            <div class="total-course d-flex align-items-center">
+                                <div class="blur-border">
+                                    <div class="enroll-img ">
+                                        <img src="~/assets/img/icon/icon-09.svg" alt="Img" class="img-fluid">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-1 col-3">
+                            <div class="total-course d-flex align-items-center">
+                                <div class="blur-border">
+                                    <div class="enroll-img ">
+                                        <img src="~/assets/img/icon/icon-10.svg" alt="Img" class="img-fluid">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-1 col-3">
+                            <div class="total-course d-flex align-items-center">
+                                <div class="blur-border">
+                                    <div class="enroll-img ">
+                                        <img src="~/assets/img/icon/icon-16.svg" alt="Img" class="img-fluid">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-1 col-3">
+                            <div class="total-course d-flex align-items-center">
+                                <div class="blur-border">
+                                    <div class="enroll-img ">
+                                        <img src="~/assets/img/icon/icon-12.svg" alt="Img" class="img-fluid">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-1 col-3">
+                            <div class="total-course d-flex align-items-center">
+                                <div class="blur-border">
+                                    <div class="enroll-img ">
+                                        <img src="~/assets/img/icon/icon-13.svg" alt="Img" class="img-fluid">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-1 col-3">
+                            <div class="total-course d-flex align-items-center">
+                                <div class="blur-border">
+                                    <div class="enroll-img ">
+                                        <img src="~/assets/img/icon/icon-14.svg" alt="Img" class="img-fluid">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-1 col-3">
+                            <div class="total-course d-flex align-items-center">
+                                <div class="blur-border">
+                                    <div class="enroll-img ">
+                                        <img src="~/assets/img/icon/icon-15.svg" alt="Img" class="img-fluid">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-1 col-3">
+                            <div class="total-course d-flex align-items-center">
+                                <div class="blur-border">
+                                    <div class="enroll-img ">
+                                        <img src="~/assets/img/icon/icon-16.svg" alt="Img" class="img-fluid">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-1 col-3">
+                            <div class="total-course d-flex align-items-center">
+                                <div class="blur-border">
+                                    <div class="enroll-img ">
+                                        <img src="~/assets/img/icon/icon-17.svg" alt="Img" class="img-fluid">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-1 col-3">
+                            <div class="total-course d-flex align-items-center">
+                                <div class="blur-border">
+                                    <div class="enroll-img ">
+                                        <img src="~/assets/img/icon/icon-18.svg" alt="Img" class="img-fluid">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </section>
@@ -461,7 +772,7 @@
                             <div class="trending-courses-group">
                                 <div class="trending-courses-two">
                                     <div class="product-img course-column-img">
-                                        <a href="instructor-profile.html">
+                                        <a href="">
                                             <img class="img-fluid" alt="Img" src="@newCourse.Image" style="max-height:176px;">
                                         </a>
                                         <div class="trending-price">
@@ -469,16 +780,9 @@
                                         </div>
                                     </div>
                                     <div class="course-content-column">
-                                        <div class="trending-two-rating align-items-center">
-                                            <i class="fas fa-star filled"></i>
-                                            <i class="fas fa-star filled"></i>
-                                            <i class="fas fa-star filled"></i>
-                                            <i class="fas fa-star filled"></i>
-                                            <i class="fas fa-star filled"></i>
-                                        </div>
                                         <div class="name-text featured-info-two">
                                             <h3 class="title instructor-text">
-                                                <a href="course-details.html">
+                                                <a href="/home/detail?id=@newCourse.CourseID">
                                                     @newCourse.Title
                                                 </a>
                                             </h3>
@@ -539,409 +843,6 @@
     </div>
 </section>
 
-
-<section class="real-reviews-sec">
-    <div class="container">
-        <div class="header-two-title text-center" data-aos="fade-up">
-            <p class="tagline">Check out these real reviews</p>
-            <h2>Users-love-us Don't take it from us</h2>
-            <div class="header-two-text text-center m-auto">
-                <p class="mb-0">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Eget aenean accumsan
-                    bibendum gravida maecenas augue elementum et neque. Suspendisse imperdiet.
-                </p>
-            </div>
-        </div>
-        <div class="real-reviews-group">
-            <div class="row align-items-center">
-                <div class="col-lg-6 col-md-12 col-sm-12" data-aos="fade-up">
-                    <div class="reviews-img">
-                        <img src="~/assets/img/reviews-img-two.png" alt="Img" class="img-fluid">
-                    </div>
-                </div>
-                <div class="col-lg-6 col-md-12 col-md-12" data-aos="fade-up">
-                    <div class="owl-carousel real-reviews owl-theme">
-                        <div class="item">
-                            <div class="real-reviews-grid">
-                                <div class="review-content">
-                                    <h3>Helps us to improve our productivity</h3>
-                                    <p>
-                                        High-definition video is video of higher resolution and quality than
-                                        standard-definition. While there is no standardized meaning for
-                                        high-definition, generally any video.High-definition video is video of
-                                        higher resolution and quality than standard-definition. While there is
-                                        no standardized meaning for high-definition, generally any
-                                        video.High-definition video is video of higher resolution and quality
-                                        than standard-definition. While there is no standardized meaning for
-                                        high-definition, generally any video.High-definition video is video of
-                                        higher resolution and quality than standard-definition. While there is
-                                        no standardized meaning for high-definition, generally any video.
-                                    </p>
-                                </div>
-                                <div class="review-top">
-                                    <div class="review-info">
-                                        <h3 data-aos="fade-up">William George</h3>
-                                        <h5 data-aos="fade-up">CEO & Chairman</h5>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="item">
-                            <div class="real-reviews-grid">
-                                <div class="review-content">
-                                    <h3>Helps us to improve our productivity</h3>
-                                    <p>
-                                        High-definition video is video of higher resolution and quality than
-                                        standard-definition. While there is no standardized meaning for
-                                        high-definition, generally any video.High-definition video is video of
-                                        higher resolution and quality than standard-definition. While there is
-                                        no standardized meaning for high-definition, generally any
-                                        video.High-definition video is video of higher resolution and quality
-                                        than standard-definition. While there is no standardized meaning for
-                                        high-definition, generally any video.High-definition video is video of
-                                        higher resolution and quality than standard-definition. While there is
-                                        no standardized meaning for high-definition, generally any video.
-                                    </p>
-                                </div>
-                                <div class="review-top">
-                                    <div class="review-info">
-                                        <h3 data-aos="fade-up">Julian Adrose</h3>
-                                        <h5 data-aos="fade-up">Manager</h5>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="item">
-                            <div class="real-reviews-grid">
-                                <div class="review-content">
-                                    <h3>Helps us to improve our productivity</h3>
-                                    <p>
-                                        High-definition video is video of higher resolution and quality than
-                                        standard-definition. While there is no standardized meaning for
-                                        high-definition, generally any video.High-definition video is video of
-                                        higher resolution and quality than standard-definition. While there is
-                                        no standardized meaning for high-definition, generally any
-                                        video.High-definition video is video of higher resolution and quality
-                                        than standard-definition. While there is no standardized meaning for
-                                        high-definition, generally any video.High-definition video is video of
-                                        higher resolution and quality than standard-definition. While there is
-                                        no standardized meaning for high-definition, generally any video.
-                                    </p>
-                                </div>
-                                <div class="review-top">
-                                    <div class="review-info">
-                                        <h3>Gallegos</h3>
-                                        <h5>CEO & MD</h5>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="item">
-                            <div class="real-reviews-grid">
-                                <div class="review-content">
-                                    <h3>Helps us to improve our productivity</h3>
-                                    <p>
-                                        High-definition video is video of higher resolution and quality than
-                                        standard-definition. While there is no standardized meaning for
-                                        high-definition, generally any video.High-definition video is video of
-                                        higher resolution and quality than standard-definition. While there is
-                                        no standardized meaning for high-definition, generally any
-                                        video.High-definition video is video of higher resolution and quality
-                                        than standard-definition. While there is no standardized meaning for
-                                        high-definition, generally any video.High-definition video is video of
-                                        higher resolution and quality than standard-definition. While there is
-                                        no standardized meaning for high-definition, generally any video.
-                                    </p>
-                                </div>
-                                <div class="review-top">
-                                    <div class="review-info">
-                                        <h3>William George</h3>
-                                        <h5>CEO & Chairman</h5>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-12 d-flex justify-content-between align-items-center">
-                            <div class="owl-nav slide-nav-8 nav-control"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="client-two-carousel">
-            <div class="lead-group-slider owl-carousel owl-theme">
-                <div class="item">
-                    <div class="lead-img">
-                        <img class="img-fluid" alt="Img" src="~/assets/img/lead-01.png">
-                    </div>
-                </div>
-                <div class="item">
-                    <div class="lead-img">
-                        <img class="img-fluid" alt="Img" src="~/assets/img/lead-02.png">
-                    </div>
-                </div>
-                <div class="item">
-                    <div class="lead-img">
-                        <img class="img-fluid" alt="Img" src="~/assets/img/lead-03.png">
-                    </div>
-                </div>
-                <div class="item">
-                    <div class="lead-img">
-                        <img class="img-fluid" alt="Img" src="~/assets/img/lead-04.png">
-                    </div>
-                </div>
-                <div class="item">
-                    <div class="lead-img">
-                        <img class="img-fluid" alt="Img" src="~/assets/img/lead-05.png">
-                    </div>
-                </div>
-                <div class="item">
-                    <div class="lead-img">
-                        <img class="img-fluid" alt="Img" src="~/assets/img/lead-06.png">
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-
-@*
-<div class="feature-instructors-sec">
-    <div class="container">
-        <div class="header-two-title text-center" data-aos="fade-up">
-            <p class="tagline">New Courses</p>
-            <h2>Featured Instructor</h2>
-            <div class="header-two-text aos" data-aos="fade-up">
-                <p class="mb-0">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Eget aenean accumsan
-                    bibendum gravida maecenas augue elementum et neque. Suspendisse imperdiet.
-                </p>
-            </div>
-        </div>
-
-        <div class="featured-instructor-two">
-            <div class="row">
-                <div class="col-xl-3 col-lg-6 col-md-6 col-sm-12" data-aos="fade-up">
-                    <div class="instructors-widget">
-                        <div class="instructors-img">
-                            <a href="instructor-list.html">
-                                <img class="img-fluid" alt="Img" src="~/assets/img/instructor/instructor-01.jpg">
-                            </a>
-                            <div class="featured-border">
-                                <div class="featured-img ">
-                                    <img src="~/assets/img/category/category-1.svg" alt="Img" class="img-fluid">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="course-details-two">
-                            <div class="instructors-content text-center">
-                                <h5><a href="instructor-profile.html">Julian Adrose</a></h5>
-                                <p>Angular Expert</p>
-                            </div>
-                            <div class="course-info"></div>
-                            <div class="student-count d-flex justify-content-center">
-                                <i class="fa-solid fa-user-group"></i>
-                                <span>50 Students</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-xl-3 col-lg-6 col-md-6 col-sm-12" data-aos="fade-up">
-                    <div class="instructors-widget">
-                        <div class="instructors-img">
-                            <a href="instructor-list.html">
-                                <img class="img-fluid" alt="Img" src="~/assets/img/instructor/instructor-02.jpg">
-                            </a>
-                            <div class="featured-border">
-                                <div class="featured-img ">
-                                    <img src="~/assets/img/category/category-2.svg" alt="Img" class="img-fluid">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="course-details-two">
-                            <div class="instructors-content text-center">
-                                <h5><a href="instructor-profile.html">Gallegos</a></h5>
-                                <p>Docker</p>
-                            </div>
-                            <div class="course-info"></div>
-                            <div class="student-count d-flex justify-content-center">
-                                <i class="fa-solid fa-user-group"></i>
-                                <span>70 Students</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-xl-3 col-lg-6 col-md-6 col-sm-12" data-aos="fade-up">
-                    <div class="instructors-widget">
-                        <div class="instructors-img">
-                            <a href="instructor-list.html">
-                                <img class="img-fluid" alt="Img" src="~/assets/img/instructor/instructor-03.jpg">
-                            </a>
-                            <div class="featured-border">
-                                <div class="featured-img ">
-                                    <img src="~/assets/img/category/category-3.svg" alt="Img" class="img-fluid">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="course-details-two">
-                            <div class="instructors-content text-center">
-                                <h5><a href="instructor-profile.html">Kristi</a></h5>
-                                <p>Node Js</p>
-                            </div>
-                            <div class="course-info"></div>
-                            <div class="student-count d-flex justify-content-center">
-                                <i class="fa-solid fa-user-group"></i>
-                                <span>60 Students</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-xl-3 col-lg-6 col-md-6 col-sm-12" data-aos="fade-up">
-                    <div class="instructors-widget">
-                        <div class="instructors-img">
-                            <a href="instructor-list.html">
-                                <img class="img-fluid" alt="Img" src="~/assets/img/instructor/instructor-04.jpg">
-                            </a>
-                            <div class="featured-border">
-                                <div class="featured-img ">
-                                    <img src="~/assets/img/category/category-4.svg" alt="Img" class="img-fluid">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="course-details-two">
-                            <div class="instructors-content text-center">
-                                <h5><a href="instructor-profile.html">Pinero</a></h5>
-                                <p>Python</p>
-                            </div>
-                            <div class="course-info"></div>
-                            <div class="student-count d-flex justify-content-center">
-                                <i class="fa-solid fa-user-group"></i>
-                                <span>80 Students</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-
-        <div class="col-lg-12">
-            <div class="more-details text-center" data-aos="fade-up">
-                <a href="instructor-list.html" class="discover-btn discover-btn">View all Instructors <i class="fas fa-arrow-right ms-2"></i></a>
-            </div>
-        </div>
-
-    </div>
-</div>
-
-
-<section class="latest-blog-sec">
-    <div class="container">
-        <div class="header-two-title text-center" data-aos="fade-up">
-            <p class="tagline">Tin tức & Sự kiện</p>
-            <h2>Những tin tin mới</h2>
-            <div class="header-two-text text-center aos" data-aos="fade-up">
-                <p>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Eget aenean accumsan bibendum
-                    gravida maecenas augue elementum et neque. Suspendisse imperdiet.
-                </p>
-            </div>
-        </div>
-        <div class="award-winning-two">
-            <div class="row justify-content-center">
-                <div class="col-xl-4 col-lg-6 col-md-6" data-aos="fade-down">
-                    <div class="event-blog-main">
-                        <div class="latest-blog-img">
-                            <a href="blog-list.html">
-                                <img class="img-fluid" alt="Img" src="~/assets/img/blog/blog-01.jpg">
-                            </a>
-                        </div>
-                        <div class="latest-blog-content">
-                            <div class="event-content-title">
-                                <div class="event-span">
-                                    <span class="span-name">Marketing</span>
-                                </div>
-                                <h5>
-                                    <a href="blog-list.html">
-                                        Lorem ipsum dolor sit amet, consectetur adipiscing
-                                        elit.
-                                    </a>
-                                </h5>
-                                <div class="blog-student-count">
-                                    <i class="fa-solid fa-calendar-days"></i>
-                                    <span>Jun 15, 2024</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-xl-4 col-lg-6 col-md-6" data-aos="fade-down">
-                    <div class="event-blog-main">
-                        <div class="latest-blog-img">
-                            <a href="blog-list.html">
-                                <img class="img-fluid" alt="Img" src="~/assets/img/blog/blog-02.jpg">
-                            </a>
-                        </div>
-                        <div class="latest-blog-content">
-                            <div class="event-content-title">
-                                <div class="event-span">
-                                    <span class="span-name">Sales</span>
-                                </div>
-                                <h5>
-                                    <a href="blog-list.html">
-                                        Lorem ipsum dolor sit amet, consectetur adipiscing
-                                        elit.
-                                    </a>
-                                </h5>
-                                <div class="blog-student-count">
-                                    <i class="fa-solid fa-calendar-days"></i>
-                                    <span>Jun 15, 2024</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-xl-4 col-lg-6 col-md-6" data-aos="fade-down">
-                    <div class="event-blog-main">
-                        <div class="latest-blog-img">
-                            <a href="blog-list.html">
-                                <img class="img-fluid" alt="Img" src="~/assets/img/blog/blog-03.jpg">
-                            </a>
-                        </div>
-                        <div class="latest-blog-content">
-                            <div class="event-content-title">
-                                <div class="event-span">
-                                    <span class="span-name">Marketing</span>
-                                </div>
-                                <h5>
-                                    <a href="blog-list.html">
-                                        Lorem ipsum dolor sit amet, consectetur adipiscing
-                                        elit.
-                                    </a>
-                                </h5>
-                                <div class="blog-student-count">
-                                    <i class="fa-solid fa-calendar-days"></i>
-                                    <span>Jun 15, 2024</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-lg-12">
-            <div class="more-details text-center" data-aos="fade-down">
-                <a href="blog-grid.html" class="discover-btn">View all Events<i class="fas fa-arrow-right ms-2"></i></a>
-            </div>
-        </div>
-
-    </div>
-</section>
-
-*@
 @if (!string.IsNullOrEmpty(ViewData["PaymentMessage"] as string))
 {
     <script>
@@ -954,3 +855,39 @@
         });
     </script>
 }
+
+<script>
+    function addToCart(courseId) {
+        $.ajax({
+            url: '/Cart/AddToCart',
+            type: 'POST',
+            data: {
+                courseId: courseId
+            },
+            success: function (response) {
+                if (response.success) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Thành công',
+                        text: response.message,
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Lỗi',
+                        text: response.message
+                    });
+                }
+            },
+            error: function () {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Lỗi',
+                    text: 'Đã xảy ra lỗi. Vui lòng thử lại sau.'
+                });
+            }
+        });
+    }
+</script>

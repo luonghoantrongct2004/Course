@@ -5,6 +5,10 @@
       "PackagePath": "staticwebassets\\EduCourse.bundle.scp.css"
     },
     {
+      "Id": "C:\\Users\\PREDATOR\\OneDrive\\Tài liệu\\EduCourse\\EduCourse\\wwwroot\\Lotus-icon.png",
+      "PackagePath": "staticwebassets\\Lotus-icon.png"
+    },
+    {
       "Id": "C:\\Users\\PREDATOR\\OneDrive\\Tài liệu\\EduCourse\\EduCourse\\wwwroot\\Lotus.png",
       "PackagePath": "staticwebassets\\Lotus.png"
     },
@@ -5395,6 +5399,18 @@
     {
       "Id": "C:\\Users\\PREDATOR\\OneDrive\\Tài liệu\\EduCourse\\EduCourse\\wwwroot\\assets\\plugins\\theia-sticky-sidebar\\theia-sticky-sidebar.js",
       "PackagePath": "staticwebassets\\assets\\plugins\\theia-sticky-sidebar\\theia-sticky-sidebar.js"
+    },
+    {
+      "Id": "C:\\Users\\PREDATOR\\OneDrive\\Tài liệu\\EduCourse\\EduCourse\\wwwroot\\categories\\56788c82-98fb-47e1-b1e0-f505b2657a95.png",
+      "PackagePath": "staticwebassets\\categories\\56788c82-98fb-47e1-b1e0-f505b2657a95.png"
+    },
+    {
+      "Id": "C:\\Users\\PREDATOR\\OneDrive\\Tài liệu\\EduCourse\\EduCourse\\wwwroot\\categories\\99958436-49f8-4b70-9a2e-c76d2d1e8d4e.png",
+      "PackagePath": "staticwebassets\\categories\\99958436-49f8-4b70-9a2e-c76d2d1e8d4e.png"
+    },
+    {
+      "Id": "C:\\Users\\PREDATOR\\OneDrive\\Tài liệu\\EduCourse\\EduCourse\\wwwroot\\categories\\f300b5ad-95f6-4f9e-89eb-ae175968a708.png",
+      "PackagePath": "staticwebassets\\categories\\f300b5ad-95f6-4f9e-89eb-ae175968a708.png"
     },
     {
       "Id": "C:\\Users\\PREDATOR\\OneDrive\\Tài liệu\\EduCourse\\EduCourse\\wwwroot\\cdn-cgi\\scripts\\5c5dd728\\cloudflare-static\\email-decode.min.js",

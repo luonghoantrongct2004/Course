@@ -401,12 +401,14 @@
             <div class="flex flex-col items-center justify-between gap-5 px-5 mt-6 md:flex-row">
                 <div>
                     <p class="text-sm font-medium text-slate-600">
-                        Hiện @(((ViewData["CurrentPage"] as int?) ?? 1 - 1) * ((ViewData["PageSize"] as int?) ?? 10) + 1) đến
-                        @Math.Min(((ViewData["CurrentPage"] as int?) ?? 1) * ((ViewData["PageSize"] as int?) ?? 10), (ViewData["TotalCourses"] as int?) ?? 0)
-                        của @ViewData["TotalCourses"] kết quả
+                        Hiện
+                        @(((((ViewData["CurrentPage"] as int?) ?? 1) - 1) * ((ViewData["PageSize"] as int?) ?? 1)) + 1)
+                        đến
+                        @Math.Min((((ViewData["CurrentPage"] as int?) ?? 1) * ((ViewData["PageSize"] as int?) ?? 10)), (ViewData["TotalStudents"] as int?) ?? 0)
+                        của @ViewData["TotalStudents"] kết quả
                     </p>
-
                 </div>
+
                 <nav>
                     <ul class="flex flex-wrap items-center gap-2">
                         <li>

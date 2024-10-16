@@ -3847,7 +3847,9 @@ select{
   .xl\:col-span-8{
     grid-column: span 8 / span 8;
   }
-
+    .xl\:col-span-12 {
+        grid-column: span 14;
+    }
   .xl\:block{
     display: block;
   }

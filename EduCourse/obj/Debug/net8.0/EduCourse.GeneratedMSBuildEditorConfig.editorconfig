@@ -30,8 +30,8 @@ build_property._RazorSourceGeneratorDebug =
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcQ2F0ZWdvcnlcQ3JlYXRlLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/PREDATOR/OneDrive/Tài liệu/EduCourse/EduCourse/Areas/Admin/Views/Category/Detai.cshtml]
-build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcQ2F0ZWdvcnlcRGV0YWkuY3NodG1s
+[C:/Users/PREDATOR/OneDrive/Tài liệu/EduCourse/EduCourse/Areas/Admin/Views/Category/Detail.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcQ2F0ZWdvcnlcRGV0YWlsLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/PREDATOR/OneDrive/Tài liệu/EduCourse/EduCourse/Areas/Admin/Views/Category/Edit.cshtml]
@@ -96,6 +96,10 @@ build_metadata.AdditionalFiles.CssScope =
 
 [C:/Users/PREDATOR/OneDrive/Tài liệu/EduCourse/EduCourse/Areas/Admin/Views/Instructure/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcSW5zdHJ1Y3R1cmVcSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/PREDATOR/OneDrive/Tài liệu/EduCourse/EduCourse/Areas/Admin/Views/Libary/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcTGliYXJ5XEluZGV4LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/PREDATOR/OneDrive/Tài liệu/EduCourse/EduCourse/Areas/Admin/Views/Order/Details.cshtml]

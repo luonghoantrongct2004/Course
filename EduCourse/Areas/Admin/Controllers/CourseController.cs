@@ -26,17 +26,41 @@ public class CourseController : Controller
     }
     public async Task<IActionResult> Index(int page = 1, int pageSize = 10)
     {
-        var totalCourses = await _context.Courses.CountAsync();
+        var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
 
-        var courses = await _context.Courses
+        List<Course> courses;
+
+        if (User.IsInRole("Instructure"))
+        {
+            courses = await _context.Courses
+             .Include(p => p.Author)
+             .Include(c => c.Category)
+             .Include(c => c.Chapters)
+                 .ThenInclude(l => l.Lessons)
+              .Where(a => a.AuthorID == userId)
+             .OrderBy(c => c.CreatedDate)
+             .Skip((page - 1) * pageSize)
+             .Take(pageSize)
+             .ToListAsync();
+        }
+        else if (User.IsInRole("Admin"))
+        {
+            courses = await _context.Courses
             .Include(p => p.Author)
             .Include(c => c.Category)
             .Include(c => c.Chapters)
                 .ThenInclude(l => l.Lessons)
-            .OrderBy(c => c.CreatedDate)
+            .OrderByDescending(c => c.CreatedDate)
             .Skip((page - 1) * pageSize)
             .Take(pageSize)
             .ToListAsync();
+        }
+        else
+        {
+            return Redirect("/home/error404");
+        }
+        var totalCourses = await _context.Courses.CountAsync();
+
 
         // Set ViewData for pagination
         ViewData["TotalCourses"] = totalCourses;

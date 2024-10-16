@@ -13,6 +13,7 @@
   <ItemGroup>
     <Folder Include="Areas\Admin\Data\" />
     <Folder Include="wwwroot\libaries\" />
+    <Folder Include="wwwroot\categories\" />
     <Folder Include="wwwroot\uploads\" />
     <Folder Include="wwwroot\videos\" />
   </ItemGroup>

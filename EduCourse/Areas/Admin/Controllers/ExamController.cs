@@ -244,6 +244,9 @@ public class ExamController : Controller
         // Get total count of exams for pagination
         var totalExamsCount = query.Count();
 
+        ViewData["TotalExams"] = totalExamsCount;
+        ViewData["CurrentPage"] = page;
+        ViewData["PageSize"] = pageSize;
         // Execute pagination
         var studentExams = query.Skip((page - 1) * pageSize)
                                 .Take(pageSize)
@@ -260,7 +263,6 @@ public class ExamController : Controller
             PageSize = pageSize,
             TotalPages = totalPages
         };
-
         // Return the view with the data
         return View(viewModel);
 

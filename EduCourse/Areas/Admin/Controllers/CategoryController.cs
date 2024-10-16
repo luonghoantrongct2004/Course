@@ -51,12 +51,36 @@ public class CategoryController : Controller
 
     // POST: Admin/Category/Create
     [HttpPost]
-    public async Task<IActionResult> Create([Bind("CategoryID, Name, Description")] Category category)
+    public async Task<IActionResult> Create([Bind("CategoryID, Name, Description")] Category category, IFormFile Image)
     {
         if (ModelState.IsValid)
         {
             try
             {
+                if (Image != null && Image.Length > 0)
+                {
+                    // Lấy đường dẫn thư mục để lưu ảnh
+                    var uploadPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/categories");
+
+                    // Đảm bảo thư mục tồn tại
+                    if (!Directory.Exists(uploadPath))
+                    {
+                        Directory.CreateDirectory(uploadPath);
+                    }
+
+                    // Đặt tên file là duy nhất
+                    var fileName = Guid.NewGuid().ToString() + Path.GetExtension(Image.FileName);
+                    var filePath = Path.Combine(uploadPath, fileName);
+
+                    // Lưu file lên thư mục
+                    using (var fileStream = new FileStream(filePath, FileMode.Create))
+                    {
+                        await Image.CopyToAsync(fileStream);
+                    }
+
+                    // Lưu đường dẫn ảnh vào model
+                    category.Image = "/categories/" + fileName;
+                }
                 _context.Add(category);
                 await _context.SaveChangesAsync();
                 return Json(new { success = true, message = "Danh mục đã được tạo thành công!" });
@@ -91,7 +115,7 @@ public class CategoryController : Controller
 
     // POST: Admin/Category/Edit/5
     [HttpPost]
-    public async Task<IActionResult> Edit(int id, [Bind("CategoryID, Name, Description")] Category category)
+    public async Task<IActionResult> Edit(int id, [Bind("CategoryID, Name, Description")] Category category, IFormFile? file)
     {
         if (id != category.CategoryID)
         {
@@ -102,6 +126,32 @@ public class CategoryController : Controller
         {
             try
             {
+                if (file != null && file.Length > 0)
+                {
+                    // Lấy đường dẫn thư mục để lưu ảnh
+                    var uploadPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/categories");
+                    var fileName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
+                    var filePath = Path.Combine(uploadPath, fileName);
+
+                    // Lưu file mới
+                    using (var fileStream = new FileStream(filePath, FileMode.Create))
+                    {
+                        await file.CopyToAsync(fileStream);
+                    }
+
+                    // Xóa ảnh cũ nếu có
+                    if (!string.IsNullOrEmpty(category.Image))
+                    {
+                        var oldFilePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", category.Image.TrimStart('/'));
+                        if (System.IO.File.Exists(oldFilePath))
+                        {
+                            System.IO.File.Delete(oldFilePath);
+                        }
+                    }
+
+                    // Cập nhật đường dẫn ảnh mới
+                    category.Image = "/categories/" + fileName;
+                }
                 _context.Update(category);
                 await _context.SaveChangesAsync();
             }
@@ -125,6 +175,15 @@ public class CategoryController : Controller
     public async Task<IActionResult> DeleteConfirmed(int id)
     {
         var category = await _context.Categories.FindAsync(id);
+        if (!string.IsNullOrEmpty(category.Image))
+        {
+            var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", category.Image.TrimStart('/'));
+            if (System.IO.File.Exists(filePath))
+            {
+                System.IO.File.Delete(filePath);
+            }
+        }
+
         _context.Categories.Remove(category);
         await _context.SaveChangesAsync();
         return Json(new { success = true, message = "Danh mục đã được tạo thành công!" });

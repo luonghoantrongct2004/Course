@@ -1,6 +1,7 @@
 ﻿using EduCourse.Areas.Admin.Models;
 using EduCourse.Data;
 using EduCourse.Entities;
+using EduCourse.Helpers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -65,6 +66,13 @@ public class InstructureController : Controller
     {
         if (ModelState.IsValid)
         {
+            var existingUser = await _userManager.FindByEmailAsync(model.Email);
+            if (existingUser != null)
+            {
+                var error = $"Email {model.Email} đã được sử dụng!";
+                return Json(new { success = false, message = error });
+            }
+
             var user = new User
             {
                 UserName = model.Email,

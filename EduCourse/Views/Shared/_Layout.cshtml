@@ -16,7 +16,7 @@
     <!-- Stripe.js -->
     <script src="https://js.stripe.com/v3/"></script>
 
-    <link rel="shortcut icon" type="image/x-icon" href="~/assets/img/favicon.svg" asp-append-version="true">
+    <link rel="shortcut icon" type="image/x-icon" href="~/Lotus-icon.png" asp-append-version="true">
 
     <script src="~/assets/js/theme-script.js" type="c3c670991341dec57f2846ac-text/javascript"></script>
 
@@ -40,7 +40,7 @@
 
     <link rel="stylesheet" href="~/assets/plugins/aos/aos.css"/>
 
-    <link rel="stylesheet" href="~/assets/css/style.css"/>
+    <link rel="stylesheet" href="~/assets/css/style.css" asp-append-version="true"/>
     <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
 
@@ -189,9 +189,15 @@
                                             </div>
                                         </div>
 
-                                        @if (User.IsInRole("Instructure") || User.IsInRole("Admin"))
+                                        @if (User.IsInRole("Admin"))
                                         {
                                             <a class="dropdown-item" href="/admin">
+                                                <i class="feather-shield me-1"></i> Trang quản trị
+                                            </a>
+                                        }
+                                        else if (User.IsInRole("Instructure"))
+                                        {
+                                            <a class="dropdown-item" href="/admin/course">
                                                 <i class="feather-shield me-1"></i> Trang quản trị
                                             </a>
                                         }

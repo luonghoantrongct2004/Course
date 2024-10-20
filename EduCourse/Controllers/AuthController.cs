@@ -1,4 +1,5 @@
 ﻿using EduCourse.Entities;
+using EduCourse.Helpers;
 using EduCourse.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -26,7 +27,6 @@ namespace EduCourse.Controllers
             return View();
         }
 
-        // POST: /Auth/Login
         [HttpPost]
         public async Task<IActionResult> Login(LoginViewModel model)
         {
@@ -53,13 +53,18 @@ namespace EduCourse.Controllers
                         }
                     }
 
-                    return RedirectToAction("Index", "Home");
+                    // Success response to be handled by SweetAlert2
+                    return Json(new { success = true, redirectUrl = Url.Action("Index", "Home") });
                 }
-
-                ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+                else
+                {
+                    // Error response for invalid login
+                    return Json(new { success = false, message = "Thông tin nhập không chính xác!" });
+                }
             }
 
-            return View(model);
+            // If model validation fails
+            return Json(new { success = false, message = "Vui lòng nhập đầy đủ thông tin" });
         }
 
         // GET: /Auth/Register
@@ -68,12 +73,18 @@ namespace EduCourse.Controllers
             return View();
         }
 
-        // POST: /Auth/Register
         [HttpPost]
         public async Task<IActionResult> Register(User model, string password, bool rememberMe = true)
         {
             if (ModelState.IsValid)
             {
+                var existingUser = await _userManager.FindByEmailAsync(model.Email);
+                if (existingUser != null)
+                {
+                    var error = $"Email {model.Email} đã được sử dụng!";
+                    return Json(new { success = false, message = error });
+                }
+
                 var user = new User
                 {
                     UserName = model.Email,
@@ -93,37 +104,39 @@ namespace EduCourse.Controllers
 
                     await _userManager.AddToRoleAsync(user, "Student");
                     var claims = new List<Claim>
-                    {
-                        new Claim(ClaimTypes.Name, user.FullName),
-                        new Claim(ClaimTypes.NameIdentifier, user.Id.ToString())
-                    };
+            {
+                new Claim(ClaimTypes.Name, user.FullName),
+                new Claim(ClaimTypes.NameIdentifier, user.Id.ToString())
+            };
 
                     var claimResult = await _userManager.AddClaimsAsync(user, claims);
 
                     if (claimResult.Succeeded)
                     {
                         await _signInManager.SignInAsync(user, isPersistent: rememberMe);
-                        return RedirectToAction("Index", "Home");
+
+                        // Success response for SweetAlert2
+                        return Json(new { success = true, redirectUrl = Url.Action("Index", "Home") });
                     }
                     else
                     {
-                        foreach (var error in claimResult.Errors)
-                        {
-                            ModelState.AddModelError(string.Empty, error.Description);
-                        }
+                        // Error in adding claims
+                        var errors = claimResult.Errors.Select(e => ErrorTranslator.Translate(e.Description)).First();
+                        return Json(new { success = false, errors });
                     }
                 }
                 else
                 {
-                    foreach (var error in result.Errors)
-                    {
-                        ModelState.AddModelError(string.Empty, error.Description);
-                    }
+                    // Error in creating user
+                    var errors = result.Errors.Select(e => ErrorTranslator.Translate(e.Description)).First();
+                    return Json(new { success = false, errors });
                 }
             }
 
-            return View(model);
+            // Model validation error
+            return Json(new { success = false, message = "Vui lòng nhập đầy đủ thông tin" });
         }
+
 
         public IActionResult RegisterTutor()
         {
@@ -134,6 +147,13 @@ namespace EduCourse.Controllers
         {
             if (ModelState.IsValid)
             {
+                var existingUser = await _userManager.FindByEmailAsync(model.Email);
+                if (existingUser != null)
+                {
+                    var error = $"Email {model.Email} đã được sử dụng!";
+                    return Json(new { success = false, message = error });
+                }
+
                 var user = new User
                 {
                     UserName = model.Email,
@@ -153,38 +173,36 @@ namespace EduCourse.Controllers
 
                     await _userManager.AddToRoleAsync(user, "Instructure");
                     var claims = new List<Claim>
-                    {
-                        new Claim(ClaimTypes.Name, user.FullName),
-                        new Claim(ClaimTypes.NameIdentifier, user.Id.ToString())
-                    };
+            {
+                new Claim(ClaimTypes.Name, user.FullName),
+                new Claim(ClaimTypes.NameIdentifier, user.Id.ToString())
+            };
 
                     var claimResult = await _userManager.AddClaimsAsync(user, claims);
 
                     if (claimResult.Succeeded)
                     {
                         await _signInManager.SignInAsync(user, isPersistent: rememberMe);
-                        return RedirectToAction("Index", "Home");
+
+                        // Return success response
+                        return Json(new { success = true, redirectUrl = Url.Action("Index", "Home") });
                     }
                     else
                     {
-                        foreach (var error in claimResult.Errors)
-                        {
-                            ModelState.AddModelError(string.Empty, error.Description);
-                        }
+                        var errors = claimResult.Errors.Select(e => ErrorTranslator.Translate(e.Description)).First();
+                        return Json(new { success = false, errors });
                     }
                 }
                 else
                 {
-                    foreach (var error in result.Errors)
-                    {
-                        ModelState.AddModelError(string.Empty, error.Description);
-                    }
+                    var errors = result.Errors.Select(e => e.Description).ToList();
+                    return Json(new { success = false, errors });
                 }
             }
 
-            return View(model);
+            // Model validation errors
+            return Json(new { success = false, message = "Vui lòng nhập đầy đủ thông tin" });
         }
-
 
         // POST: /Auth/Logout
         [HttpPost]

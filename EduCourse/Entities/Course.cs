@@ -20,7 +20,7 @@ public class Course
     [Required(ErrorMessage = "Thể loại là bắt buộc.")]
     public int CategoryID { get; set; }
     public User? Author { get; set; }
-    public bool Status { get; set; } = true;
+    public bool Status { get; set; } = false;
     public int? LibraryID { get; set; }
 
     public ICollection<Chapter> Chapters { get; set; } = new List<Chapter>();

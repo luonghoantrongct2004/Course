@@ -26,6 +26,8 @@
     <link rel="stylesheet" href="~/assets/plugins/feather/feather.css">
 
     <link rel="stylesheet" href="~/assets/css/style.css" asp-append-version="true">
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body>
 
@@ -76,7 +78,7 @@
                             </div>
                         </div>
                         <h1>Đăng ký giáo viên</h1>
-                        <form action="/Auth/RegisterTutor" method="post">
+                        <form id="registerTutorForm" action="/Auth/RegisterTutor" method="post">
                             <div class="input-block">
                                 <label class="form-control-label">Họ và tên</label>
                                 <input type="text" class="form-control" placeholder="Nhập họ và tên của bạn" asp-for="FullName" required>
@@ -109,6 +111,61 @@
                                 <button class="btn btn-primary btn-start" type="submit">Tạo tài khoản</button>
                             </div>
                         </form>
+
+                        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+                        <script>
+                            $(document).ready(function () {
+                                $('#registerTutorForm').on('submit', function (e) {
+                                    e.preventDefault(); // Prevent default form submission
+
+                                    var form = $(this);
+                                    var formData = form.serialize(); // Serialize form data
+
+                                    $.ajax({
+                                        url: form.attr('action'),
+                                        type: 'POST',
+                                        data: formData,
+                                        success: function (response) {
+                                            if (response.success) {
+                                                // Success message using SweetAlert2
+                                                Swal.fire({
+                                                    icon: 'success',
+                                                    title: 'Đăng ký thành công!',
+                                                    text: 'Bạn sẽ được chuyển hướng đến trang chủ trong giây lát.',
+                                                    timer: 1500,
+                                                    showConfirmButton: false
+                                                }).then(() => {
+                                                    window.location.href = response.redirectUrl;
+                                                });
+                                            } else {
+                                                // Display error messages using SweetAlert2
+                                                let errorMessage = '';
+                                                if (response.errors) {
+                                                    response.errors.forEach(function (error) {
+                                                        errorMessage += `<p>${error}</p>`;
+                                                    });
+                                                } else {
+                                                    errorMessage = response.message;
+                                                }
+
+                                                Swal.fire({
+                                                    icon: 'error',
+                                                    title: 'Lỗi!',
+                                                    html: errorMessage,
+                                                });
+                                            }
+                                        },
+                                        error: function () {
+                                            Swal.fire({
+                                                icon: 'error',
+                                                title: 'Lỗi!',
+                                                text: 'Đã xảy ra lỗi, vui lòng thử lại sau.',
+                                            });
+                                        }
+                                    });
+                                });
+                            });
+                        </script>
 
                     </div>
                 </div>

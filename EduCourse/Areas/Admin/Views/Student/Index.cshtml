@@ -295,7 +295,7 @@
                                                     </defs>
                                                 </svg>
                                             </a>
-                                            <button type="button" onclick="delete(@item.Id)"
+                                            <button type="button" onclick="deleteStudent('@item.Id')"
                                                     class="inline-flex items-center justify-center w-8 h-8 text-white bg-red-500 rounded">
                                                 <svg width="20"
                                                      height="21"
@@ -317,86 +317,6 @@
                     </table>
                 </div>
             </div>
-
-            <script>
-                function delete(questionID) {
-                    Swal.fire({
-                        title: 'Bạn có chắc chắn muốn xóa học sinh này không?',
-                        icon: 'warning',
-                        showCancelButton: true,
-                        confirmButtonText: 'Có, xóa nó!',
-                        cancelButtonText: 'Không, hủy!',
-                        reverseButtons: true,
-                        customClass: {
-                            popup: 'swal-custom-popup',
-                            title: 'swal-custom-title',
-                            confirmButton: 'swal-custom-confirm',
-                            cancelButton: 'swal-custom-cancel'
-                        }
-                    }).then((result) => {
-                        if (result.isConfirmed) {
-                            fetch(`/Admin/Student/Delete/${questionID}`, {
-                                method: 'POST',
-                                headers: {
-                                    'Content-Type': 'application/json'
-                                }
-                            })
-                                .then(response => {
-                                    if (response.ok) {
-                                        Swal.fire({
-                                            title: 'Xóa thành công!',
-                                            text: 'Học sinh đã được xóa.',
-                                            icon: 'success',
-                                            customClass: {
-                                                popup: 'swal-custom-popup',
-                                                title: 'swal-custom-title',
-                                                confirmButton: 'swal-custom-confirm'
-                                            }
-                                        }).then(() => {
-                                            location.reload();  // Reload the page after deletion
-                                        });
-                                    } else {
-                                        Swal.fire({
-                                            title: 'Lỗi!',
-                                            text: 'Xóa học sinh không thành công.',
-                                            icon: 'error',
-                                            customClass: {
-                                                popup: 'swal-custom-popup',
-                                                title: 'swal-custom-title',
-                                                confirmButton: 'swal-custom-confirm'
-                                            }
-                                        });
-                                    }
-                                })
-                                .catch(error => {
-                                    console.error('Error:', error);
-                                    Swal.fire({
-                                        title: 'Lỗi!',
-                                        text: 'Đã xảy ra lỗi trong quá trình xóa.',
-                                        icon: 'error',
-                                        customClass: {
-                                            popup: 'swal-custom-popup',
-                                            title: 'swal-custom-title',
-                                            confirmButton: 'swal-custom-confirm'
-                                        }
-                                    });
-                                });
-                        }
-                    });
-                }
-
-            </script>
-            <script>
-                $(document).ready(function () {
-                    $('#questionSearch').on('keyup', function () {
-                        var searchText = $(this).val().toLowerCase();
-
-                        $('#questionSearch .course-row').filter(function () {
-                            $(this).toggle($(this).attr('data-search').toLowerCase().indexOf(searchText) > -1);
-                        });
-                    });
-                });
-            </script>
             <!-- Pagination -->
             <div class="flex flex-col items-center justify-between gap-5 px-5 mt-6 md:flex-row">
                 <div>
@@ -471,3 +391,85 @@
 </main>
 
 <script src="~/admin/assets/js/main.js"></script>
+
+
+<script>
+    function deleteStudent(questionID) {
+        console.log(questionID);
+        Swal.fire({
+            title: 'Bạn có chắc chắn muốn xóa học sinh này không?',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Có, xóa nó!',
+            cancelButtonText: 'Không, hủy!',
+            reverseButtons: true,
+            customClass: {
+                popup: 'swal-custom-popup',
+                title: 'swal-custom-title',
+                confirmButton: 'swal-custom-confirm',
+                cancelButton: 'swal-custom-cancel'
+            }
+        }).then((result) => {
+            if (result.isConfirmed) {
+                fetch(`/Admin/Student/Delete?id=${questionID}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                })
+                    .then(response => {
+                        if (response.ok) {
+                            Swal.fire({
+                                title: 'Xóa thành công!',
+                                text: 'Học sinh đã được xóa.',
+                                icon: 'success',
+                                customClass: {
+                                    popup: 'swal-custom-popup',
+                                    title: 'swal-custom-title',
+                                    confirmButton: 'swal-custom-confirm'
+                                }
+                            }).then(() => {
+                                location.reload();  // Reload the page after deletion
+                            });
+                        } else {
+                            Swal.fire({
+                                title: 'Lỗi!',
+                                text: 'Xóa học sinh không thành công.',
+                                icon: 'error',
+                                customClass: {
+                                    popup: 'swal-custom-popup',
+                                    title: 'swal-custom-title',
+                                    confirmButton: 'swal-custom-confirm'
+                                }
+                            });
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        Swal.fire({
+                            title: 'Lỗi!',
+                            text: 'Đã xảy ra lỗi trong quá trình xóa.',
+                            icon: 'error',
+                            customClass: {
+                                popup: 'swal-custom-popup',
+                                title: 'swal-custom-title',
+                                confirmButton: 'swal-custom-confirm'
+                            }
+                        });
+                    });
+            }
+        });
+    }
+
+</script>
+<script>
+    $(document).ready(function () {
+        $('#questionSearch').on('keyup', function () {
+            var searchText = $(this).val().toLowerCase();
+
+            $('#questionSearch .course-row').filter(function () {
+                $(this).toggle($(this).attr('data-search').toLowerCase().indexOf(searchText) > -1);
+            });
+        });
+    });
+</script>

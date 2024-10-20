@@ -1,4 +1,5 @@
-﻿using EduCourse.Data;
+﻿using EduCourse.Areas.Admin.Models;
+using EduCourse.Data;
 using EduCourse.Entities;
 using MediaToolkit;
 using MediaToolkit.Model;
@@ -29,6 +30,7 @@ public class CourseController : Controller
         var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
 
         List<Course> courses;
+        var totalCourses = 0;  // Initialize totalCourses
 
         if (User.IsInRole("Instructure"))
         {
@@ -42,6 +44,10 @@ public class CourseController : Controller
              .Skip((page - 1) * pageSize)
              .Take(pageSize)
              .ToListAsync();
+
+            totalCourses = await _context.Courses
+                .Where(a => a.AuthorID == userId)
+                .CountAsync();  // Count total courses for this instructor
         }
         else if (User.IsInRole("Admin"))
         {
@@ -54,13 +60,13 @@ public class CourseController : Controller
             .Skip((page - 1) * pageSize)
             .Take(pageSize)
             .ToListAsync();
+
+            totalCourses = await _context.Courses.CountAsync();  // Count total courses for admin
         }
         else
         {
             return Redirect("/home/error404");
         }
-        var totalCourses = await _context.Courses.CountAsync();
-
 
         // Set ViewData for pagination
         ViewData["TotalCourses"] = totalCourses;
@@ -70,6 +76,18 @@ public class CourseController : Controller
         return View(courses);
     }
 
+    [HttpPost]
+    public IActionResult ChangeStatus([FromBody] ChangeStatusRequest request)
+    {
+        var course = _context.Courses.FirstOrDefault(c => c.CourseID == request.Id);
+        if (course == null) return Json(new { success = false });
+
+        course.Status = request.Status;
+        _context.Courses.Update(course);
+        _context.SaveChanges();
+
+        return Json(new { success = true });
+    }
 
     public IActionResult Detail(int id)
     {
@@ -182,14 +200,17 @@ public class CourseController : Controller
                                 {
                                     await videoFile.CopyToAsync(videoStream);
                                 }
-
+                                lesson.CreatedDate = DateTime.Now;
                                 lesson.VideoURL = $"/uploads/{uniqueVideoFileName}";
 
-                                var durationString = await GetVideoDurationAsync(videoFilePath);
-                                lesson.Duration = Convert.ToDouble(durationString);
+                                if (videoFileExtension == ".mp4")
+                                {
+                                    var durationString = await GetVideoDurationAsync(videoFilePath);
+                                    lesson.Duration = Convert.ToDouble(durationString);
+                                }
+
                                 lesson.CreatedDate = DateTime.Now;
                             }
-
                             if (lesson.Questions != null)
                             {
                                 foreach (var question in lesson.Questions)

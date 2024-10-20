@@ -11,6 +11,5 @@
         public ICollection<Course>? Courses { get; set; }
 
         public ICollection<Lesson>? Lessons { get; set; }
-        public ICollection<Quiz>? Quizzes { get; set; }
     }
 }

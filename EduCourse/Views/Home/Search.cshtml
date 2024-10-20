@@ -1,4 +1,7 @@
 ﻿@model EduCourse.Models.SearchViewModel
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
 <section class="course-content">
     <div class="container">
@@ -237,13 +240,13 @@
                                                     @if (User.Identity.IsAuthenticated)
                                                     {
                                                         <a href="javascript:void(0);" class="btn btn-wish w-100" onclick="addToCart(@course.CourseID)">
-                                                            Thêm vào giỏ
+                                                            <i class="fas fa-shopping-cart"></i>
                                                         </a>
                                                     }
                                                     else
                                                     {
                                                         <a href="/auth/login" class="btn btn-wish w-100">
-                                                            Thêm vào giỏ
+                                                            <i class="fas fa-shopping-cart"></i>
                                                         </a>
                                                     }
                                                 </div>
@@ -332,7 +335,7 @@
             <div class="col-lg-3 theiaStickySidebar">
                 <div class="filter-clear">
                     <div class="clear-filter d-flex align-items-center">
-                        <h4><i class="feather-filter"></i>Filters</h4>
+                        <h4><i class="feather-filter"></i>Phần lọc</h4>
                         <div class="clear-text">
                             <p><a href="@Url.Action("Search", new { courseName = "", categoryName = "", instructorName = "", price = "" })">CLEAR</a></p>
                         </div>
@@ -343,7 +346,7 @@
                         <div class="card-body">
                             <div class="filter-widget mb-0">
                                 <div class="categories-head d-flex align-items-center">
-                                    <h4>Course categories</h4>
+                                    <h4>Danh mục</h4>
                                     <i class="fas fa-angle-down"></i>
                                 </div>
                                 <div>
@@ -368,7 +371,7 @@
                         <div class="card-body">
                             <div class="filter-widget mb-0">
                                 <div class="categories-head d-flex align-items-center">
-                                    <h4>Instructors</h4>
+                                    <h4>Giáo viên</h4>
                                     <i class="fas fa-angle-down"></i>
                                 </div>
                                 <div>

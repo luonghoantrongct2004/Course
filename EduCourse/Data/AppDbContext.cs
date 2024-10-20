@@ -62,7 +62,6 @@ public class AppDbContext : IdentityDbContext<User>
     public DbSet<Question> Questions { get; set; }
     public DbSet<Option> Options { get; set; }
     public DbSet<UserCourse> UserCourses { get; set; }
-    public DbSet<StudentQuiz> StudentQuizzes { get; set; }
     public DbSet<Payment> Payments { get; set; }
     public DbSet<Library> Libraries { get; set; }
     public DbSet<Category> Categories { get; set; }

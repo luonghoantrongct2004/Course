@@ -166,7 +166,7 @@
                     if (result.isConfirmed) {
                         var formData = new FormData(this);
 
-                        fetch('/admin/student/edit', {
+                        fetch('/admin/instructure/edit', {
                             method: 'POST',
                             body: formData
                         })
@@ -183,7 +183,7 @@
                                             popup: 'swal-custom-popup'
                                         }
                                     }).then(() => {
-                                        window.location.href = '/admin/student';
+                                        window.location.href = '/admin/instructure';
                                     });
                                 } else {
                                     Swal.fire({

@@ -36,11 +36,14 @@
                 <div class="mb-6">
                     <img id="courseThumbnail" class="w-full rounded-lg" style="width: 660px;
 height: 330px;" src="@Model.Image" alt="Course Thumbnail" />
-                    <video id="lessonVideoPlayer" class="w-full rounded-lg" controls style="display: none; width: 660px;
-    height: 330px;">
-                        <source id="videoSource" src="" type="video/mp4" />
+                    <video id="lessonVideoPlayer" class="w-full rounded-lg" controls style="display: none; width: 660px; height: 330px;">
+                        <source id="videoSource" type="video/mp4" />
                         Your browser does not support the video tag.
                     </video>
+
+                    <iframe id="pdfViewer" style="display: none; width:  775px;height: 555px;" frameborder="0"></iframe>
+                    <iframe id="pptViewer" style="display: none; width: 660px; height: 330px;" frameborder="0"></iframe>
+
                 </div>
 
                 <div>
@@ -609,7 +612,7 @@ height: 330px;" src="@Model.Image" alt="Course Thumbnail" />
                                                 @foreach (var lesson in item.Lessons)
                                                 {
                                                     <li class="relative z-20 flex gap-3">
-                                                        <button class="play-video-btn" data-video-url="@lesson.VideoURL">
+                                                        <button class="play-video-btn" onclick="displayContent('@lesson.VideoURL', '@lesson.ContentType')">
                                                             <svg width="25"
                                                                  height="23"
                                                                  viewBox="0 0 16 17"
@@ -787,27 +790,35 @@ height: 330px;" src="@Model.Image" alt="Course Thumbnail" />
     });
 </script>
 <script>
-    document.addEventListener("DOMContentLoaded", function () {
-        const buttons = document.querySelectorAll(".play-video-btn");
+    function displayContent(contentURL, contentType) {
         const videoPlayer = document.getElementById("lessonVideoPlayer");
         const videoSource = document.getElementById("videoSource");
+        const pdfViewer = document.getElementById("pdfViewer");
+        const pptViewer = document.getElementById("pptViewer");
         const thumbnail = document.getElementById("courseThumbnail");
 
-        buttons.forEach(button => {
-            button.addEventListener("click", function () {
-                const videoURL = button.getAttribute("data-video-url");
+        // Hide all content players initially
+        videoPlayer.style.display = "none";
+        pdfViewer.style.display = "none";
+        pptViewer.style.display = "none";
+        thumbnail.style.display = "none";
 
-                if (videoURL) {
-                    videoSource.src = videoURL;
-                    videoPlayer.load(); // Reloads the video element to pick up the new source
-                    videoPlayer.play(); // Automatically starts playing the video
+        if (contentType === "Video") {
+            // Set video URL and show video player
+            videoSource.src = contentURL;
+            videoPlayer.load();  // Load new video source
+            videoPlayer.style.display = "block";
+            videoPlayer.play();  // Automatically start playing
+        } else if (contentType === "PDF") {
+            // Show PDF viewer
+            pdfViewer.src = contentURL;
+            pdfViewer.style.display = "block";
+        } else if (contentType === "PowerPoint") {
+            // Show PowerPoint viewer
+            pptViewer.src = contentURL;
+            pptViewer.style.display = "block";
+        }
+    }
 
-                    // Hide the thumbnail image and show the video player
-                    thumbnail.style.display = "none";
-                    videoPlayer.style.display = "block";
-                }
-            });
-        });
-    });
     </script>
 <script src="~/adminassets/js/main.js"></script>

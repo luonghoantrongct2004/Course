@@ -200,7 +200,7 @@
             </div>
         </div>
 
-        <div class="col-lg-12" data-aos="fade-up">
+        <div class="col-lg-12">
             <div class="more-details text-center">
                 <a href="/home/search" class="discover-btn">Xem tất cả khóa học <i class="fas fa-arrow-right ms-2"></i></a>
             </div>
@@ -309,12 +309,12 @@
                 {
                     <div class="instructors-widget">
                         <div class="instructors-img ">
-                            <a href="">
+                            <a>
                                 <img class="img-fluid" alt="Img" src="@item.Image">
                             </a>
                         </div>
                         <div class="instructors-content text-center">
-                            <h5><a href="">@item.FullName</a></h5>
+                            <h5><a >@item.FullName</a></h5>
                             <div class="student-count d-flex justify-content-center">
                                 <i class="fa-solid fa-user-group"></i>
                                 <span>@Model.Courses.Where(u => u.AuthorID == item.Id).Count() Khóa học</span>
@@ -834,7 +834,7 @@
         </div>
 
 
-        <div class="col-lg-12" data-aos="fade-up">
+        <div class="col-lg-12" >
             <div class="more-details text-center">
                 <a href="/home/search" class="discover-btn">Xem tất cả khóa học <i class="fas fa-arrow-right ms-2"></i></a>
             </div>

@@ -1,6 +1,7 @@
 ﻿using EduCourse.Areas.Admin.Models;
 using EduCourse.Data;
 using EduCourse.Entities;
+using EduCourse.Helpers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -64,6 +65,13 @@ public class StudentController : Controller
     {
         if (ModelState.IsValid)
         {
+            var existingUser = await _userManager.FindByEmailAsync(model.Email);
+            if (existingUser != null)
+            {
+                var mess = $"Email {model.Email} đã được sử dụng!";
+                return Json(new { success = false, message = mess });
+            }
+
             var user = new User
             {
                 UserName = model.Email,
@@ -105,11 +113,8 @@ public class StudentController : Controller
                 return Json(new { success = true, message = "Tạo tài khoản thành công!" });
             }
 
-            foreach (var error in result.Errors)
-            {
-                ModelState.AddModelError(string.Empty, error.Description);
-                return Json(new { success = false, message = error.Description });
-            }
+                var error = result.Errors.Select(e => ErrorTranslator.Translate(e.Description)).First();
+                return Json(new { success = false, message = error });
         }
 
         return Json(new { success = false, message = "Có lỗi xảy ra !" });
@@ -166,23 +171,22 @@ public class StudentController : Controller
 
 
     [HttpPost]
-    public async Task<IActionResult> Delete(int id)
+    public async Task<IActionResult> Delete(string id)
     {
-        var user = await _userManager.FindByIdAsync(id.ToString());
+        var user = await _userManager.FindByIdAsync(id);
         if (user == null)
         {
-            return Redirect("/Home/Error404");
+            return Json(new { success = false, message = "Không tìm thấy học sinh." });
         }
 
         var result = await _userManager.DeleteAsync(user);
 
         if (result.Succeeded)
         {
-            return RedirectToAction("Index");
+            return Json(new { success = true });
         }
 
-        ModelState.AddModelError(string.Empty, "Xóa người dùng không thành công.");
-        return RedirectToAction("Index");
+        return Json(new { success = false, message = "Đã có lỗi xảy ra khi cập nhật thông tin." });
     }
 
 }

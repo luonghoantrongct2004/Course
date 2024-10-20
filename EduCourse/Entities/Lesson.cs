@@ -12,7 +12,7 @@ public class Lesson
     [Required(ErrorMessage = "Mô tả bài học là bắt buộc.")]
     public string Description { get; set; }
     public string? VideoURL { get; set; }
-    public string ContentType { get; set; } = "Video"; // Video, PDF, Text, etc.
+    public string ContentType { get; set; } = "Video"; // Video, PDF, PowerPoint
     public double Duration { get; set; }
     public DateTime CreatedDate { get; set; }
     public DateTime UpdatedDate { get; set; } = DateTime.Now;

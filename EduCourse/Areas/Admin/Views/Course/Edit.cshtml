@@ -154,11 +154,12 @@
                             <label for="Description"
                                    class="block text-sm font-medium leading-6 text-mainblack">Mô tả khóa học *</label>
                         </div>
-                        <input type="text"
-                               asp-for="Description"
+                        <textarea asp-for="Description"
                                style="height: 100px;"
                                class="w-full px-4 py-2 text-sm border rounded-lg text-mainblack placeholder:text-sm focus:ring-0 focus:border-primary h-11 border-slate-200 placeholder:text-slate-600"
-                               placeholder="Mô tả cho khóa học" />
+                                  placeholder="Mô tả cho khóa học" style="height: 100px;">
+</textarea>
+
                     </div>
                     <div class="border-b border-slate-200 col-span-full">
                         <h3 class="mb-2 text-xl font-semibold leading-6 text-mainblack">
@@ -361,6 +362,7 @@
                                                     <select id="LessonContentType-@(i)-@(j + 1)" name="Chapters[@i].Lessons[@j].ContentType"
                                                             class="w-full px-4 py-2 text-sm border rounded-lg text-mainblack placeholder:text-sm focus:ring-0 focus:border-primary h-11 border-slate-200 placeholder:text-slate-600">
                                                         <option value="Video">Video</option>
+                                                        <option value="PDF">PDF</option>
                                                     </select>
                                                     <!-- Questions section -->
                                                     <div class="questions-container mt-4">
@@ -730,9 +732,7 @@
                                         <label for="LessonContentType-${chapterIndex}-${lessonCount}" class="block mt-4 mb-2 text-sm font-medium leading-6 text-mainblack">Loại nội dung</label>
                                         <select id="LessonContentType-${chapterIndex}-${lessonCount}" name="Chapters[${chapterIndex}].Lessons[${lessonCount}].ContentType" class="w-full px-4 py-2 text-sm border rounded-lg text-mainblack placeholder:text-sm focus:ring-0 focus:border-primary h-11 border-slate-200 placeholder:text-slate-600">
                                             <option value="Video">Video</option>
-                                            <option value="PDF">PDF</option>
-                                            <option value="Text">Text</option>
-                                            <option value="Audio">Audio</option>
+                                    <option value="PDF">PDF</option>
                                         </select>
                                     </div>
                                 </div>

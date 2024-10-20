@@ -22,7 +22,7 @@ public class CourseController : Controller
                         .ThenInclude(o => o.Options)
               .Include(a => a.Author)
               .Include(c => c.Category)
-              .FirstOrDefaultAsync(c => c.CourseID == id);
+              .FirstOrDefaultAsync(c => c.CourseID == id && c.Status == true);
 
         return View(course);
     }

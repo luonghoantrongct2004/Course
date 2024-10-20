@@ -423,9 +423,6 @@ namespace EduCourse.Migrations
                     b.Property<string>("QuestionType")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("QuizID")
-                        .HasColumnType("int");
-
                     b.Property<double>("ShowTime")
                         .HasColumnType("float");
 
@@ -433,45 +430,7 @@ namespace EduCourse.Migrations
 
                     b.HasIndex("LessonID");
 
-                    b.HasIndex("QuizID");
-
                     b.ToTable("Questions");
-                });
-
-            modelBuilder.Entity("EduCourse.Entities.Quiz", b =>
-                {
-                    b.Property<int>("QuizID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("QuizID"));
-
-                    b.Property<int>("CategoryID")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("LessonID")
-                        .HasColumnType("int");
-
-                    b.Property<int>("TimeLimit")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Title")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("UpdatedDate")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("QuizID");
-
-                    b.HasIndex("CategoryID");
-
-                    b.HasIndex("LessonID");
-
-                    b.ToTable("Quiz");
                 });
 
             modelBuilder.Entity("EduCourse.Entities.StudentExam", b =>
@@ -535,35 +494,6 @@ namespace EduCourse.Migrations
                     b.HasIndex("StudentExamId");
 
                     b.ToTable("StudentExamDetails");
-                });
-
-            modelBuilder.Entity("EduCourse.Entities.StudentQuiz", b =>
-                {
-                    b.Property<int>("StudentQuizID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("StudentQuizID"));
-
-                    b.Property<DateTime>("DateTaken")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("QuizID")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Score")
-                        .HasColumnType("int");
-
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("StudentQuizID");
-
-                    b.HasIndex("QuizID");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("StudentQuizzes");
                 });
 
             modelBuilder.Entity("EduCourse.Entities.User", b =>
@@ -988,29 +918,6 @@ namespace EduCourse.Migrations
                         .WithMany("Questions")
                         .HasForeignKey("LessonID");
 
-                    b.HasOne("EduCourse.Entities.Quiz", null)
-                        .WithMany("Questions")
-                        .HasForeignKey("QuizID");
-
-                    b.Navigation("Lesson");
-                });
-
-            modelBuilder.Entity("EduCourse.Entities.Quiz", b =>
-                {
-                    b.HasOne("EduCourse.Entities.Category", "Category")
-                        .WithMany("Quizzes")
-                        .HasForeignKey("CategoryID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("EduCourse.Entities.Lesson", "Lesson")
-                        .WithMany()
-                        .HasForeignKey("LessonID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Category");
-
                     b.Navigation("Lesson");
                 });
 
@@ -1042,23 +949,6 @@ namespace EduCourse.Migrations
                         .IsRequired();
 
                     b.Navigation("StudentExam");
-                });
-
-            modelBuilder.Entity("EduCourse.Entities.StudentQuiz", b =>
-                {
-                    b.HasOne("EduCourse.Entities.Quiz", "Quiz")
-                        .WithMany()
-                        .HasForeignKey("QuizID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("EduCourse.Entities.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId");
-
-                    b.Navigation("Quiz");
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("EduCourse.Entities.UserCourse", b =>
@@ -1136,8 +1026,6 @@ namespace EduCourse.Migrations
                     b.Navigation("Courses");
 
                     b.Navigation("Lessons");
-
-                    b.Navigation("Quizzes");
                 });
 
             modelBuilder.Entity("EduCourse.Entities.Chapter", b =>
@@ -1174,11 +1062,6 @@ namespace EduCourse.Migrations
                     b.Navigation("ExamQuestions");
 
                     b.Navigation("Options");
-                });
-
-            modelBuilder.Entity("EduCourse.Entities.Quiz", b =>
-                {
-                    b.Navigation("Questions");
                 });
 
             modelBuilder.Entity("EduCourse.Entities.StudentExam", b =>

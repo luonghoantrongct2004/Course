@@ -79,7 +79,7 @@ public class RoleController : Controller
         if (userRoles.Contains(role))
         {
             // Nếu người dùng đã có vai trò này, không cần thay đổi
-            return BadRequest("User already has this role.");
+            return BadRequest("Tài khoản này đã có quyền này.");
         }
 
         // Xóa tất cả các vai trò cũ của người dùng
@@ -88,7 +88,7 @@ public class RoleController : Controller
         if (!result.Succeeded)
         {
             // Xử lý lỗi nếu việc xóa vai trò thất bại
-            return BadRequest("Failed to remove user roles.");
+            return BadRequest("Không thể thay đổi quyền.");
         }
 
         // Thêm vai trò mới cho người dùng
@@ -96,7 +96,7 @@ public class RoleController : Controller
         if (!result.Succeeded)
         {
             // Xử lý lỗi nếu việc thêm vai trò thất bại
-            return BadRequest("Failed to assign the new role.");
+            return BadRequest("Không thể gán quyền cho tài khoản này.");
         }
 
         // Chuyển hướng lại trang quản lý vai trò

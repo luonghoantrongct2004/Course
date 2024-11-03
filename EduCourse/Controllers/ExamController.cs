@@ -31,7 +31,7 @@ public class ExamController : Controller
             .Include(eq => eq.Question)
                 .ThenInclude(q => q.Options)
             .Include(q => q.Exam)
-            .Where(a => a.ExamID == id)  // Sử dụng Where để lấy tất cả các câu hỏi liên quan
+            .Where(a => a.ExamID == id)
             .ToList(); // Chuyển đổi thành danh sách
 
         return View(topicExam); // Truyền danh sách các câu hỏi vào View
@@ -47,7 +47,7 @@ public class ExamController : Controller
             return NotFound("Student not found");
         }
 
-        // Get exam details from the database
+        // Lấy chi tiết của bài thi từ cơ sở dữ liệu
         var exam = _context.Exams
             .Include(e => e.ExamQuestions)
                 .ThenInclude(eq => eq.Question)
@@ -73,37 +73,35 @@ public class ExamController : Controller
             StudentID = student.Id,
             ExamID = exam.ExamID,
             ExamDate = DateTime.Now,
-            Score = 0 // Total score will be calculated
+            Score = 0 // Tổng điểm sẽ được tính toán sau
         };
 
-        // Loop through each question and calculate the score
         foreach (var examQuestion in exam.ExamQuestions)
         {
             var question = examQuestion.Question;
             var questionId = question.QuestionID;
-            var questionName = question.Content;
             var questionType = question.QuestionType;
             string result = "Incorrect";
             double questionScore = 0;
 
             if (!submittedAnswers.ContainsKey(questionId))
             {
-                // If the question was not answered, continue
                 continue;
             }
 
-            var selectedOptions = submittedAnswers[questionId];
+            var selectedOptions = submittedAnswers[questionId]; // Danh sách ID đáp án đã chọn
 
-            if (question.QuestionType == "Single Choice")
+            // Xử lý chấm điểm cho câu hỏi
+            if (questionType == "Single Choice")
             {
                 var correctOption = question.Options.FirstOrDefault(o => o.IsCorrect == true);
                 if (correctOption != null && selectedOptions.Contains(correctOption.OptionID))
                 {
                     result = "Correct";
-                    questionScore = pointsPerQuestion; // Full points for a correct answer
+                    questionScore = pointsPerQuestion;
                 }
             }
-            else if (question.QuestionType == "Multiple Choice")
+            else if (questionType == "Multiple Choice")
             {
                 var correctOptions = question.Options.Where(o => o.IsCorrect == true).Select(o => o.OptionID).ToList();
                 var selectedCorrect = selectedOptions.Intersect(correctOptions).Count();
@@ -115,9 +113,9 @@ public class ExamController : Controller
                     result = (selectedCorrect == correctCount) ? "Correct" : "Partially Correct";
                 }
             }
-            else if (question.QuestionType == "Keyword")
+            else if (questionType == "Keyword")
             {
-                var keywordAnswer = selectedOptions.FirstOrDefault().ToString();
+                var keywordAnswer = selectedOptions.FirstOrDefault().ToString(); // Lấy đáp án từ danh sách đã chọn
                 if (string.Equals(question.Keyword, keywordAnswer, StringComparison.OrdinalIgnoreCase))
                 {
                     result = "Correct";
@@ -127,26 +125,50 @@ public class ExamController : Controller
 
             totalScore += questionScore;
 
-            // Save each question's details to StudentExamDetail
+            // Tạo đối tượng StudentExamDetail
             var examDetail = new StudentExamDetail
             {
-                QuestionName = questionName,
+                QuestionId = questionId, // Lưu QuestionID
                 QuestionType = questionType,
                 Result = result,
                 Score = questionScore,
-                StudentExam = studentExam // Link to the parent StudentExam
+                SelectedAnswers = selectedOptions, // Lưu danh sách ID đáp án đã chọn
+                StudentExam = studentExam
             };
 
-            _context.StudentExamDetails.Add(examDetail); // Add each question's detail
+            _context.StudentExamDetails.Add(examDetail); // Thêm chi tiết từng câu hỏi vào CSDL
         }
 
-        // Round the total score and save it to StudentExam
+        // Tính tổng điểm và lưu lại
         studentExam.Score = (int)Math.Round(totalScore);
+
+        // Kiểm tra xem thí sinh đậu hay rớt dựa vào điểm liệt và điểm đạt
+        string passOrFail = "Failed";
+        if (studentExam.Score < exam.CutoffScore)
+        {
+            passOrFail = "Failed (below cutoff)";
+        }
+        else if (studentExam.Score >= exam.PassScore)
+        {
+            passOrFail = "Passed";
+        }
+
+        studentExam.Result = passOrFail; // Lưu kết quả đậu/rớt vào đối tượng StudentExam
         _context.StudentExams.Add(studentExam);
         _context.SaveChanges();
 
-        return Redirect("/home/StudentExam");
+        return Redirect($"/exam/details/{studentExam.Id}");
     }
 
+    public IActionResult Details(int id)
+    {
+        var exam = _context.StudentExams
+            .Include(e => e.Exam)
+            .Include(s => s.ExamDetails)
+                .ThenInclude(q => q.Question)
+                    .ThenInclude(o => o.Options)
+            .FirstOrDefault(e => e.Id == id);
+        return View(exam);
+    }
 
 }

@@ -90,26 +90,6 @@
                     Những bài thi tuyệt vời
                 </p>
             </div>
-            <div class="flex gap-5">
-                <button class="flex items-center gap-1 rounded-lg py-2.5 px-4 text-sm text-slate-600 border border-slate-200 shadow-xs">
-                    <svg width="20"
-                         height="20"
-                         viewBox="0 0 20 20"
-                         fill="none"
-                         xmlns="http://www.w3.org/2000/svg">
-                        <path d="M15 11.6665L15.9596 10.7069C16.3501 10.3164 16.3501 9.68326 15.9596 9.29273L15 8.33317"
-                              stroke="#475569"
-                              stroke-width="1.5"
-                              stroke-linecap="round"
-                              stroke-linejoin="round" />
-                        <path d="M15.8333 10L10.8333 10M3.33334 14.3886V6.05527M13.3333 14.3886C13.3333 15.3091 12.5872 16.0553 11.6667 16.0553H8.33334M13.3333 6.05527C13.3333 5.1348 12.5872 4.38861 11.6667 4.38861H8.33334M4.07551 16.5501L5.74218 17.6612C6.84977 18.3996 8.33334 17.6056 8.33334 16.2744V4.16947C8.33334 2.83831 6.84977 2.04432 5.74218 2.78272L4.07551 3.89383C3.61185 4.20294 3.33334 4.72333 3.33334 5.28058V15.1633C3.33334 15.7206 3.61185 16.2409 4.07551 16.5501Z"
-                              stroke="#475569"
-                              stroke-width="1.5"
-                              stroke-linecap="round" />
-                    </svg>
-                    Export
-                </button>
-            </div>
         </div>
         <div class="py-5 bg-white rounded-lg">
             <div class="flex flex-col justify-between gap-4 px-5 md:flex-row md:items-center">
@@ -140,120 +120,6 @@
                                class="w-full h-12 p-4 pl-12 border border-transparent rounded-lg ring-0 focus:ring-0 focus:border-primary bg-slate-50 placeholder:text-slate-400" />
                     </div>
                 </div>
-                <div class="sm:flex sm:flex-wrap spac-y-4 sm:space-y-0 sm:gap-4">
-                    <div class="relative hidden lg:block">
-                        <button onclick="dropdownFilterAction('#paymentFilter')"
-                                class="inline-flex items-center justify-center h-12 gap-1 p-4 text-sm font-medium transition ease-in-out rounded-lg bg-slate-50 text-slate-500 hover:bg-primary hover:text-white hover:border-transparent">
-                            <svg xmlns="http://www.w3.org/2000/svg"
-                                 width="19"
-                                 height="17"
-                                 viewBox="0 0 19 17"
-                                 fill="none">
-                                <path d="M7.83001 13.5928H1.5293"
-                                      stroke="currentColor"
-                                      stroke-width="1.5"
-                                      stroke-linecap="round"
-                                      stroke-linejoin="round" />
-                                <path d="M10.6406 3.90042H16.9413"
-                                      stroke="currentColor"
-                                      stroke-width="1.5"
-                                      stroke-linecap="round"
-                                      stroke-linejoin="round" />
-                                <path fill-rule="evenodd"
-                                      clip-rule="evenodd"
-                                      d="M6.22629 3.84625C6.22629 2.5506 5.16813 1.5 3.86314 1.5C2.55816 1.5 1.5 2.5506 1.5 3.84625C1.5 5.14191 2.55816 6.19251 3.86314 6.19251C5.16813 6.19251 6.22629 5.14191 6.22629 3.84625Z"
-                                      stroke="currentColor"
-                                      stroke-width="1.5"
-                                      stroke-linecap="round"
-                                      stroke-linejoin="round" />
-                                <path fill-rule="evenodd"
-                                      clip-rule="evenodd"
-                                      d="M17.4997 13.5538C17.4997 12.2581 16.4424 11.2075 15.1374 11.2075C13.8316 11.2075 12.7734 12.2581 12.7734 13.5538C12.7734 14.8494 13.8316 15.9 15.1374 15.9C16.4424 15.9 17.4997 14.8494 17.4997 13.5538Z"
-                                      stroke="currentColor"
-                                      stroke-width="1.5"
-                                      stroke-linecap="round"
-                                      stroke-linejoin="round" />
-                            </svg>
-                            Filter
-                        </button>
-                        <div id="paymentFilter"
-                             class="absolute right-0 z-10 hidden w-full overflow-hidden bg-white rounded-lg shadow-lg top-full">
-                            <ul>
-                                <li onclick="dropdownFilterAction('#paymentFilter')"
-                                    class="px-2 py-2 text-sm font-semibold text-gray-500 cursor-pointer hover:bg-gray-50">
-                                    January
-                                </li>
-                                <li onclick="dropdownFilterAction('#paymentFilter')"
-                                    class="px-2 py-2 text-sm font-semibold text-gray-500 cursor-pointer hover:bg-gray-50">
-                                    February
-                                </li>
-                                <li onclick="dropdownFilterAction('#paymentFilter')"
-                                    class="px-2 py-2 text-sm font-semibold text-gray-500 cursor-pointer hover:bg-gray-50">
-                                    March
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="relative">
-                        <button onclick="dropdownFilterAction('#dateFilter')"
-                                class="flex items-center justify-center w-full h-12 gap-1 p-4 text-sm font-medium transition ease-in-out rounded-lg bg-slate-50 text-slate-500 hover:bg-primary hover:text-white hover:border-transparent">
-                            <svg width="25"
-                                 height="24"
-                                 viewBox="0 0 25 24"
-                                 fill="none"
-                                 xmlns="http://www.w3.org/2000/svg">
-                                <path d="M18.5 5H6.5C5.39543 5 4.5 5.89543 4.5 7V19C4.5 20.1046 5.39543 21 6.5 21H18.5C19.6046 21 20.5 20.1046 20.5 19V7C20.5 5.89543 19.6046 5 18.5 5Z"
-                                      stroke="currentColor"
-                                      stroke-width="1.5"
-                                      stroke-linecap="round"
-                                      stroke-linejoin="round" />
-                                <path d="M16.5 3V7"
-                                      stroke="currentColor"
-                                      stroke-width="1.5"
-                                      stroke-linecap="round"
-                                      stroke-linejoin="round" />
-                                <path d="M8.5 3V7"
-                                      stroke="currentColor"
-                                      stroke-width="1.5"
-                                      stroke-linecap="round"
-                                      stroke-linejoin="round" />
-                                <path d="M4.5 11H20.5"
-                                      stroke="currentColor"
-                                      stroke-width="1.5"
-                                      stroke-linecap="round"
-                                      stroke-linejoin="round" />
-                                <path d="M11.5 15H12.5"
-                                      stroke="currentColor"
-                                      stroke-width="2"
-                                      stroke-linecap="round"
-                                      stroke-linejoin="round" />
-                                <path d="M12.5 15V18"
-                                      stroke="currentColor"
-                                      stroke-width="1.5"
-                                      stroke-linecap="round"
-                                      stroke-linejoin="round" />
-                            </svg>
-                            April 11 - April 24
-                        </button>
-                        <div id="dateFilter"
-                             class="absolute right-0 z-10 hidden w-full overflow-hidden bg-white rounded-lg shadow-lg top-full">
-                            <ul>
-                                <li onclick="dropdownFilterAction('#dateFilter')"
-                                    class="px-2 py-2 text-sm font-semibold text-gray-500 cursor-pointer hover:bg-gray-50">
-                                    Jan 11 - Jan 24
-                                </li>
-                                <li onclick="dropdownFilterAction('#dateFilter')"
-                                    class="px-2 py-2 text-sm font-semibold text-gray-500 cursor-pointer hover:bg-gray-50">
-                                    Feb 11 - Feb 24
-                                </li>
-                                <li onclick="dropdownFilterAction('#dateFilter')"
-                                    class="px-2 py-2 text-sm font-semibold text-gray-500 cursor-pointer hover:bg-gray-50">
-                                    Mar 11 - Mar 24
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
             </div>
             <!-- Tables -->
             <div class="-m-1.5 overflow-x-auto">
@@ -261,106 +127,74 @@
                     <table class="min-w-full divide-y divide-slate-100" id="examsTable">
                         <thead>
                             <tr>
-                                <th scope="col"
-                                    class="px-5 py-3 text-sm font-medium capitalize text-end text-mainblack">Tên người thi</th>
-                                <th scope="col"
-                                    class="px-5 py-3 text-sm font-medium capitalize text-end text-mainblack">Tiêu đề bài thi</th>
-                                <th scope="col"
-                                    class="px-5 py-3 text-sm font-medium capitalize text-end text-mainblack">Ngày thi</th>
-                                <th scope="col"
-                                    class="px-5 py-3 text-sm font-medium capitalize text-end text-mainblack">Câu hỏi</th>
-                                <th scope="col"
-                                    class="px-5 py-3 text-sm font-medium capitalize text-end text-mainblack">Loại câu hỏi</th>
-                                <th scope="col"
-                                    class="px-5 py-3 text-sm font-medium capitalize text-end text-mainblack">Kết quả</th>
-                                <th scope="col"
-                                    class="px-5 py-3 text-sm font-medium capitalize text-end text-mainblack">Số điểm</th>
-                                <th scope="col"
-                                    class="px-5 py-3 text-sm font-medium capitalize text-end text-mainblack">Tổng điểm</th>
-                                <th scope="col"
-                                    class="px-5 py-3 text-sm font-medium capitalize text-end text-mainblack">
-                                    Action
-                                </th>
+                            <tr>
+                                <th scope="col" class="px-5 py-3 text-sm font-medium capitalize text-center text-mainblack">Tên người thi</th>
+                                <th scope="col" class="px-5 py-3 text-sm font-medium capitalize text-center text-mainblack">Tiêu đề bài thi</th>
+                                <th scope="col" class="px-5 py-3 text-sm font-medium capitalize text-center text-mainblack">Ngày thi</th>
+                                <th scope="col" class="px-5 py-3 text-sm font-medium capitalize text-center text-mainblack">Kết quả</th>
+                                <th scope="col" class="px-5 py-3 text-sm font-medium capitalize text-center text-mainblack">Số điểm</th>
+                                <th scope="col" class="px-5 py-3 text-sm font-medium capitalize text-center text-mainblack">Tổng điểm</th>
+                                <th scope="col" class="px-5 py-3 text-sm font-medium capitalize text-center text-mainblack">Action</th>
+                            </tr>
                             </tr>
                         </thead>
-                        <tbody class="divide-y divide-slate-100">
-                                @foreach (var item in Model.StudentExams)
+                        <tbody>
+                            @if (Model.StudentExams != null && Model.StudentExams.Any())
+                            {
+                                foreach (var item in Model.StudentExams)
                                 {
                                     // Tính tổng điểm cho bài thi
                                     var totalScore = item.ExamDetails.Sum(detail => detail.Score);
 
-                                    // Lặp qua từng chi tiết câu hỏi
-                                    foreach (var detail in item.ExamDetails)
-                                {
-                                    <tr class="course-row transition hover:bg-slate-50" data-search="@item.Exam.Title @item.Exam.Author?.FullName">
-                                            @* Hiển thị ID, Tiêu đề bài thi và Ngày thi chỉ cho câu hỏi đầu tiên *@
-                                            @if (detail == item.ExamDetails.First())
-                                            {
-                                            <td class="px-5 py-3 text-sm font-medium whitespace-nowrap text-slate-500">
-                                                @item.Exam.Author.FullName
-                                            </td>
-                                            <td class="px-5 py-3 text-sm whitespace-nowrap text-slate-600">@item.Exam.Title</td>
-                                            <td class="px-5 py-3 text-sm whitespace-nowrap text-mainblack exam-date">@item.ExamDate.ToString("dd/MM/yyyy hh:mm")</td>
-                                            <td class="px-5 py-3 text-sm whitespace-nowrap text-mainblack"><span class="title-course">@detail.QuestionName</span></td>
-                                                <td>@detail.QuestionType</td>
-                                                <td>
-                                                    @if (detail.Result.Equals("Partially Correct"))
-                                                    {
-                                                        <span class="resut-badge badge-light-danger">@detail.Result</span>
-                                                    }
-                                                    else
-                                                    {
-                                                        <span class="resut-badge badge-light-success">@detail.Result</span>
-                                                    }
-                                                </td>
-                                                <td>@detail.Score</td>
-                                                <td>@totalScore</td>
+                                    // Tìm câu hỏi đầu tiên để hiển thị kết quả và điểm của nó
+                                    var firstDetail = item.ExamDetails.FirstOrDefault();
 
-                                            <td class="px-5 py-3 whitespace-nowrap">
-                                                <div class="flex justify-end gap-2">
-                                                    <a href="/Admin/exam/Detail?id=@item.ExamID"
-                                                       class="inline-flex items-center justify-center w-8 h-8 text-white rounded bg-primary">
-                                                        <svg width="20"
-                                                             height="21"
-                                                             viewBox="0 0 20 21"
-                                                             fill="none"
-                                                             xmlns="http://www.w3.org/2000/svg">
-                                                            <path d="M17.6084 8.71075C18.5748 9.72748 18.5748 11.2722 17.6084 12.2889C15.9786 14.0037 13.1794 16.3332 9.99984 16.3332C6.82024 16.3332 4.02108 14.0037 2.39126 12.2889C1.42492 11.2722 1.42492 9.72748 2.39126 8.71075C4.02108 6.99595 6.82024 4.6665 9.99984 4.6665C13.1794 4.6665 15.9786 6.99595 17.6084 8.71075Z"
-                                                                  stroke="currentColor"
-                                                                  stroke-width="1.5" />
-                                                            <path d="M12.4998 10.4998C12.4998 11.8805 11.3805 12.9998 9.99984 12.9998C8.61913 12.9998 7.49984 11.8805 7.49984 10.4998C7.49984 9.11913 8.61913 7.99984 9.99984 7.99984C11.3805 7.99984 12.4998 9.11913 12.4998 10.4998Z"
-                                                                  stroke="currentColor"
-                                                                  stroke-width="1.5" />
-                                                        </svg>
-                                                    </a>
-                                                </div>
-                                            </td>
+                                    <tr class="text-center">
+                                        <td class="px-5 py-3 text-sm font-medium whitespace-nowrap text-slate-500">
+                                            @item.Student.FullName <!-- Hiển thị tên người thi -->
+                                        </td>
+                                        <td class="px-5 py-3 text-sm whitespace-nowrap text-slate-600">
+                                            @item.Exam.Title <!-- Hiển thị tiêu đề bài thi -->
+                                        </td>
+                                        <td class="px-5 py-3 text-sm whitespace-nowrap text-mainblack exam-date">
+                                            @item.ExamDate.ToString("dd/MM/yyyy hh:mm") <!-- Hiển thị ngày thi -->
+                                        </td>
+                                        <td class="px-5 py-3 text-sm">
+                                            @if (firstDetail != null && firstDetail.Result == "Partially Correct")
+                                            {
+                                                <span class="resut-badge badge-light-warning">@firstDetail.Result</span>
+                                            }
+                                            else if (firstDetail != null && firstDetail.Result == "Correct")
+                                            {
+                                                <span class="resut-badge badge-light-success">@firstDetail.Result</span>
                                             }
                                             else
                                             {
-                                                <td class="hidden"></td> @* Ô ẩn cho ID *@
-                                                <td class="hidden"></td> @* Ô ẩn cho Tiêu đề bài thi *@
-                                                <td class="hidden"></td> @* Ô ẩn cho Ngày thi *@
-                                                <td><span class="title-course">@detail.QuestionName</span></td>
-                                                <td>@detail.QuestionType</td>
-                                                <td>
-                                                    @if (detail.Result.Equals("Partially Correct"))
-                                                    {
-                                                        <span class="resut-badge badge-light-danger">@detail.Result</span>
-                                                    }
-                                                    else
-                                                    {
-                                                        <span class="resut-badge badge-light-success">@detail.Result</span>
-                                                    }
-                                                </td>
-                                                <td>@detail.Score</td>
-                                                <td class="hidden"></td> @* Ô ẩn cho tổng điểm *@
-                                                <td class="hidden"></td> @* Ô ẩn cho nút "Details" *@
+                                                <span class="resut-badge badge-light-danger">@firstDetail?.Result</span>
                                             }
-                                        </tr>
-                                    }
+                                        </td>
+                                        <td class="px-5 py-3 text-sm">@firstDetail?.Score</td> <!-- Hiển thị điểm của câu hỏi đầu tiên -->
+                                        <td class="px-5 py-3 text-sm">@Math.Ceiling(totalScore)</td> <!-- Hiển thị tổng điểm, làm tròn lên -->
+                                        <td class="px-5 py-3 whitespace-nowrap">
+                                            <div class="flex justify-center gap-2">
+                                                <a href="/Admin/exam/StudentExamDetails?id=@item.ExamID"
+                                                   class="inline-flex items-center justify-center w-8 h-8 text-white rounded bg-primary">
+                                                    <svg width="20" height="21" viewBox="0 0 20 21" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                        <path d="M17.6084 8.71075C18.5748 9.72748 18.5748 11.2722 17.6084 12.2889C15.9786 14.0037 13.1794 16.3332 9.99984 16.3332C6.82024 16.3332 4.02108 14.0037 2.39126 12.2889C1.42492 11.2722 1.42492 9.72748 2.39126 8.71075C4.02108 6.99595 6.82024 4.6665 9.99984 4.6665C13.1794 4.6665 15.9786 6.99595 17.6084 8.71075Z" stroke="currentColor" stroke-width="1.5" />
+                                                        <path d="M12.4998 10.4998C12.4998 11.8805 11.3805 12.9998 9.99984 12.9998C8.61913 12.9998 7.49984 11.8805 7.49984 10.4998C7.49984 9.11913 8.61913 7.99984 9.99984 7.99984C11.3805 7.99984 12.4998 9.11913 12.4998 10.4998Z" stroke="currentColor" stroke-width="1.5" />
+                                                    </svg>
+                                                </a>
+                                            </div>
+                                        </td>
+                                    </tr>
                                 }
-                            
+                            }
+                            else
+                            {
+                                <tr id="no-records" >
+                                    <td colspan="7" class="text-center">Không có bài thi nào trong khoảng thời gian đã chọn.</td>
+                                </tr>
+                            }
                         </tbody>
                     </table>
                 </div>

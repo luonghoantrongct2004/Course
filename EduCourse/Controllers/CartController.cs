@@ -290,7 +290,12 @@ public class CartController : Controller
 
         _context.SaveChanges();
 
-        return RedirectToAction("Index", "Home");
+        ViewData["PaymentMessage"] = "Lotus Acedemy cảm ơn bạn đã mua khóa học.";
+
+        var message = ViewData["PaymentMessage"] as string;
+
+            var encodedMessage = System.Net.WebUtility.UrlEncode(message);
+            return RedirectToAction("Index", "Home", new { paymentMessage = encodedMessage });
     }
 
 
@@ -306,7 +311,11 @@ public class CartController : Controller
 
         ViewData["PaymentMessage"] = "Lotus Acedemy cảm ơn bạn đã mua khóa học.";
 
-        return RedirectToAction("Index", "Home", new { paymentMessage = ViewData["PaymentMessage"] });
+        var message = ViewData["PaymentMessage"] as string;
+
+            var encodedMessage = System.Net.WebUtility.UrlEncode(message);
+            return RedirectToAction("Index", "Home", new { paymentMessage = encodedMessage });
+    
     }
 
 }

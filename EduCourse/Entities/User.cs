@@ -14,4 +14,6 @@ public class User: IdentityUser
 
     public ICollection<Payment>? Payments { get; set; }
     public ICollection<Exam>? CreatedExams { get; set; }
+    public ICollection<Certificate>? Certificates { get; set; }
+    public ICollection<UserProgress>? UserProgresses { get; set; }
 }

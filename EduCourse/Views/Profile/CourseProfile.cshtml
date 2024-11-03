@@ -10,7 +10,7 @@
                     <div class="settings-menu">
                         <div class="profile-bg">
                             <div class="profile-img">
-                                <a href="/profile/account"><img src="~/assets/img/user/user16.jpg" alt="Img"></a>
+                                <a href="/profile/account"><img src="@Model.User.Image" alt="Img"></a>
                             </div>
                         </div>
                         <div class="profile-group">
@@ -106,7 +106,7 @@
                                                         <div class="product-content">
                                                             <div class="course-group d-flex">
                                                                 <div class="course-group-img d-flex">
-                                                                    <a href="/home/detail?id=@item.CourseID"><img src="~/assets/img/user/user2.jpg" alt="Img" class="img-fluid"></a>
+                                                                    <a href="/home/detail?id=@item.CourseID"><img src="@item.Course.Author.Image" alt="Img" class="img-fluid"></a>
                                                                     <div class="course-name">
                                                                         <h4><a href="/home/detail?id=@item.CourseID">@item.Course.Author.FullName</a></h4>
                                                                     </div>

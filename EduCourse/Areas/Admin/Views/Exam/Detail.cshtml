@@ -148,6 +148,19 @@
                            class="w-full px-4 py-2 text-sm border rounded-lg text-mainblack placeholder:text-sm focus:ring-0 focus:border-primary h-11 border-slate-200 placeholder:text-slate-600"
                            value="@Model.Author?.FullName" readonly />
                 </div>
+                <div class="col-span-full">
+                    <label for="PassScore" class="block mb-2 text-sm font-medium leading-6 text-mainblack">Điểm đậu  *</label>
+                    <input type="text" asp-for="PassScore"
+                           class="w-full px-4 py-2 text-sm border rounded-lg text-mainblack placeholder:text-sm focus:ring-0 focus:border-primary h-11 border-slate-200 placeholder:text-slate-600"
+                           readonly />
+                </div>
+
+                <div class="col-span-full">
+                    <label for="CutoffScore" class="block mb-2 text-sm font-medium leading-6 text-mainblack">Điểm liệt *</label>
+                    <input type="text" asp-for="CutoffScore"
+                           class="w-full px-4 py-2 text-sm border rounded-lg text-mainblack placeholder:text-sm focus:ring-0 focus:border-primary h-11 border-slate-200 placeholder:text-slate-600"
+                            readonly />
+                </div>
 
                 <!-- Loop through each question and display it in a card layout -->
                 <div class="grid grid-cols-1 gap-5 lg:grid-cols-2">
@@ -175,7 +188,7 @@
             </div>
 
             <div class="flex flex-col gap-4 mt-6 sm:flex-row">
-                <a href="/Admin/Question" class="px-12 py-3 text-sm font-medium leading-6 text-center text-red-500 border border-red-200 rounded-lg sm:text-base btn btn-outline-danger">
+                <a href="/Admin/exam" class="px-12 py-3 text-sm font-medium leading-6 text-center text-red-500 border border-red-200 rounded-lg sm:text-base btn btn-outline-danger">
                     Quay lại
                 </a>
                 <button type="submit" onclick="deleteQuestion(@Model.ExamID)"

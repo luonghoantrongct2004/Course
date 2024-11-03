@@ -37,7 +37,7 @@ namespace EduCourse.Controllers
             var selectedInstructors = !string.IsNullOrEmpty(instructors) ? instructors.Split(',') : Array.Empty<string>();
 
             // Tạo query cơ bản
-            var query = _context.Courses
+            var query = _context.Courses.Where(a => a.Status == true)
                 .Include(c => c.Chapters).ThenInclude(l => l.Lessons)
                 .AsQueryable();
 
@@ -110,7 +110,7 @@ namespace EduCourse.Controllers
             var categoryList = categories?.Split(',') ?? new string[] { };
             var instructorList = instructors?.Split(',') ?? new string[] { };
 
-            var query = _context.Courses
+            var query = _context.Courses.Where(a => a.Status == true)
                 .Include(c => c.Chapters).ThenInclude(l => l.Lessons)
                 .AsQueryable();
 
@@ -139,14 +139,17 @@ namespace EduCourse.Controllers
             HttpContext.Session.SetString("CategoryList", JsonConvert.SerializeObject(categoryList));
             if (!string.IsNullOrEmpty(paymentMessage))
             {
-                ViewData["PaymentMessage"] = paymentMessage;
+                var decodedMessage = System.Net.WebUtility.UrlDecode(paymentMessage);
+                ViewData["PaymentMessage"] = decodedMessage;
             }
+
             var categories = await _context.Categories.ToListAsync();
             var courses = await _context.Courses
                 .Include(c => c.Chapters)
                     .ThenInclude(l => l.Lessons)
                 .Include(a => a.Author)
                 .Include(c => c.Category)
+                .Where(a => a.Status == true)
                 .ToListAsync();
             var instructors = await _userManager.GetUsersInRoleAsync("Instructure");
             var viewModel = new HomeViewModel
@@ -222,14 +225,21 @@ namespace EduCourse.Controllers
             var studentExams = totalExam.Skip((page - 1) * pageSize)
                                     .Take(pageSize)
                                     .ToList();
+
+            int totalItems = totalExam.Count;
             var viewModel = new ProfileViewModel
             {
                 User = student,
                 CurrentPage = page,
                 StudentExams = studentExams,
-                PageSize = pageSize
+                PageSize = pageSize,
+                TotalItems = totalItems
             };
             return View(viewModel);
+        }
+        public IActionResult FAQ()
+        {
+            return View();
         }
     }
 }

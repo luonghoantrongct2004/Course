@@ -12,7 +12,7 @@
             label: "Parents",
             data: d2
         },{
-            label: "Giáo viên",
+            label: "Cộng tác viên",
             data: d3
         }],{
         series: {

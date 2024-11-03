@@ -37,13 +37,13 @@
     <div class="container" style="padding-top:70px;">
         <div class="row">
             <!-- Cột bên trái chứa câu hỏi -->
-            <div class="col-md-8">
+            <div class="col-md-8" id="questions-container">
                 <!-- Tiêu đề kỳ thi -->
-                <h2 class="mb-4 text-center">@Model.FirstOrDefault()?.Exam?.Title</h2> <!-- Lấy tiêu đề từ kỳ thi đầu tiên -->
+                <h2 class="mb-4 text-center">@Model.FirstOrDefault()?.Exam?.Title</h2>
                 <!-- Hiển thị từng câu hỏi -->
                 @foreach (var examQuestion in Model)
                 {
-                    <div class="card p-4 mb-4 question-container" id="question_@examQuestion.QuestionID" style="background-color: #f8f8f8;">
+                    <div class="card p-4 mb-4 question-container" id="question_@examQuestion.QuestionID" data-index="@questionIndex" style="background-color: #f8f8f8;">
                         <p class="mb-3">
                             <strong>Câu hỏi @questionIndex:</strong> @examQuestion.Question?.Content
                         </p>
@@ -92,7 +92,7 @@
             <!-- Cột bên phải chứa danh sách các câu hỏi dưới dạng checkbox hình tròn -->
             <div class="col-md-4">
                 <h4 class="text-center mb-4">Danh sách câu hỏi</h4>
-                <div class="list-group">
+                <div id="questions-list-group" class="list-group">
                     <!-- Hiển thị từng câu hỏi dưới dạng checkbox -->
                     @for (int i = 0; i < Model.Count(); i++)
                     {
@@ -108,6 +108,61 @@
         </div>
     </div>
 </form>
+
+<script>
+    // Hàm xáo trộn danh sách câu hỏi
+    function shuffleQuestions() {
+        // Lấy container chứa các câu hỏi
+        var container = document.getElementById("questions-container");
+
+        // Lấy tất cả các câu hỏi dưới dạng NodeList và chuyển sang mảng để dễ xử lý
+        var questions = Array.from(container.getElementsByClassName("question-container"));
+
+        // Xáo trộn mảng câu hỏi
+        questions.sort(() => Math.random() - 0.5);
+
+        // Xóa tất cả các câu hỏi hiện tại khỏi container
+        container.innerHTML = "";
+
+        // Thêm lại các câu hỏi đã xáo trộn vào container
+        questions.forEach((question, index) => {
+            // Cập nhật số thứ tự câu hỏi sau khi xáo trộn
+            var questionNumber = question.querySelector("strong");
+            if (questionNumber) {
+                questionNumber.textContent = "Câu hỏi " + (index + 1) + ":";
+            }
+
+            container.appendChild(question);
+        });
+
+        // Cập nhật danh sách câu hỏi ở bên phải
+        updateQuestionList(questions);
+    }
+
+    // Hàm cập nhật danh sách câu hỏi ở bên phải
+    function updateQuestionList(questions) {
+        // Lấy container danh sách câu hỏi bên phải
+        var listGroup = document.getElementById("questions-list-group");
+
+        // Xóa tất cả các câu hỏi hiện tại khỏi listGroup
+        listGroup.innerHTML = "";
+
+        // Thêm lại các câu hỏi vào listGroup
+        questions.forEach((question, index) => {
+            var questionId = question.getAttribute("id").split("_")[1];
+            var circleDiv = document.createElement("div");
+            circleDiv.id = "circle_question_" + questionId;
+            circleDiv.className = "circle-checkbox";
+            circleDiv.textContent = index + 1;
+            listGroup.appendChild(circleDiv);
+        });
+    }
+
+    // Gọi hàm xáo trộn sau khi trang được tải xong
+    document.addEventListener("DOMContentLoaded", function () {
+        shuffleQuestions();
+    });
+</script>
 
 <!-- SweetAlert2 CDN -->
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>

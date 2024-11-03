@@ -73,6 +73,33 @@ namespace EduCourse.Migrations
                     b.ToTable("Categories");
                 });
 
+            modelBuilder.Entity("EduCourse.Entities.Certificate", b =>
+                {
+                    b.Property<int>("CertificateID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CertificateID"));
+
+                    b.Property<int>("CourseID")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("IssueDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("UserID")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("CertificateID");
+
+                    b.HasIndex("CourseID");
+
+                    b.HasIndex("UserID");
+
+                    b.ToTable("Certificate");
+                });
+
             modelBuilder.Entity("EduCourse.Entities.Chapter", b =>
                 {
                     b.Property<int>("ChapterID")
@@ -162,8 +189,14 @@ namespace EduCourse.Migrations
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<double>("CutoffScore")
+                        .HasColumnType("float");
+
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
+
+                    b.Property<double>("PassScore")
+                        .HasColumnType("float");
 
                     b.Property<string>("Title")
                         .HasColumnType("nvarchar(max)");
@@ -447,6 +480,9 @@ namespace EduCourse.Migrations
                     b.Property<int>("ExamID")
                         .HasColumnType("int");
 
+                    b.Property<string>("Result")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("Score")
                         .HasColumnType("int");
 
@@ -471,9 +507,8 @@ namespace EduCourse.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("QuestionName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("QuestionId")
+                        .HasColumnType("int");
 
                     b.Property<string>("QuestionType")
                         .IsRequired()
@@ -486,10 +521,16 @@ namespace EduCourse.Migrations
                     b.Property<double>("Score")
                         .HasColumnType("float");
 
+                    b.Property<string>("SelectedAnswers")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("StudentExamId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("QuestionId");
 
                     b.HasIndex("StudentExamId");
 
@@ -608,6 +649,43 @@ namespace EduCourse.Migrations
                     b.HasIndex("UserID");
 
                     b.ToTable("UserCourses");
+                });
+
+            modelBuilder.Entity("EduCourse.Entities.UserProgress", b =>
+                {
+                    b.Property<int>("UserProgressID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("UserProgressID"));
+
+                    b.Property<DateTime?>("CompletionDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("CompletionStatus")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("LastWatchedTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("LessonID")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UserID")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<double>("WatchedPercentage")
+                        .HasColumnType("float");
+
+                    b.HasKey("UserProgressID");
+
+                    b.HasIndex("LessonID");
+
+                    b.HasIndex("UserID");
+
+                    b.ToTable("UserProgress");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -754,6 +832,25 @@ namespace EduCourse.Migrations
                     b.HasOne("EduCourse.Entities.User", "User")
                         .WithMany()
                         .HasForeignKey("UserId1");
+
+                    b.Navigation("Course");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("EduCourse.Entities.Certificate", b =>
+                {
+                    b.HasOne("EduCourse.Entities.Course", "Course")
+                        .WithMany()
+                        .HasForeignKey("CourseID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("EduCourse.Entities.User", "User")
+                        .WithMany("Certificates")
+                        .HasForeignKey("UserID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Course");
 
@@ -942,11 +1039,19 @@ namespace EduCourse.Migrations
 
             modelBuilder.Entity("EduCourse.Entities.StudentExamDetail", b =>
                 {
+                    b.HasOne("EduCourse.Entities.Question", "Question")
+                        .WithMany()
+                        .HasForeignKey("QuestionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("EduCourse.Entities.StudentExam", "StudentExam")
                         .WithMany("ExamDetails")
                         .HasForeignKey("StudentExamId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Question");
 
                     b.Navigation("StudentExam");
                 });
@@ -966,6 +1071,25 @@ namespace EduCourse.Migrations
                         .IsRequired();
 
                     b.Navigation("Course");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("EduCourse.Entities.UserProgress", b =>
+                {
+                    b.HasOne("EduCourse.Entities.Lesson", "Lesson")
+                        .WithMany("UserProgresses")
+                        .HasForeignKey("LessonID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("EduCourse.Entities.User", "User")
+                        .WithMany("UserProgresses")
+                        .HasForeignKey("UserID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Lesson");
 
                     b.Navigation("User");
                 });
@@ -1050,6 +1174,8 @@ namespace EduCourse.Migrations
             modelBuilder.Entity("EduCourse.Entities.Lesson", b =>
                 {
                     b.Navigation("Questions");
+
+                    b.Navigation("UserProgresses");
                 });
 
             modelBuilder.Entity("EduCourse.Entities.Order", b =>
@@ -1071,11 +1197,15 @@ namespace EduCourse.Migrations
 
             modelBuilder.Entity("EduCourse.Entities.User", b =>
                 {
+                    b.Navigation("Certificates");
+
                     b.Navigation("Courses");
 
                     b.Navigation("CreatedExams");
 
                     b.Navigation("Payments");
+
+                    b.Navigation("UserProgresses");
                 });
 #pragma warning restore 612, 618
         }

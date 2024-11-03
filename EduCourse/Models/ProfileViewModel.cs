@@ -15,4 +15,5 @@ public class ProfileViewModel
     public int PageSize { get; set; }
     public string? TimeFrame { get; set; }
     public int TotalPages { get; set; } = 0;
+    public int TotalItems { get; set; } = 0; // Tổng số câu hỏi
 }

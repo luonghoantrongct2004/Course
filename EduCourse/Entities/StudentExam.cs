@@ -10,7 +10,8 @@ public class StudentExam
     public Exam? Exam { get; set; }
 
     public DateTime ExamDate { get; set; }
-    public int Score { get; set; } // Total score for the exam
+    public int Score { get; set; } // Tổng điểm đạt được
+    public string? Result { get; set; } // "Passed" hoặc "Failed"
 
     public List<StudentExamDetail> ExamDetails { get; set; } = new List<StudentExamDetail>(); // New
 }

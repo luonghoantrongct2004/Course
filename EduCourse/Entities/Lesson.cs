@@ -21,4 +21,5 @@ public class Lesson
     public Chapter? Chapter { get; set; }
 
     public List<Question>? Questions { get; set; }
+    public ICollection<UserProgress>? UserProgresses { get; set; }
 }

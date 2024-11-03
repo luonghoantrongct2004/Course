@@ -1,0 +1,122 @@
+﻿@model EduCourse.Entities.StudentExam
+
+@{
+    ViewData["Title"] = "Chi tiết bài thi";
+    int totalCorrect = Model.ExamDetails.Count(x => x.Result == "Correct");
+    int totalIncorrect = Model.ExamDetails.Count(x => x.Result == "Incorrect");
+    int totalPartiallyCorrect = Model.ExamDetails.Count(x => x.Result == "Partially Correct");
+}
+<style>
+    .wrong{
+        background-color: #ffb1b1;
+        color: #324fa2;
+    }
+    .correct{
+        background-color: #80d9a3;
+        color: #324fa2;
+    }
+
+    .form-check-label{
+        color: black;
+    }
+
+    .form-check-input:disabled {
+        pointer-events: none;
+        filter: none;
+        opacity: 1;
+    }
+    .form-check-input:disabled ~ .form-check-label, .form-check-input[disabled] ~ .form-check-label {
+        cursor: default;
+        opacity: 1;
+    }
+</style>
+<div class="container" style="padding-top:70px;">
+    <div class="row">
+        <!-- Bên trái: hiển thị câu hỏi và trạng thái -->
+        <div class="col-md-8">
+            <h3 class="mb-4 text-center">@Model.Exam?.Title </h3>
+
+            <div class="list-group">
+                @foreach (var detail in Model.ExamDetails)
+                {
+                    // Xác định màu nền dựa trên kết quả của câu hỏi
+                    var resultClass = detail.Result == "Correct" ? "correct"
+                    : detail.Result == "Partially Correct" ? "bg-warning text-dark"
+                    : "wrong"; // Xanh cho đúng, vàng cho gần đúng, đỏ cho sai
+
+                    <div class="list-group-item mb-2 border @resultClass" style="border-radius: 5px;">
+                        <!-- Hiển thị tên câu hỏi -->
+                        <h5>@detail.Question?.Content</h5>
+                        <p><strong>Loại câu hỏi:</strong> @detail.QuestionType</p>
+
+                        <!-- Hiển thị các lựa chọn đáp án cho câu hỏi dạng "Single Choice" -->
+                        @if (detail.QuestionType == "Single Choice")
+                        {
+                            <ul class="ps-0">
+                                @foreach (var option in detail.Question.Options)
+                                {
+                                    var isSelected = detail.SelectedAnswers.Contains(option.OptionID); // Kiểm tra xem đáp án đã chọn chưa
+                                    var isCorrect = option.IsCorrect == true; // Đánh dấu đáp án đúng
+
+                                    <li class="mb-2">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="single-choice-@detail.Question.QuestionID"
+                                            @(isSelected ? "checked" : "") disabled>
+                                            <label class="form-check-label">
+
+                                                @* @(isCorrect ? "text-success" : "")*@
+                                                @option.Content
+                                            </label>
+                                        </div>
+                                    </li>
+                                }
+                            </ul>
+                        }
+
+                        <!-- Hiển thị các lựa chọn đáp án cho câu hỏi dạng "Multiple Choice" -->
+                        @if (detail.QuestionType == "Multiple Choice")
+                        {
+                            <ul class="ps-0">
+                                @foreach (var option in detail.Question.Options)
+                                {
+                                    var isSelected = detail.SelectedAnswers.Contains(option.OptionID); // Kiểm tra xem đáp án đã chọn chưa
+                                    var isCorrect = option.IsCorrect == true; // Đánh dấu đáp án đúng
+
+                                    <li class="mb-2">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" @(isSelected ? "checked" : "") disabled>
+                                            <label class="form-check-label">
+                                                @* @(isCorrect ? "text-success" : "")*@
+                                                @option.Content
+                                            </label>
+                                        </div>
+                                    </li>
+                                }
+                            </ul>
+                        }
+
+                        <!-- Hiển thị đáp án cho câu hỏi dạng "Keyword" -->
+                        @if (detail.QuestionType == "Keyword")
+                        {
+                            <p><strong>Đáp án từ khóa:</strong> @string.Join(", ", detail.SelectedAnswers)</p>
+                        }
+                    </div>
+                }
+            </div>
+        </div>
+
+        <!-- Bên phải: hiển thị tổng điểm, tổng câu đúng, tổng câu gần đúng và tổng câu sai -->
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <h4>Tổng quan bài thi</h4>
+                    <p><strong>Ngày thi:</strong> @Model.ExamDate.ToString("dd/MM/yyyy hh:mm")</p>
+                    <p><strong>Điểm tổng cộng:</strong> @Model.Score</p>
+                    <p><strong>Tổng câu đúng:</strong> @totalCorrect</p>
+                    <p><strong>Tổng câu gần đúng:</strong> @totalPartiallyCorrect</p>
+                    <p><strong>Tổng câu sai:</strong> @totalIncorrect</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -45,7 +45,11 @@ public class QuestionController : Controller
     {
         return View();  // Trả về view để hiển thị form tạo câu hỏi
     }
-
+    [HttpGet]
+    public IActionResult CreateQuestionFromExam()
+    {
+        return View();  // Trả về view để hiển thị form tạo câu hỏi
+    }
     [HttpPost]
     public JsonResult Create(QuestionModel question, List<Option> options, string IsCorrect)
     {

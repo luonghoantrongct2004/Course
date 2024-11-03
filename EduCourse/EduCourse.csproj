@@ -7,6 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="Areas\Admin\Views\Question\CreateQuestionFromExam.cshtml" />
     <Content Remove="Views\Profile\StudentExam.cshtml" />
   </ItemGroup>
 
@@ -14,14 +15,15 @@
     <Folder Include="Areas\Admin\Data\" />
     <Folder Include="wwwroot\libaries\" />
     <Folder Include="wwwroot\categories\" />
+    <Folder Include="wwwroot\certificates\" />
     <Folder Include="wwwroot\uploads\" />
     <Folder Include="wwwroot\videos\" />
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="Areas\Admin\Views\Question\CreateQuestionFromExam.cshtml" />
     <None Include="Views\Home\Index.cshtml" />
     <None Include="Views\Home\Privacy.cshtml" />
-    <None Include="Views\Profile\StudentExam.cshtml" />
     <None Include="Views\Shared\Error.cshtml" />
     <None Include="Views\Shared\_Layout.cshtml" />
     <None Include="Views\Shared\_ValidationScriptsPartial.cshtml" />
@@ -258,6 +260,14 @@
       <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <UpToDateCheckInput Remove="Areas\Admin\Views\Question\CreateQuestionFromExam.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <_ContentIncludedByDefault Remove="Areas\Admin\Views\Question\CreateQuestionFromExam.cshtml" />
   </ItemGroup>
 
 </Project>

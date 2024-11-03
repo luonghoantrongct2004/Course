@@ -38,7 +38,7 @@
                     
                 </h3>
                 <p class="text-sm text-slate-600">
-                    Những giáo viên tuyệt vời
+                    Những cộng tác viên tuyệt vời
                 </p>
             </div>
             <div class="flex gap-5">
@@ -55,7 +55,7 @@
                               stroke-linecap="round"
                               stroke-linejoin="round" />
                     </svg>
-                    Thêm giáo viên
+                    Thêm cộng tác viên
                 </a>
             </div>
         </div>
@@ -321,7 +321,7 @@
             <script>
                 function delete(questionID) {
                     Swal.fire({
-                        title: 'Bạn có chắc chắn muốn xóa giáo viên này không?',
+                        title: 'Bạn có chắc chắn muốn xóa cộng tác viên này không?',
                         icon: 'warning',
                         showCancelButton: true,
                         confirmButtonText: 'Có, xóa nó!',
@@ -345,7 +345,7 @@
                                     if (response.ok) {
                                         Swal.fire({
                                             title: 'Xóa thành công!',
-                                            text: 'Giáo viên đã được xóa.',
+                                            text: 'Cộng tác viên đã được xóa.',
                                             icon: 'success',
                                             customClass: {
                                                 popup: 'swal-custom-popup',
@@ -358,7 +358,7 @@
                                     } else {
                                         Swal.fire({
                                             title: 'Lỗi!',
-                                            text: 'Xóa giáo viên không thành công.',
+                                            text: 'Xóa cộng tác viên không thành công.',
                                             icon: 'error',
                                             customClass: {
                                                 popup: 'swal-custom-popup',

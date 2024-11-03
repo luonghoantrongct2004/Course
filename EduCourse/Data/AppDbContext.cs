@@ -73,5 +73,7 @@ public class AppDbContext : IdentityDbContext<User>
     public DbSet<OrderDetail> OrderDetails { get; set; }
     public DbSet<StudentExam> StudentExams { get; set; }
     public DbSet<StudentExamDetail> StudentExamDetails { get; set; }
+    public DbSet<Certificate> Certificate { get; set; }
+    public DbSet<UserProgress> UserProgress { get; set; }
 
 }

@@ -2,8 +2,10 @@
 
 <div class="container mt-5" style="padding-top:70px;">
     <div class="row justify-content-center">
-        <div class="col-md-8 text-center">
-            <!-- Tiêu đề bài thi -->
+        @if (Model != null)
+        {
+            <div class="col-md-8 text-center">
+                <!-- Tiêu đề bài thi -->
             <h2 class="mb-4">@Model.Title</h2>
 
             <!-- Thông tin chi tiết về bài thi -->
@@ -64,6 +66,11 @@
                     </li>
                 </ul>
             </div>
-        </div>
+            </div>
+        }
+        else
+        {
+            <p>Chưa có đề thi nào được mở</p>
+        }
     </div>
 </div>

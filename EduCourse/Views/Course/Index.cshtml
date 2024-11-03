@@ -106,61 +106,111 @@
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
+    let intervalID;
+    const videoElement = document.getElementById('lesson-video');
+
+    function saveProgress(lessonID, watchedPercentage) {
+        $.ajax({
+            type: "POST",
+            url: '/Course/SaveProgress',
+            data: {
+                lessonID: lessonID,
+                watchedPercentage: watchedPercentage
+            },
+            success: function (response) {
+                if (response.success) {
+                    console.log("Progress saved successfully");
+                } else {
+                    console.error("Failed to save progress");
+                }
+            },
+            error: function (xhr, status, error) {
+                console.error("Error saving progress: ", error);
+            }
+        });
+    }
+
+    videoElement.addEventListener('play', function () {
+        intervalID = setInterval(function () {
+            // Tính toán tỷ lệ phần trăm đã xem dựa trên thời gian video
+            const currentTime = videoElement.currentTime;
+            const duration = videoElement.duration;
+            const watchedPercentage = (currentTime / duration) * 100;
+
+            // Gọi hàm saveProgress để lưu tiến độ xem
+            saveProgress(currentLessonID, watchedPercentage);
+
+        }, 10000); // Gửi yêu cầu sau mỗi 10 giây
+    });
+
+    videoElement.addEventListener('pause', function () {
+        // Khi video tạm dừng, xóa bộ đếm để ngừng gửi yêu cầu
+        clearInterval(intervalID);
+    });
+
+    videoElement.addEventListener('ended', function () {
+        // Khi video kết thúc, lưu tiến độ hoàn thành
+        const watchedPercentage = 100;
+        saveProgress(currentLessonID, watchedPercentage);
+        clearInterval(intervalID);
+    });
+
+</script>
+
+<script>
     let currentQuestions = [];
     let currentQuestionIndex = 0;
     let currentLessonID = 0;
 
-   function loadContent(fileUrl, contentType, lessonID, questions) {
-    console.log("Loaded questions: ", questions);
+    function loadContent(fileUrl, contentType, lessonID, questions) {
+        console.log("Loaded questions: ", questions);
 
-    // Get all content elements
-    const videoElement = document.getElementById('lesson-video');
-    const videoSource = document.getElementById('video-source');
-    const pdfViewer = document.getElementById('pdfViewer');
-    const pptViewer = document.getElementById('pptViewer');
-    const defaultImage = document.getElementById('default-image');
+        // Get all content elements
+        const videoElement = document.getElementById('lesson-video');
+        const videoSource = document.getElementById('video-source');
+        const pdfViewer = document.getElementById('pdfViewer');
+        const pptViewer = document.getElementById('pptViewer');
+        const defaultImage = document.getElementById('default-image');
 
-    // Hide all content types initially
-    videoElement.style.display = 'none';
-    pdfViewer.style.display = 'none';
-    pptViewer.style.display = 'none';
+        // Hide all content types initially
+        videoElement.style.display = 'none';
+        pdfViewer.style.display = 'none';
+        pptViewer.style.display = 'none';
 
-    // Show the correct content type based on ContentType
-    if (contentType === "Video") {
-        // Hide the default image
-        defaultImage.style.display = 'none';
+        // Show the correct content type based on ContentType
+        if (contentType === "Video") {
+            defaultImage.style.display = 'none';
+            videoSource.src = fileUrl;
+            videoElement.style.display = 'block';
+            videoElement.load();
+            videoElement.currentTime = 0;
+            videoElement.play();
 
-        // Show video player and load video source
-        videoSource.src = fileUrl;
-        videoElement.style.display = 'block';
-        videoElement.load();  // Load new video source
-        videoElement.currentTime = 0; // Reset video to start
-        videoElement.play(); // Automatically play the video
-    } else if (contentType === "PDF") {
-        // Hide the default image
-        defaultImage.style.display = 'none';
+            // Listen for time updates to check question time
+            videoElement.addEventListener('timeupdate', function () {
+                checkQuestionTime();
+            });
+        } else if (contentType === "PDF") {
+            defaultImage.style.display = 'none';
+            pdfViewer.src = fileUrl;
+            pdfViewer.style.display = 'block';
+        } else if (contentType === "PowerPoint") {
+            defaultImage.style.display = 'none';
+            pptViewer.src = fileUrl;
+            pptViewer.style.display = 'block';
+        }
 
-        // Show PDF viewer and load PDF
-        pdfViewer.src = fileUrl;
-        pdfViewer.style.display = 'block';
-    } else if (contentType === "PowerPoint") {
-        // Hide the default image
-        defaultImage.style.display = 'none';
-
-        // Show PowerPoint viewer and load PowerPoint
-        pptViewer.src = fileUrl;
-        pptViewer.style.display = 'block';
+        currentQuestions = questions;
+        currentQuestionIndex = 0;
+        currentLessonID = lessonID;
     }
-}
-
-
 
     function checkQuestionTime() {
         const video = $('#lesson-video')[0];
         const currentTime = video.currentTime;
-        if (currentQuestionIndex < currentQuestions.length || currentQuestionIndex > currentQuestions.length) {
+        if (currentQuestionIndex < currentQuestions.length) { 
             const question = currentQuestions[currentQuestionIndex];
-            if (Math.abs(currentTime - question.ShowTime) <= 0.1) {
+            if (Math.abs(currentTime - question.ShowTime) <= 1) { 
                 showQuestion(question);
                 video.pause();
             }

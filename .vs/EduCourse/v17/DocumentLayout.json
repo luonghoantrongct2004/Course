@@ -3,20 +3,40 @@
   "WorkspaceRootPath": "C:\\Users\\PREDATOR\\OneDrive\\Ta\u0300i li\u00EA\u0323u\\EduCourse\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{52D87DB7-2433-446B-ADBE-B5C882CBEC63}|EduCourse\\EduCourse.csproj|c:\\users\\predator\\onedrive\\ta\u0300i li\u00EA\u0323u\\educourse\\educourse\\views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{52D87DB7-2433-446B-ADBE-B5C882CBEC63}|EduCourse\\EduCourse.csproj|solutionrelative:educourse\\views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+      "AbsoluteMoniker": "D:0:0:{52D87DB7-2433-446B-ADBE-B5C882CBEC63}|EduCourse\\EduCourse.csproj|c:\\users\\predator\\onedrive\\ta\u0300i li\u00EA\u0323u\\educourse\\educourse\\areas\\admin\\views\\dashboard\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{52D87DB7-2433-446B-ADBE-B5C882CBEC63}|EduCourse\\EduCourse.csproj|solutionrelative:educourse\\areas\\admin\\views\\dashboard\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{52D87DB7-2433-446B-ADBE-B5C882CBEC63}|EduCourse\\EduCourse.csproj|c:\\users\\predator\\onedrive\\ta\u0300i li\u00EA\u0323u\\educourse\\educourse\\areas\\admin\\views\\course\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{52D87DB7-2433-446B-ADBE-B5C882CBEC63}|EduCourse\\EduCourse.csproj|solutionrelative:educourse\\areas\\admin\\views\\course\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+      "AbsoluteMoniker": "D:0:0:{52D87DB7-2433-446B-ADBE-B5C882CBEC63}|EduCourse\\EduCourse.csproj|c:\\users\\predator\\onedrive\\ta\u0300i li\u00EA\u0323u\\educourse\\educourse\\areas\\admin\\views\\instructure\\create.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{52D87DB7-2433-446B-ADBE-B5C882CBEC63}|EduCourse\\EduCourse.csproj|solutionrelative:educourse\\areas\\admin\\views\\instructure\\create.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{52D87DB7-2433-446B-ADBE-B5C882CBEC63}|EduCourse\\EduCourse.csproj|c:\\users\\predator\\onedrive\\ta\u0300i li\u00EA\u0323u\\educourse\\educourse\\areas\\admin\\controllers\\coursecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{52D87DB7-2433-446B-ADBE-B5C882CBEC63}|EduCourse\\EduCourse.csproj|solutionrelative:educourse\\areas\\admin\\controllers\\coursecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{52D87DB7-2433-446B-ADBE-B5C882CBEC63}|EduCourse\\EduCourse.csproj|c:\\users\\predator\\onedrive\\ta\u0300i li\u00EA\u0323u\\educourse\\educourse\\areas\\admin\\views\\instructure\\details.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{52D87DB7-2433-446B-ADBE-B5C882CBEC63}|EduCourse\\EduCourse.csproj|solutionrelative:educourse\\areas\\admin\\views\\instructure\\details.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{52D87DB7-2433-446B-ADBE-B5C882CBEC63}|EduCourse\\EduCourse.csproj|c:\\users\\predator\\onedrive\\ta\u0300i li\u00EA\u0323u\\educourse\\educourse\\entities\\course.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{52D87DB7-2433-446B-ADBE-B5C882CBEC63}|EduCourse\\EduCourse.csproj|solutionrelative:educourse\\entities\\course.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{52D87DB7-2433-446B-ADBE-B5C882CBEC63}|EduCourse\\EduCourse.csproj|c:\\users\\predator\\onedrive\\ta\u0300i li\u00EA\u0323u\\educourse\\educourse\\areas\\admin\\views\\instructure\\edit.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{52D87DB7-2433-446B-ADBE-B5C882CBEC63}|EduCourse\\EduCourse.csproj|solutionrelative:educourse\\areas\\admin\\views\\instructure\\edit.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{52D87DB7-2433-446B-ADBE-B5C882CBEC63}|EduCourse\\EduCourse.csproj|c:\\users\\predator\\onedrive\\ta\u0300i li\u00EA\u0323u\\educourse\\educourse\\areas\\admin\\views\\instructure\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{52D87DB7-2433-446B-ADBE-B5C882CBEC63}|EduCourse\\EduCourse.csproj|solutionrelative:educourse\\areas\\admin\\views\\instructure\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{52D87DB7-2433-446B-ADBE-B5C882CBEC63}|EduCourse\\EduCourse.csproj|c:\\users\\predator\\onedrive\\ta\u0300i li\u00EA\u0323u\\educourse\\educourse\\areas\\admin\\views\\shared\\_layoutadmin.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{52D87DB7-2433-446B-ADBE-B5C882CBEC63}|EduCourse\\EduCourse.csproj|solutionrelative:educourse\\areas\\admin\\views\\shared\\_layoutadmin.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{52D87DB7-2433-446B-ADBE-B5C882CBEC63}|EduCourse\\EduCourse.csproj|c:\\users\\predator\\onedrive\\ta\u0300i li\u00EA\u0323u\\educourse\\educourse\\controllers\\coursecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{52D87DB7-2433-446B-ADBE-B5C882CBEC63}|EduCourse\\EduCourse.csproj|solutionrelative:educourse\\controllers\\coursecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{52D87DB7-2433-446B-ADBE-B5C882CBEC63}|EduCourse\\EduCourse.csproj|c:\\users\\predator\\onedrive\\ta\u0300i li\u00EA\u0323u\\educourse\\educourse\\areas\\admin\\controllers\\certificationcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{52D87DB7-2433-446B-ADBE-B5C882CBEC63}|EduCourse\\EduCourse.csproj|solutionrelative:educourse\\areas\\admin\\controllers\\certificationcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{52D87DB7-2433-446B-ADBE-B5C882CBEC63}|EduCourse\\EduCourse.csproj|c:\\users\\predator\\onedrive\\ta\u0300i li\u00EA\u0323u\\educourse\\educourse\\areas\\admin\\views\\certification\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{52D87DB7-2433-446B-ADBE-B5C882CBEC63}|EduCourse\\EduCourse.csproj|solutionrelative:educourse\\areas\\admin\\views\\certification\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     }
   ],
   "DocumentGroupContainers": [
@@ -26,8 +46,22 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 12,
+          "SelectedChildIndex": 13,
           "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "C:\\Users\\PREDATOR\\OneDrive\\Ta\u0300i li\u00EA\u0323u\\EduCourse\\EduCourse\\Areas\\Admin\\Views\\Certification\\Index.cshtml",
+              "RelativeDocumentMoniker": "EduCourse\\Areas\\Admin\\Views\\Certification\\Index.cshtml",
+              "ToolTip": "C:\\Users\\PREDATOR\\OneDrive\\Ta\u0300i li\u00EA\u0323u\\EduCourse\\EduCourse\\Areas\\Admin\\Views\\Certification\\Index.cshtml",
+              "RelativeToolTip": "EduCourse\\Areas\\Admin\\Views\\Certification\\Index.cshtml",
+              "ViewState": "AQIAAFgAAAAAAAAAAADwv28AAAApAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-11-03T13:13:04.033Z",
+              "IsPinned": true,
+              "EditorCaption": ""
+            },
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{0174dea2-fdbe-4ef1-8f99-c0beae78880f}"
@@ -79,51 +113,106 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "_Layout.cshtml",
-              "DocumentMoniker": "C:\\Users\\PREDATOR\\OneDrive\\Ta\u0300i li\u00EA\u0323u\\EduCourse\\EduCourse\\Views\\Shared\\_Layout.cshtml",
-              "RelativeDocumentMoniker": "EduCourse\\Views\\Shared\\_Layout.cshtml",
-              "ToolTip": "C:\\Users\\PREDATOR\\OneDrive\\Ta\u0300i li\u00EA\u0323u\\EduCourse\\EduCourse\\Views\\Shared\\_Layout.cshtml",
-              "RelativeToolTip": "EduCourse\\Views\\Shared\\_Layout.cshtml",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "C:\\Users\\PREDATOR\\OneDrive\\Ta\u0300i li\u00EA\u0323u\\EduCourse\\EduCourse\\Areas\\Admin\\Views\\Dashboard\\Index.cshtml",
+              "RelativeDocumentMoniker": "EduCourse\\Areas\\Admin\\Views\\Dashboard\\Index.cshtml",
+              "ToolTip": "C:\\Users\\PREDATOR\\OneDrive\\Ta\u0300i li\u00EA\u0323u\\EduCourse\\EduCourse\\Areas\\Admin\\Views\\Dashboard\\Index.cshtml",
+              "RelativeToolTip": "EduCourse\\Areas\\Admin\\Views\\Dashboard\\Index.cshtml",
+              "ViewState": "AQIAAL0AAAAAAAAAAAAAAM4AAAAaAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2024-10-19T09:02:25.156Z",
+              "WhenOpened": "2024-11-03T14:05:13.151Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "Index.cshtml",
-              "DocumentMoniker": "C:\\Users\\PREDATOR\\OneDrive\\Ta\u0300i li\u00EA\u0323u\\EduCourse\\EduCourse\\Areas\\Admin\\Views\\Course\\Index.cshtml",
-              "RelativeDocumentMoniker": "EduCourse\\Areas\\Admin\\Views\\Course\\Index.cshtml",
-              "ToolTip": "C:\\Users\\PREDATOR\\OneDrive\\Ta\u0300i li\u00EA\u0323u\\EduCourse\\EduCourse\\Areas\\Admin\\Views\\Course\\Index.cshtml",
-              "RelativeToolTip": "EduCourse\\Areas\\Admin\\Views\\Course\\Index.cshtml",
-              "ViewState": "AgIAAMYAAAAAAAAAAAAAACQBAAAAAAAAAAAAAA==",
+              "Title": "Create.cshtml",
+              "DocumentMoniker": "C:\\Users\\PREDATOR\\OneDrive\\Ta\u0300i li\u00EA\u0323u\\EduCourse\\EduCourse\\Areas\\Admin\\Views\\Instructure\\Create.cshtml",
+              "RelativeDocumentMoniker": "EduCourse\\Areas\\Admin\\Views\\Instructure\\Create.cshtml",
+              "ToolTip": "C:\\Users\\PREDATOR\\OneDrive\\Ta\u0300i li\u00EA\u0323u\\EduCourse\\EduCourse\\Areas\\Admin\\Views\\Instructure\\Create.cshtml",
+              "RelativeToolTip": "EduCourse\\Areas\\Admin\\Views\\Instructure\\Create.cshtml",
+              "ViewState": "AQIAAH4AAAAAAAAAAAAAAJgAAAA+AAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2024-10-19T08:29:29.159Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "Course.cs",
-              "DocumentMoniker": "C:\\Users\\PREDATOR\\OneDrive\\Ta\u0300i li\u00EA\u0323u\\EduCourse\\EduCourse\\Entities\\Course.cs",
-              "RelativeDocumentMoniker": "EduCourse\\Entities\\Course.cs",
-              "ToolTip": "C:\\Users\\PREDATOR\\OneDrive\\Ta\u0300i li\u00EA\u0323u\\EduCourse\\EduCourse\\Entities\\Course.cs",
-              "RelativeToolTip": "EduCourse\\Entities\\Course.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABYAAAAsAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-19T08:28:20.16Z"
+              "WhenOpened": "2024-11-03T14:04:22.161Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 2,
+              "Title": "Details.cshtml",
+              "DocumentMoniker": "C:\\Users\\PREDATOR\\OneDrive\\Ta\u0300i li\u00EA\u0323u\\EduCourse\\EduCourse\\Areas\\Admin\\Views\\Instructure\\Details.cshtml",
+              "RelativeDocumentMoniker": "EduCourse\\Areas\\Admin\\Views\\Instructure\\Details.cshtml",
+              "ToolTip": "C:\\Users\\PREDATOR\\OneDrive\\Ta\u0300i li\u00EA\u0323u\\EduCourse\\EduCourse\\Areas\\Admin\\Views\\Instructure\\Details.cshtml",
+              "RelativeToolTip": "EduCourse\\Areas\\Admin\\Views\\Instructure\\Details.cshtml",
+              "ViewState": "AQIAAH4AAAAAAAAAAAAAAKwAAAAeAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-11-03T14:03:11.6Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "Edit.cshtml",
+              "DocumentMoniker": "C:\\Users\\PREDATOR\\OneDrive\\Ta\u0300i li\u00EA\u0323u\\EduCourse\\EduCourse\\Areas\\Admin\\Views\\Instructure\\Edit.cshtml",
+              "RelativeDocumentMoniker": "EduCourse\\Areas\\Admin\\Views\\Instructure\\Edit.cshtml",
+              "ToolTip": "C:\\Users\\PREDATOR\\OneDrive\\Ta\u0300i li\u00EA\u0323u\\EduCourse\\EduCourse\\Areas\\Admin\\Views\\Instructure\\Edit.cshtml",
+              "RelativeToolTip": "EduCourse\\Areas\\Admin\\Views\\Instructure\\Edit.cshtml",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAB4AAAAwAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-11-03T14:02:49.329Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "C:\\Users\\PREDATOR\\OneDrive\\Ta\u0300i li\u00EA\u0323u\\EduCourse\\EduCourse\\Areas\\Admin\\Views\\Instructure\\Index.cshtml",
+              "RelativeDocumentMoniker": "EduCourse\\Areas\\Admin\\Views\\Instructure\\Index.cshtml",
+              "ToolTip": "C:\\Users\\PREDATOR\\OneDrive\\Ta\u0300i li\u00EA\u0323u\\EduCourse\\EduCourse\\Areas\\Admin\\Views\\Instructure\\Index.cshtml",
+              "RelativeToolTip": "EduCourse\\Areas\\Admin\\Views\\Instructure\\Index.cshtml",
+              "ViewState": "AQIAAA8AAAAAAAAAAAAAACgAAAAxAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-11-03T14:02:30.818Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "_LayoutAdmin.cshtml",
+              "DocumentMoniker": "C:\\Users\\PREDATOR\\OneDrive\\Ta\u0300i li\u00EA\u0323u\\EduCourse\\EduCourse\\Areas\\Admin\\Views\\Shared\\_LayoutAdmin.cshtml",
+              "RelativeDocumentMoniker": "EduCourse\\Areas\\Admin\\Views\\Shared\\_LayoutAdmin.cshtml",
+              "ToolTip": "C:\\Users\\PREDATOR\\OneDrive\\Ta\u0300i li\u00EA\u0323u\\EduCourse\\EduCourse\\Areas\\Admin\\Views\\Shared\\_LayoutAdmin.cshtml",
+              "RelativeToolTip": "EduCourse\\Areas\\Admin\\Views\\Shared\\_LayoutAdmin.cshtml",
+              "ViewState": "AQIAAHUAAAAAAAAAAAAUwIkAAABRAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-11-03T14:02:02.737Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
               "Title": "CourseController.cs",
-              "DocumentMoniker": "C:\\Users\\PREDATOR\\OneDrive\\Ta\u0300i li\u00EA\u0323u\\EduCourse\\EduCourse\\Areas\\Admin\\Controllers\\CourseController.cs",
-              "RelativeDocumentMoniker": "EduCourse\\Areas\\Admin\\Controllers\\CourseController.cs",
-              "ToolTip": "C:\\Users\\PREDATOR\\OneDrive\\Ta\u0300i li\u00EA\u0323u\\EduCourse\\EduCourse\\Areas\\Admin\\Controllers\\CourseController.cs",
-              "RelativeToolTip": "EduCourse\\Areas\\Admin\\Controllers\\CourseController.cs",
-              "ViewState": "AgIAAD4AAAAAAAAAAAAswFcAAAAAAAAAAAAAAA==",
+              "DocumentMoniker": "C:\\Users\\PREDATOR\\OneDrive\\Ta\u0300i li\u00EA\u0323u\\EduCourse\\EduCourse\\Controllers\\CourseController.cs",
+              "RelativeDocumentMoniker": "EduCourse\\Controllers\\CourseController.cs",
+              "ToolTip": "C:\\Users\\PREDATOR\\OneDrive\\Ta\u0300i li\u00EA\u0323u\\EduCourse\\EduCourse\\Controllers\\CourseController.cs",
+              "RelativeToolTip": "EduCourse\\Controllers\\CourseController.cs",
+              "ViewState": "AQIAAC8AAAAAAAAAAAAkwEUAAAACAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-19T08:27:56.041Z"
+              "WhenOpened": "2024-11-03T13:04:26.445Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "CertificationController.cs",
+              "DocumentMoniker": "C:\\Users\\PREDATOR\\OneDrive\\Ta\u0300i li\u00EA\u0323u\\EduCourse\\EduCourse\\Areas\\Admin\\Controllers\\CertificationController.cs",
+              "RelativeDocumentMoniker": "EduCourse\\Areas\\Admin\\Controllers\\CertificationController.cs",
+              "ToolTip": "C:\\Users\\PREDATOR\\OneDrive\\Ta\u0300i li\u00EA\u0323u\\EduCourse\\EduCourse\\Areas\\Admin\\Controllers\\CertificationController.cs",
+              "RelativeToolTip": "EduCourse\\Areas\\Admin\\Controllers\\CertificationController.cs",
+              "ViewState": "AQIAADAAAAAAAAAAAADwv1YAAAArAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-03T13:03:58.354Z",
+              "EditorCaption": ""
             }
           ]
         }

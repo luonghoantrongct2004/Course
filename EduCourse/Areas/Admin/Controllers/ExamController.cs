@@ -21,7 +21,6 @@ public class ExamController : Controller
         _context = context;
     }
 
-    // GET: Lấy danh sách đề thi
     [HttpGet]
     public IActionResult Index(int page = 1, int pageSize = 10)
     {
@@ -34,18 +33,41 @@ public class ExamController : Controller
                             .Include(e => e.ExamQuestions)
                                 .ThenInclude(eq => eq.Question)
                                 .ThenInclude(o => o.Options)
-                            .OrderBy(e => e.CreatedDate)  // Order by any field you want, such as CreatedDate
+                            .OrderBy(e => e.CreatedDate)
                             .Skip((page - 1) * pageSize)
                             .Take(pageSize)
                             .ToList();
+
+        // Tạo Dictionary để lưu thông tin về số lượng sinh viên đạt và chưa đạt cho từng Exam
+        var examStatistics = new Dictionary<int, (int TotalPassed, int TotalFailed)>();
+
+        foreach (var exam in exams)
+        {
+            // Lấy danh sách StudentExam liên quan đến Exam hiện tại
+            var studentExams = _context.StudentExams
+                                       .Where(se => se.ExamID == exam.ExamID)
+                                       .ToList();
+
+            // Đếm số sinh viên đạt và không đạt cho từng Exam
+            int countPassed = studentExams.Count(se => se.Result == "Passed");
+            int countFailed = studentExams.Count(se => se.Result == "Failed" || se.Result == "Failed (below cutoff)");
+
+            // Lưu vào Dictionary với ExamID là key và Tuple (Passed, Failed) là value
+            examStatistics[exam.ExamID] = (countPassed, countFailed);
+        }
 
         // Set ViewData for pagination
         ViewData["TotalExams"] = totalExams;
         ViewData["CurrentPage"] = page;
         ViewData["PageSize"] = pageSize;
 
+        // Sử dụng ViewBag để truyền dữ liệu thống kê
+        ViewBag.ExamStatistics = examStatistics;
+
+        // Trả về View với danh sách Exam
         return View(exams);
     }
+
 
 
     // GET: Lấy đề thi theo ID
@@ -171,6 +193,8 @@ public class ExamController : Controller
         // Update basic exam properties
         exam.Title = model.Title;
         exam.AuthorID = model.AuthorID;
+        exam.PassScore = model.PassScore;
+        exam.CutoffScore = model.CutoffScore;
 
         // Clear existing ExamQuestions
         exam.ExamQuestions.Clear();
@@ -220,6 +244,7 @@ public class ExamController : Controller
             query = _context.StudentExams
                 .Include(e => e.Exam)
                 .Include(s => s.ExamDetails)
+                    .ThenInclude(q => q.Question)
                 .Include(e => e.Exam.Author) // Include Author for filtering
                 .Include(e => e.Student)
                 .Where(s => s.Exam.AuthorID == userId)
@@ -231,6 +256,7 @@ public class ExamController : Controller
             query = _context.StudentExams
                 .Include(e => e.Exam)
                 .Include(s => s.ExamDetails)
+                  .ThenInclude(q => q.Question)
                 .Include(e => e.Exam.Author)
                 .Include(e => e.Student)
                 .OrderByDescending(d => d.ExamDate);
@@ -240,6 +266,7 @@ public class ExamController : Controller
             // Redirect to error if user doesn't have proper roles
             return Redirect("/home/error500");
         }
+      
 
         // Get total count of exams for pagination
         var totalExamsCount = query.Count();
@@ -268,5 +295,39 @@ public class ExamController : Controller
 
     }
 
+    public IActionResult StudentExamDetails(int id)
+    {
+        var exam = _context.StudentExams
+           .Include(e => e.Exam)
+           .Include(s => s.ExamDetails)
+               .ThenInclude(q => q.Question)
+                   .ThenInclude(o => o.Options)
+           .FirstOrDefault(e => e.Id == id);
+        return View(exam);
+    }
+    [HttpPost]
+    public IActionResult ToggleActive(int id, bool isActive)
+    {
+        var exam = _context.Exams.FirstOrDefault(i => i.ExamID == id);
+        if (exam == null)
+            return Json(new { success = false, message = "Exam không tìm thấy" });
+
+        // Nếu bài thi được chọn để kích hoạt
+        if (isActive)
+        {
+            // Tắt trạng thái active của tất cả các bài thi khác
+            var otherExams = _context.Exams.Where(e => e.ExamID != id).ToList();
+            foreach (var item in otherExams)
+            {
+                item.IsActive = false;
+            }
+        }
+
+        // Cập nhật trạng thái bài thi hiện tại
+        exam.IsActive = isActive;
+        _context.SaveChanges();
+
+        return Json(new { success = true, message = "Đã cập nhật trạng thái thành công" });
+    }
 
 }

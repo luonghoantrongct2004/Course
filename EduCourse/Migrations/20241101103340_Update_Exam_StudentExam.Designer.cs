@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EduCourse.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20241015054352_AddNameLibary")]
-    partial class AddNameLibary
+    [Migration("20241101103340_Update_Exam_StudentExam")]
+    partial class Update_Exam_StudentExam
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -60,6 +60,10 @@ namespace EduCourse.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CategoryID"));
 
                     b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Image")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -121,6 +125,9 @@ namespace EduCourse.Migrations
                     b.Property<string>("Image")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int?>("LibraryID")
+                        .HasColumnType("int");
+
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(18,2)");
 
@@ -158,8 +165,14 @@ namespace EduCourse.Migrations
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<double>("CutoffScore")
+                        .HasColumnType("float");
+
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
+
+                    b.Property<double>("PassScore")
+                        .HasColumnType("float");
 
                     b.Property<string>("Title")
                         .HasColumnType("nvarchar(max)");
@@ -184,43 +197,6 @@ namespace EduCourse.Migrations
                     b.HasIndex("QuestionID");
 
                     b.ToTable("ExamQuestions");
-                });
-
-            modelBuilder.Entity("EduCourse.Entities.File", b =>
-                {
-                    b.Property<int>("FileID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("FileID"));
-
-                    b.Property<string>("ContentType")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("FileName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("FilePath")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("UploadedByID")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("UploadedDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("FileID");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("Files");
                 });
 
             modelBuilder.Entity("EduCourse.Entities.Lesson", b =>
@@ -281,8 +257,9 @@ namespace EduCourse.Migrations
                     b.Property<int>("CourseID")
                         .HasColumnType("int");
 
-                    b.Property<int>("FileID")
-                        .HasColumnType("int");
+                    b.Property<string>("FilePaths")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("IsArchived")
                         .HasColumnType("bit");
@@ -291,11 +268,19 @@ namespace EduCourse.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("UploadedByID")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<DateTime>("UploadedDate")
+                        .HasColumnType("datetime2");
+
                     b.HasKey("LibraryID");
 
-                    b.HasIndex("CourseID");
+                    b.HasIndex("CourseID")
+                        .IsUnique();
 
-                    b.HasIndex("FileID");
+                    b.HasIndex("UploadedByID");
 
                     b.ToTable("Libraries");
                 });
@@ -447,9 +432,6 @@ namespace EduCourse.Migrations
                     b.Property<string>("QuestionType")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("QuizID")
-                        .HasColumnType("int");
-
                     b.Property<double>("ShowTime")
                         .HasColumnType("float");
 
@@ -457,45 +439,7 @@ namespace EduCourse.Migrations
 
                     b.HasIndex("LessonID");
 
-                    b.HasIndex("QuizID");
-
                     b.ToTable("Questions");
-                });
-
-            modelBuilder.Entity("EduCourse.Entities.Quiz", b =>
-                {
-                    b.Property<int>("QuizID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("QuizID"));
-
-                    b.Property<int>("CategoryID")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("LessonID")
-                        .HasColumnType("int");
-
-                    b.Property<int>("TimeLimit")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Title")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("UpdatedDate")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("QuizID");
-
-                    b.HasIndex("CategoryID");
-
-                    b.HasIndex("LessonID");
-
-                    b.ToTable("Quiz");
                 });
 
             modelBuilder.Entity("EduCourse.Entities.StudentExam", b =>
@@ -511,6 +455,9 @@ namespace EduCourse.Migrations
 
                     b.Property<int>("ExamID")
                         .HasColumnType("int");
+
+                    b.Property<string>("Result")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("Score")
                         .HasColumnType("int");
@@ -536,9 +483,8 @@ namespace EduCourse.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("QuestionName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("QuestionId")
+                        .HasColumnType("int");
 
                     b.Property<string>("QuestionType")
                         .IsRequired()
@@ -551,43 +497,20 @@ namespace EduCourse.Migrations
                     b.Property<double>("Score")
                         .HasColumnType("float");
 
+                    b.Property<string>("SelectedAnswers")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("StudentExamId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
+                    b.HasIndex("QuestionId");
+
                     b.HasIndex("StudentExamId");
 
                     b.ToTable("StudentExamDetails");
-                });
-
-            modelBuilder.Entity("EduCourse.Entities.StudentQuiz", b =>
-                {
-                    b.Property<int>("StudentQuizID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("StudentQuizID"));
-
-                    b.Property<DateTime>("DateTaken")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("QuizID")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Score")
-                        .HasColumnType("int");
-
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("StudentQuizID");
-
-                    b.HasIndex("QuizID");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("StudentQuizzes");
                 });
 
             modelBuilder.Entity("EduCourse.Entities.User", b =>
@@ -620,6 +543,7 @@ namespace EduCourse.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Image")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("LockoutEnabled")
@@ -911,15 +835,6 @@ namespace EduCourse.Migrations
                     b.Navigation("Question");
                 });
 
-            modelBuilder.Entity("EduCourse.Entities.File", b =>
-                {
-                    b.HasOne("EduCourse.Entities.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId");
-
-                    b.Navigation("User");
-                });
-
             modelBuilder.Entity("EduCourse.Entities.Lesson", b =>
                 {
                     b.HasOne("EduCourse.Entities.Category", null)
@@ -938,20 +853,20 @@ namespace EduCourse.Migrations
             modelBuilder.Entity("EduCourse.Entities.Library", b =>
                 {
                     b.HasOne("EduCourse.Entities.Course", "Course")
-                        .WithMany()
-                        .HasForeignKey("CourseID")
+                        .WithOne("Library")
+                        .HasForeignKey("EduCourse.Entities.Library", "CourseID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("EduCourse.Entities.File", "File")
+                    b.HasOne("EduCourse.Entities.User", "User")
                         .WithMany()
-                        .HasForeignKey("FileID")
+                        .HasForeignKey("UploadedByID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Course");
 
-                    b.Navigation("File");
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("EduCourse.Entities.Option", b =>
@@ -1020,29 +935,6 @@ namespace EduCourse.Migrations
                         .WithMany("Questions")
                         .HasForeignKey("LessonID");
 
-                    b.HasOne("EduCourse.Entities.Quiz", null)
-                        .WithMany("Questions")
-                        .HasForeignKey("QuizID");
-
-                    b.Navigation("Lesson");
-                });
-
-            modelBuilder.Entity("EduCourse.Entities.Quiz", b =>
-                {
-                    b.HasOne("EduCourse.Entities.Category", "Category")
-                        .WithMany("Quizzes")
-                        .HasForeignKey("CategoryID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("EduCourse.Entities.Lesson", "Lesson")
-                        .WithMany()
-                        .HasForeignKey("LessonID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Category");
-
                     b.Navigation("Lesson");
                 });
 
@@ -1067,30 +959,21 @@ namespace EduCourse.Migrations
 
             modelBuilder.Entity("EduCourse.Entities.StudentExamDetail", b =>
                 {
+                    b.HasOne("EduCourse.Entities.Question", "Question")
+                        .WithMany()
+                        .HasForeignKey("QuestionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("EduCourse.Entities.StudentExam", "StudentExam")
                         .WithMany("ExamDetails")
                         .HasForeignKey("StudentExamId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.Navigation("Question");
+
                     b.Navigation("StudentExam");
-                });
-
-            modelBuilder.Entity("EduCourse.Entities.StudentQuiz", b =>
-                {
-                    b.HasOne("EduCourse.Entities.Quiz", "Quiz")
-                        .WithMany()
-                        .HasForeignKey("QuizID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("EduCourse.Entities.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId");
-
-                    b.Navigation("Quiz");
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("EduCourse.Entities.UserCourse", b =>
@@ -1168,8 +1051,6 @@ namespace EduCourse.Migrations
                     b.Navigation("Courses");
 
                     b.Navigation("Lessons");
-
-                    b.Navigation("Quizzes");
                 });
 
             modelBuilder.Entity("EduCourse.Entities.Chapter", b =>
@@ -1180,6 +1061,8 @@ namespace EduCourse.Migrations
             modelBuilder.Entity("EduCourse.Entities.Course", b =>
                 {
                     b.Navigation("Chapters");
+
+                    b.Navigation("Library");
 
                     b.Navigation("UserCourses");
                 });
@@ -1204,11 +1087,6 @@ namespace EduCourse.Migrations
                     b.Navigation("ExamQuestions");
 
                     b.Navigation("Options");
-                });
-
-            modelBuilder.Entity("EduCourse.Entities.Quiz", b =>
-                {
-                    b.Navigation("Questions");
                 });
 
             modelBuilder.Entity("EduCourse.Entities.StudentExam", b =>

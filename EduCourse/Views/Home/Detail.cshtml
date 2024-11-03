@@ -315,11 +315,11 @@
                                         <img src="@Model.Image" alt="Img">
                                     </a>
                                 }
+                                @{
+                                    var price = Model.Price * (1 - Model.Discount / 100.0M);
+                                }
                                 <div class="video-details">
                                         <div class="course-fee">
-                                            @{
-                                                var price = Model.Price * (1 - Model.Discount / 100.0M);
-                                            }
                                             @if (price <= 0)
                                             {
                                                 <h2>Miễn phí</h2>
@@ -334,12 +334,12 @@
                                             </span> @Model.Discount%
                                         </p>
                                     </div>
-                                    @if (isPurchased)
+                                    @if (isPurchased || price <= 0)
                                     {
                                     <div class="row gx-2">
                                         <div class="col-md-6">
-                                            <a href="javascript:void(0);" class="btn btn-wish w-100">
-                                                <i class="feather-shopping-cart"></i> Đã mua
+                                            <a href="/Course/Index?id=@Model.CourseID" class="btn btn-wish w-100">
+                                                <i class="feather-play"></i> Xem bài học
                                             </a>
                                         </div>
                                         <div class="col-md-6">

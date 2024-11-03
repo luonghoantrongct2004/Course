@@ -29,7 +29,7 @@
                     <div class="settings-menu">
                         <div class="profile-bg">
                             <div class="profile-img">
-                                <a href="/profile/account"><img src="~/assets/img/user/user16.jpg" alt="Img"></a>
+                                <a href="/profile/account"><img src="@Model.User.Image" alt="Img"></a>
                             </div>
                         </div>
                         <div class="profile-group">
@@ -87,7 +87,7 @@
                 <div class="settings-widget card-details">
                     <div class="settings-menu p-0">
                         <div class="profile-heading">
-                            <h3>Order History</h3>
+                            <h3>Lịch sử đơn hàng</h3>
                         </div>
                         <div class="checkout-form">
 
@@ -136,7 +136,7 @@
                                                     foreach(var detail in item.OrderDetails){
                                                     <tr>
                                                         <td>@item.OrderID</td>
-                                                        <td><span class="title-course">@detail.Course.Title</span></td>
+                                                        <td><a href="/home/detail?id=@detail.CourseID" class="title-course">@detail.Course.Title</a></td>
                                                         <td>@item.OrderDate.ToString("dd/MM/yyyy hh:mm")</td>
                                                         <td>@detail.CoursePrice</td>
                                                         <td>@item.PaymentMethod</td>
